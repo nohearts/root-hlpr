@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Root Turn Helper</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="faction-rail" aria-label="Faction selector">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">R</span>
+          <div>
+            <p class="eyebrow">Woodland Aid</p>
+            <h1>Root Turn Helper</h1>
+          </div>
+        </div>
+
+        <div class="faction-list" id="factionList"></div>
+      </aside>
+
+      <main>
+        <section class="turn-topbar" aria-label="Current faction overview">
+          <div>
+            <p class="eyebrow" id="factionType">Faction</p>
+            <h2 id="factionName">Choose a faction</h2>
+          </div>
+          <div class="round-controls" aria-label="Turn controls">
+            <button class="icon-button" id="prevStep" type="button" aria-label="Previous step">‹</button>
+            <div class="turn-count">
+              <span>Turn</span>
+              <strong id="turnNumber">1</strong>
+            </div>
+            <button class="icon-button" id="nextStep" type="button" aria-label="Next step">›</button>
+          </div>
+        </section>
+
+        <section class="phase-board" aria-label="Turn phases">
+          <div class="phase-tabs" id="phaseTabs"></div>
+          <article class="phase-panel">
+            <div class="phase-heading">
+              <span class="phase-token" id="phaseToken" aria-hidden="true"></span>
+              <div>
+                <p class="eyebrow" id="phaseMeta">Step 1 of 3</p>
+                <h3 id="phaseTitle">Birdsong</h3>
+              </div>
+            </div>
+            <ul class="task-list" id="taskList"></ul>
+          </article>
+        </section>
+
+        <section class="helper-grid">
+          <article class="panel">
+            <div class="panel-heading">
+              <p class="eyebrow">Faction Reminders</p>
+              <h3>Watch This</h3>
+            </div>
+            <ul class="tip-list" id="tipList"></ul>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <p class="eyebrow">Table Tempo</p>
+              <h3>Ask Yourself</h3>
+            </div>
+            <div class="question-stack" id="questionStack"></div>
+          </article>
+
+          <article class="panel wide">
+            <div class="panel-heading">
+              <p class="eyebrow">Turn Notes</p>
+              <h3>Scratchpad</h3>
+            </div>
+            <textarea id="notes" aria-label="Turn notes" placeholder="Track crafted cards, dominance threats, promised battles, exposed tokens, or anything the table will absolutely forget in four minutes."></textarea>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
