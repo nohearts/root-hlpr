@@ -4,7 +4,7 @@ const factions = [
     name: "Marquise de Cat",
     type: "Engine Builder",
     sigil: "M",
-    color: "#c65632",
+    color: "#c95532",
     summary: "Build, recruit, and keep the wood economy moving.",
     tips: [
       "Your economy is visible. Defend sawmills before you chase flashy battles.",
@@ -39,7 +39,7 @@ const factions = [
     name: "Eyrie Dynasties",
     type: "Programmed Aggressor",
     sigil: "E",
-    color: "#416f9c",
+    color: "#3f76a6",
     summary: "Expand the decree without letting it collapse.",
     tips: [
       "The decree is a promise. Add cards that give you room, not just ambition.",
@@ -74,7 +74,7 @@ const factions = [
     name: "Woodland Alliance",
     type: "Insurgent Network",
     sigil: "A",
-    color: "#5e8c45",
+    color: "#5d8f4e",
     summary: "Spread sympathy, organize bases, and turn outrage into momentum.",
     tips: [
       "Sympathy is both scoring and threat projection. Place it where it taxes movement.",
@@ -109,7 +109,7 @@ const factions = [
     name: "Vagabond",
     type: "Solo Opportunist",
     sigil: "V",
-    color: "#7b5aa6",
+    color: "#72736f",
     summary: "Manage items, relationships, quests, and surgical violence.",
     tips: [
       "Item exhaustion is your real action budget. Count boots and swords before plans.",
@@ -144,7 +144,7 @@ const factions = [
     name: "Lizard Cult",
     type: "Conversion Engine",
     sigil: "L",
-    color: "#b58a2b",
+    color: "#93b95d",
     summary: "Rule through gardens, acolytes, and the outcast suit.",
     tips: [
       "Gardens are scoring, crafting, and fragility all in one place.",
@@ -179,7 +179,7 @@ const factions = [
     name: "Riverfolk Company",
     type: "Merchant Network",
     sigil: "R",
-    color: "#2f8b8c",
+    color: "#2f8f8b",
     summary: "Sell services, build trade posts, and turn enemy payments into points.",
     tips: [
       "Your prices shape the table. Cheap services create customers; expensive services create suspicion.",
@@ -214,7 +214,7 @@ const factions = [
     name: "Underground Duchy",
     type: "Minister Engine",
     sigil: "D",
-    color: "#7c6651",
+    color: "#8b7560",
     summary: "Dig tunnels, build markets and citadels, and sway ministers.",
     tips: [
       "Your hand is political capital. Keep suits that can prove control where you have pieces.",
@@ -249,7 +249,7 @@ const factions = [
     name: "Corvid Conspiracy",
     type: "Bluffing Disruptor",
     sigil: "C",
-    color: "#30333b",
+    color: "#2e3338",
     summary: "Plant plots, misdirect the table, and score through uncertainty.",
     tips: [
       "Plots are stronger when several possibilities are plausible.",
@@ -284,7 +284,7 @@ const factions = [
     name: "Lord of the Hundreds",
     type: "Warlord Horde",
     sigil: "H",
-    color: "#a6342d",
+    color: "#b13f34",
     summary: "Command the Warlord, loot items, spread mobs, and oppress clearings.",
     tips: [
       "The Warlord is your tempo piece. Keep it active, supplied, and hard to isolate.",
@@ -319,7 +319,7 @@ const factions = [
     name: "Keepers in Iron",
     type: "Relic Expedition",
     sigil: "K",
-    color: "#8f8f7a",
+    color: "#858a7a",
     summary: "Build a retinue, recover relics, and guard a disciplined campaign.",
     tips: [
       "Your retinue is powerful but demanding. Add cards that match realistic board positions.",
@@ -354,7 +354,7 @@ const factions = [
     name: "Lilypad Diaspora",
     type: "Homeland Settlers",
     sigil: "P",
-    color: "#4d9b74",
+    color: "#4e9871",
     summary: "Integrate carefully, train warriors, and avoid tipping peace into reprisals.",
     tips: [
       "This faction is from the Homeland expansion, so treat this guidance as a draft table aid.",
@@ -389,7 +389,7 @@ const factions = [
     name: "Twilight Council",
     type: "Political Assembly",
     sigil: "T",
-    color: "#6f5f9f",
+    color: "#6e679b",
     summary: "Host assemblies, build political connections, and redirect conflict into debate.",
     tips: [
       "This faction is from the Homeland expansion, so treat this guidance as a draft table aid.",
@@ -424,7 +424,7 @@ const factions = [
     name: "Knaves of the Deepwood",
     type: "Roving Ransomers",
     sigil: "N",
-    color: "#6a3f28",
+    color: "#69533e",
     summary: "Raid from the treeline, take hostages, and turn chaos into ransom.",
     tips: [
       "This faction is from the Homeland expansion, so treat this guidance as a draft table aid.",
@@ -554,6 +554,7 @@ function renderFactions() {
     button.type = "button";
     button.className = `faction-button${faction.id === state.factionId ? " active" : ""}`;
     button.style.setProperty("--faction", faction.color);
+    button.style.setProperty("--sigil-ink", faction.id === "corvid" ? "white" : "#111111");
     button.innerHTML = `
       <span class="faction-sigil" aria-hidden="true">${faction.sigil}</span>
       <span class="faction-copy">

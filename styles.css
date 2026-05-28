@@ -1,14 +1,17 @@
 :root {
   color-scheme: light;
-  --bg: #f1e6d1;
-  --ink: #211b16;
-  --muted: #685b4c;
-  --line: #d3bea0;
-  --paper: #fff7e8;
-  --paper-strong: #fffdf5;
-  --shadow: 0 16px 34px rgba(63, 43, 25, 0.13);
+  --bg: #eee6d7;
+  --ink: #1f2521;
+  --muted: #62695f;
+  --line: #cfc6b5;
+  --paper: #fbf3e4;
+  --paper-strong: #fffaf0;
+  --shadow: 0 16px 34px rgba(34, 42, 35, 0.12);
   --accent: #a83c2d;
   --accent-dark: #5d241f;
+  --rail: #1f2328;
+  --rail-soft: #30343a;
+  --rail-text: #f6eddd;
 }
 
 * {
@@ -19,8 +22,8 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 18px 18px, rgba(56, 82, 45, 0.11) 0 2px, transparent 3px),
-    linear-gradient(135deg, rgba(178, 72, 43, 0.09), transparent 34%),
+    radial-gradient(circle at 18px 18px, rgba(68, 73, 80, 0.09) 0 2px, transparent 3px),
+    linear-gradient(135deg, rgba(88, 91, 98, 0.08), transparent 36%),
     var(--bg);
   color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
@@ -49,9 +52,9 @@ button {
   overflow: auto;
   border-right: 1px solid rgba(255, 248, 234, 0.13);
   background:
-    linear-gradient(180deg, rgba(34, 28, 24, 0.97), rgba(76, 49, 32, 0.95)),
-    repeating-linear-gradient(45deg, transparent 0 18px, rgba(255, 255, 255, 0.05) 18px 19px);
-  color: #fff8ea;
+    linear-gradient(180deg, rgba(31, 35, 40, 0.98), rgba(48, 52, 58, 0.96)),
+    repeating-linear-gradient(45deg, transparent 0 18px, rgba(255, 250, 240, 0.045) 18px 19px);
+  color: var(--rail-text);
   padding: 22px 16px;
 }
 
@@ -67,9 +70,9 @@ button {
   place-items: center;
   width: 48px;
   height: 48px;
-  border: 2px solid #e8c36d;
+  border: 2px solid #d8b85e;
   border-radius: 50%;
-  color: #e8c36d;
+  color: #d8b85e;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 900;
   font-size: 1.25rem;
@@ -89,7 +92,7 @@ button {
 
 .rail-note {
   margin: 5px 0 0;
-  color: #d9ccb8;
+  color: #cfd8c5;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.78rem;
   font-weight: 800;
@@ -106,7 +109,7 @@ button {
 }
 
 .faction-rail .eyebrow {
-  color: #d7b980;
+  color: #d8c57e;
 }
 
 .faction-list {
@@ -121,9 +124,9 @@ button {
   width: 100%;
   min-height: 70px;
   padding: 10px;
-  border: 1px solid rgba(255, 248, 234, 0.21);
+  border: 1px solid rgba(246, 237, 221, 0.18);
   border-radius: 8px;
-  background: rgba(255, 248, 234, 0.07);
+  background: rgba(246, 237, 221, 0.065);
   color: inherit;
   text-align: left;
   cursor: pointer;
@@ -132,7 +135,7 @@ button {
 .faction-button:hover,
 .faction-button.active {
   border-color: var(--faction);
-  background: rgba(255, 248, 234, 0.15);
+  background: rgba(246, 237, 221, 0.13);
 }
 
 .faction-sigil {
@@ -142,7 +145,7 @@ button {
   height: 44px;
   border-radius: 8px;
   background: var(--faction);
-  color: white;
+  color: var(--sigil-ink, white);
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 900;
 }
@@ -158,9 +161,9 @@ button {
   width: fit-content;
   margin-top: 5px;
   padding: 3px 7px;
-  border: 1px solid rgba(255, 248, 234, 0.18);
+  border: 1px solid rgba(246, 237, 221, 0.18);
   border-radius: 999px;
-  color: #ecd79f;
+  color: #e0c873;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.62rem;
   font-style: normal;
@@ -171,7 +174,7 @@ button {
 
 .faction-mini {
   margin-top: 4px;
-  color: #dfd1ba;
+  color: #cfd8c5;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.78rem;
   line-height: 1.32;
@@ -254,7 +257,7 @@ main {
   padding: 8px;
   border: 1px solid rgba(211, 190, 160, 0.7);
   border-radius: 8px;
-  background: rgba(241, 230, 209, 0.94);
+  background: rgba(238, 230, 215, 0.94);
   backdrop-filter: blur(10px);
 }
 
@@ -309,7 +312,7 @@ main {
   height: 7px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(104, 91, 76, 0.18);
+  background: rgba(98, 105, 95, 0.18);
 }
 
 .phase-progress span {
@@ -409,7 +412,7 @@ main {
 .task-list li,
 .tip-list li,
 .question {
-  border: 1px solid rgba(104, 91, 76, 0.24);
+  border: 1px solid rgba(98, 105, 95, 0.24);
   border-radius: 8px;
   background: rgba(255, 253, 245, 0.78);
 }
@@ -485,7 +488,7 @@ textarea {
   width: 100%;
   min-height: 108px;
   resize: vertical;
-  border: 1px solid rgba(104, 91, 76, 0.34);
+  border: 1px solid rgba(98, 105, 95, 0.34);
   border-radius: 8px;
   padding: 13px;
   background: var(--paper-strong);
