@@ -87,6 +87,14 @@ button {
   font-size: 1.35rem;
 }
 
+.rail-note {
+  margin: 5px 0 0;
+  color: #d9ccb8;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
 .eyebrow {
   margin: 0 0 5px;
   color: var(--muted);
@@ -139,12 +147,29 @@ button {
   font-weight: 900;
 }
 
-.faction-button strong,
-.faction-button span {
+.faction-copy,
+.faction-copy strong,
+.faction-mini,
+.faction-button em {
   display: block;
 }
 
-.faction-button span {
+.faction-button em {
+  width: fit-content;
+  margin-top: 5px;
+  padding: 3px 7px;
+  border: 1px solid rgba(255, 248, 234, 0.18);
+  border-radius: 999px;
+  color: #ecd79f;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.62rem;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.faction-mini {
   margin-top: 4px;
   color: #dfd1ba;
   font-family: Arial, Helvetica, sans-serif;
@@ -166,6 +191,16 @@ main {
 
 .turn-topbar h2 {
   font-size: clamp(2.15rem, 4.8vw, 5rem);
+}
+
+.faction-summary {
+  max-width: 760px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(1rem, 1.4vw, 1.16rem);
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .table-status {
@@ -267,6 +302,23 @@ main {
 
 .turn-count strong {
   font-size: clamp(1.6rem, 3vw, 2.35rem);
+}
+
+.phase-progress {
+  width: min(220px, 100%);
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(104, 91, 76, 0.18);
+}
+
+.phase-progress span {
+  display: block;
+  width: 33.33%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 160ms ease;
 }
 
 .phase-board {

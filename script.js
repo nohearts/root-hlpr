@@ -462,6 +462,22 @@ const phaseColors = {
   Evening: "#3f5f77"
 };
 
+const factionSets = {
+  marquise: "Core",
+  eyrie: "Core",
+  alliance: "Core",
+  vagabond: "Core",
+  cult: "Riverfolk",
+  riverfolk: "Riverfolk",
+  duchy: "Underworld",
+  corvid: "Underworld",
+  hundreds: "Marauder",
+  keepers: "Marauder",
+  diaspora: "Homeland",
+  council: "Homeland",
+  knaves: "Homeland"
+};
+
 const state = {
   factionId: localStorage.getItem("rootHelperFaction") || factions[0].id,
   phaseIndex: Number(localStorage.getItem("rootHelperPhase") || 0),
@@ -470,14 +486,17 @@ const state = {
 
 const els = {
   factionList: document.querySelector("#factionList"),
+  factionCount: document.querySelector("#factionCount"),
   factionType: document.querySelector("#factionType"),
   factionName: document.querySelector("#factionName"),
+  factionSummary: document.querySelector("#factionSummary"),
   turnNumber: document.querySelector("#turnNumber"),
   doneCount: document.querySelector("#doneCount"),
   phaseTabs: document.querySelector("#phaseTabs"),
   phaseToken: document.querySelector("#phaseToken"),
   phaseMeta: document.querySelector("#phaseMeta"),
   phaseTitle: document.querySelector("#phaseTitle"),
+  phaseProgress: document.querySelector("#phaseProgress"),
   phasePrompt: document.querySelector("#phasePrompt"),
   taskList: document.querySelector("#taskList"),
   tipList: document.querySelector("#tipList"),
@@ -529,6 +548,7 @@ function clearCurrentTurnChecks() {
 
 function renderFactions() {
   els.factionList.innerHTML = "";
+  els.factionCount.textContent = factions.length;
   factions.forEach((faction) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -536,9 +556,10 @@ function renderFactions() {
     button.style.setProperty("--faction", faction.color);
     button.innerHTML = `
       <span class="faction-sigil" aria-hidden="true">${faction.sigil}</span>
-      <span>
+      <span class="faction-copy">
         <strong>${faction.name}</strong>
-        <span>${faction.summary}</span>
+        <em>${factionSets[faction.id]}</em>
+        <span class="faction-mini">${faction.summary}</span>
       </span>
     `;
     button.addEventListener("click", () => {
@@ -639,10 +660,12 @@ function render() {
 
   els.factionType.textContent = faction.type;
   els.factionName.textContent = faction.name;
+  els.factionSummary.textContent = faction.summary;
   els.turnNumber.textContent = state.turn;
   els.phaseToken.style.setProperty("--phase", phaseColors[phase]);
   els.phaseMeta.textContent = `Step ${state.phaseIndex + 1} of ${phases.length}`;
   els.phaseTitle.textContent = phase;
+  els.phaseProgress.style.width = `${((state.phaseIndex + 1) / phases.length) * 100}%`;
   els.phasePrompt.textContent = `${phase} checklist`;
   els.notes.value = localStorage.getItem(`rootHelperNotes-${faction.id}`) || "";
 

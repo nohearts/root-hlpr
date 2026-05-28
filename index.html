@@ -14,6 +14,7 @@
           <div>
             <p class="eyebrow">Woodland Aid</p>
             <h1>Root Turn Helper</h1>
+            <p class="rail-note"><span id="factionCount">13</span> player factions</p>
           </div>
         </div>
 
@@ -25,6 +26,7 @@
           <div>
             <p class="eyebrow" id="factionType">Faction</p>
             <h2 id="factionName">Choose a faction</h2>
+            <p class="faction-summary" id="factionSummary">Pick a faction to start the turn guide.</p>
           </div>
 
           <div class="table-status" aria-label="Turn status">
@@ -45,6 +47,9 @@
             <div class="turn-count">
               <span id="phaseMeta">Step 1 of 3</span>
               <strong id="phaseTitle">Birdsong</strong>
+              <div class="phase-progress" aria-hidden="true">
+                <span id="phaseProgress"></span>
+              </div>
             </div>
             <button class="nav-button primary" id="nextStep" type="button">Next</button>
           </div>
