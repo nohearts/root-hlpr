@@ -257,7 +257,7 @@ main {
 
 .round-controls {
   display: grid;
-  grid-template-columns: minmax(104px, 0.45fr) minmax(170px, 1fr) minmax(104px, 0.45fr);
+  grid-template-columns: minmax(170px, 1fr) minmax(120px, 0.36fr);
   gap: 10px;
 }
 

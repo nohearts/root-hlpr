@@ -494,7 +494,6 @@ const els = {
   currentQuestionTitle: document.querySelector("#currentQuestionTitle"),
   currentQuestionBody: document.querySelector("#currentQuestionBody"),
   notes: document.querySelector("#notes"),
-  prevStep: document.querySelector("#prevStep"),
   nextStep: document.querySelector("#nextStep"),
   resetTurn: document.querySelector("#resetTurn")
 };
@@ -631,7 +630,6 @@ function render() {
   updateChecklistHeading();
 }
 
-els.prevStep.addEventListener("click", () => advance(-1));
 els.nextStep.addEventListener("click", () => advance(1));
 els.resetTurn.addEventListener("click", () => {
   clearFactionChecks();
