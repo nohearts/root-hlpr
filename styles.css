@@ -52,7 +52,7 @@ input:focus-visible {
 
 .app-shell {
   display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
+  grid-template-columns: 260px minmax(0, 1fr);
   min-height: 100vh;
 }
 
@@ -92,8 +92,7 @@ input:focus-visible {
 
 .brand h1,
 .turn-topbar h2,
-.phase-panel h3,
-.panel h3 {
+.phase-panel h3 {
   margin: 0;
   line-height: 1.05;
 }
@@ -102,14 +101,6 @@ input:focus-visible {
   font-family: var(--display-font);
   font-size: 1.35rem;
   letter-spacing: 0;
-}
-
-.rail-note {
-  margin: 5px 0 0;
-  color: #cfd8c5;
-  font-family: var(--body-font);
-  font-size: 0.78rem;
-  font-weight: 800;
 }
 
 .eyebrow {
@@ -133,11 +124,11 @@ input:focus-visible {
 
 .faction-button {
   display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 11px;
+  grid-template-columns: 38px 1fr;
+  gap: 10px;
   width: 100%;
-  min-height: 70px;
-  padding: 10px 10px 10px 9px;
+  min-height: 50px;
+  padding: 8px 10px 8px 8px;
   border: 1px solid rgba(246, 237, 221, 0.18);
   border-left: 5px solid transparent;
   border-radius: 8px;
@@ -163,8 +154,8 @@ input:focus-visible {
 .faction-sigil {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   border-radius: 8px;
   background: var(--faction);
   color: var(--sigil-ink, white);
@@ -174,9 +165,7 @@ input:focus-visible {
 }
 
 .faction-copy,
-.faction-copy strong,
-.faction-mini,
-.faction-button em {
+.faction-copy strong {
   display: block;
 }
 
@@ -186,38 +175,12 @@ input:focus-visible {
   line-height: 1.12;
 }
 
-.faction-button em {
-  width: fit-content;
-  margin-top: 5px;
-  padding: 3px 7px;
-  border: 1px solid rgba(246, 237, 221, 0.18);
-  border-radius: 999px;
-  color: #e0c873;
-  font-family: var(--body-font);
-  font-size: 0.62rem;
-  font-style: normal;
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.faction-mini {
-  margin-top: 4px;
-  color: #cfd8c5;
-  font-family: var(--body-font);
-  font-size: 0.78rem;
-  line-height: 1.32;
-}
-
 main {
   padding: 26px;
 }
 
 .turn-topbar {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 18px;
+  max-width: 960px;
   margin-bottom: 16px;
   padding-bottom: 16px;
   border-bottom: 1px solid rgba(98, 105, 95, 0.2);
@@ -239,43 +202,11 @@ main {
   line-height: 1.35;
 }
 
-.table-status {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(74px, 1fr));
-  gap: 10px;
-}
-
-.table-status div,
 .turn-count {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--paper-strong);
   box-shadow: var(--shadow);
-}
-
-.table-status div {
-  display: grid;
-  place-items: center;
-  min-height: 70px;
-  padding: 10px 14px;
-}
-
-.table-status span,
-.turn-count span {
-  color: var(--muted);
-  font-family: var(--body-font);
-  font-size: 0.72rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.table-status strong {
-  display: flex;
-  align-items: baseline;
-  gap: 2px;
-  font-size: 2rem;
-  line-height: 1;
-  white-space: nowrap;
 }
 
 .table-controls {
@@ -346,7 +277,7 @@ main {
 }
 
 .reset-button {
-  min-width: 116px;
+  min-width: 88px;
   padding: 0 14px;
   color: var(--muted);
 }
@@ -363,23 +294,6 @@ main {
   font-family: var(--display-font);
   font-size: clamp(1.6rem, 3vw, 2.35rem);
   letter-spacing: 0;
-}
-
-.phase-progress {
-  width: min(220px, 100%);
-  height: 7px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(98, 105, 95, 0.18);
-}
-
-.phase-progress span {
-  display: block;
-  width: 33.33%;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--accent);
-  transition: width 160ms ease;
 }
 
 .phase-board {
@@ -435,8 +349,7 @@ main {
   text-transform: uppercase;
 }
 
-.phase-panel,
-.panel {
+.phase-panel {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 248, 234, 0.91);
@@ -455,10 +368,6 @@ main {
   margin-bottom: 18px;
 }
 
-.panel-heading {
-  margin-bottom: 14px;
-}
-
 .phase-token {
   width: 18px;
   height: 64px;
@@ -466,15 +375,13 @@ main {
   background: var(--phase);
 }
 
-.phase-panel h3,
-.panel h3 {
+.phase-panel h3 {
   font-family: var(--display-font);
   font-size: 1.65rem;
   letter-spacing: 0;
 }
 
-.task-list,
-.tip-list {
+.task-list {
   display: grid;
   gap: 11px;
   padding: 0;
@@ -482,9 +389,7 @@ main {
   list-style: none;
 }
 
-.task-list li,
-.tip-list li,
-.question {
+.task-list li {
   border: 1px solid rgba(98, 105, 95, 0.24);
   border-radius: 8px;
   background: rgba(255, 253, 245, 0.78);
@@ -519,45 +424,49 @@ main {
   text-decoration-thickness: 2px;
 }
 
-.helper-grid {
+.turn-insight {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
+  margin-bottom: 16px;
 }
 
-.panel {
+.turn-insight article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 248, 234, 0.72);
   padding: 17px;
+  box-shadow: var(--shadow-low);
 }
 
-.panel.wide {
-  grid-column: 1 / -1;
-}
-
-.tip-list li {
-  padding: 14px;
-  line-height: 1.44;
-}
-
-.question-stack {
-  display: grid;
-  gap: 10px;
-}
-
-.question {
-  padding: 14px;
-}
-
-.question strong {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.question p {
+.turn-insight p {
   margin: 0;
+}
+
+.turn-insight .eyebrow {
+  margin-bottom: 6px;
+}
+
+.turn-insight strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.notes-drawer {
+  border-top: 1px solid rgba(98, 105, 95, 0.22);
+  padding-top: 12px;
+}
+
+.notes-drawer summary {
+  width: fit-content;
   color: var(--muted);
+  cursor: pointer;
   font-family: var(--body-font);
-  font-size: 0.92rem;
-  line-height: 1.45;
+  font-weight: 900;
+}
+
+.notes-drawer textarea {
+  margin-top: 12px;
 }
 
 textarea {
@@ -590,7 +499,7 @@ textarea {
 
   .faction-button {
     grid-template-columns: 40px 1fr;
-    min-height: 76px;
+    min-height: 56px;
   }
 
   .faction-sigil {
@@ -607,12 +516,8 @@ textarea {
   .turn-topbar,
   .table-controls,
   .phase-board,
-  .helper-grid {
+  .turn-insight {
     grid-template-columns: 1fr;
-  }
-
-  .table-status {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .round-controls {

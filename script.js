@@ -462,45 +462,24 @@ const phaseColors = {
   Evening: "#3f5f77"
 };
 
-const factionSets = {
-  marquise: "Core",
-  eyrie: "Core",
-  alliance: "Core",
-  vagabond: "Core",
-  cult: "Riverfolk",
-  riverfolk: "Riverfolk",
-  duchy: "Underworld",
-  corvid: "Underworld",
-  hundreds: "Marauder",
-  keepers: "Marauder",
-  diaspora: "Homeland",
-  council: "Homeland",
-  knaves: "Homeland"
-};
-
 const state = {
   factionId: localStorage.getItem("rootHelperFaction") || factions[0].id,
-  phaseIndex: Number(localStorage.getItem("rootHelperPhase") || 0),
-  turn: Number(localStorage.getItem("rootHelperTurn") || 1)
+  phaseIndex: Number(localStorage.getItem("rootHelperPhase") || 0)
 };
 
 const els = {
   factionList: document.querySelector("#factionList"),
-  factionCount: document.querySelector("#factionCount"),
   factionType: document.querySelector("#factionType"),
   factionName: document.querySelector("#factionName"),
   factionSummary: document.querySelector("#factionSummary"),
-  turnNumber: document.querySelector("#turnNumber"),
-  doneCount: document.querySelector("#doneCount"),
   phaseTabs: document.querySelector("#phaseTabs"),
   phaseToken: document.querySelector("#phaseToken"),
-  phaseMeta: document.querySelector("#phaseMeta"),
   phaseTitle: document.querySelector("#phaseTitle"),
-  phaseProgress: document.querySelector("#phaseProgress"),
   phasePrompt: document.querySelector("#phasePrompt"),
   taskList: document.querySelector("#taskList"),
-  tipList: document.querySelector("#tipList"),
-  questionStack: document.querySelector("#questionStack"),
+  currentTip: document.querySelector("#currentTip"),
+  currentQuestionTitle: document.querySelector("#currentQuestionTitle"),
+  currentQuestionBody: document.querySelector("#currentQuestionBody"),
   notes: document.querySelector("#notes"),
   prevStep: document.querySelector("#prevStep"),
   nextStep: document.querySelector("#nextStep"),
@@ -518,27 +497,19 @@ function currentPhases() {
 function persist() {
   localStorage.setItem("rootHelperFaction", state.factionId);
   localStorage.setItem("rootHelperPhase", String(state.phaseIndex));
-  localStorage.setItem("rootHelperTurn", String(state.turn));
 }
 
 function taskKey(factionId, phase, index) {
-  return `rootHelperDone-${factionId}-${state.turn}-${phase}-${index}`;
+  return `rootHelperDone-${factionId}-${phase}-${index}`;
 }
 
-function updateDoneCount() {
-  const faction = currentFaction();
+function updateChecklistHeading() {
   const phase = currentPhases()[state.phaseIndex];
-  const total = faction.phases[phase].length;
-  const done = faction.phases[phase].filter((_, index) => {
-    return localStorage.getItem(taskKey(faction.id, phase, index)) === "true";
-  }).length;
-
-  els.doneCount.textContent = done;
-  els.doneCount.parentElement.lastChild.textContent = `/${total}`;
+  els.phasePrompt.textContent = `${phase} actions`;
 }
 
-function clearCurrentTurnChecks() {
-  const prefix = `rootHelperDone-${state.factionId}-${state.turn}-`;
+function clearFactionChecks() {
+  const prefix = `rootHelperDone-${state.factionId}-`;
   Object.keys(localStorage).forEach((key) => {
     if (key.startsWith(prefix)) {
       localStorage.removeItem(key);
@@ -548,7 +519,6 @@ function clearCurrentTurnChecks() {
 
 function renderFactions() {
   els.factionList.innerHTML = "";
-  els.factionCount.textContent = factions.length;
   factions.forEach((faction) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -559,8 +529,6 @@ function renderFactions() {
       <span class="faction-sigil" aria-hidden="true">${faction.sigil}</span>
       <span class="faction-copy">
         <strong>${faction.name}</strong>
-        <em>${factionSets[faction.id]}</em>
-        <span class="faction-mini">${faction.summary}</span>
       </span>
     `;
     button.addEventListener("click", () => {
@@ -594,7 +562,7 @@ function renderTasks(faction, phase) {
   els.taskList.innerHTML = "";
   faction.phases[phase].forEach((task, index) => {
     const item = document.createElement("li");
-    const id = `${faction.id}-${phase}-${state.turn}-${index}`;
+    const id = `${faction.id}-${phase}-${index}`;
     const key = taskKey(faction.id, phase, index);
     const checked = localStorage.getItem(key) === "true" ? "checked" : "";
     item.innerHTML = `
@@ -603,49 +571,23 @@ function renderTasks(faction, phase) {
     `;
     item.querySelector("input").addEventListener("change", (event) => {
       localStorage.setItem(key, String(event.target.checked));
-      updateDoneCount();
     });
     els.taskList.append(item);
   });
 }
 
-function renderTips(faction) {
-  els.tipList.innerHTML = "";
-  faction.tips.forEach((tip) => {
-    const item = document.createElement("li");
-    item.textContent = tip;
-    els.tipList.append(item);
-  });
-}
+function renderInsight(faction) {
+  const tip = faction.tips[state.phaseIndex % faction.tips.length];
+  const [title, body] = faction.questions[state.phaseIndex % faction.questions.length];
 
-function renderQuestions(faction) {
-  els.questionStack.innerHTML = "";
-  faction.questions.forEach(([title, body]) => {
-    const question = document.createElement("div");
-    question.className = "question";
-    question.innerHTML = `<strong>${title}</strong><p>${body}</p>`;
-    els.questionStack.append(question);
-  });
+  els.currentTip.textContent = tip;
+  els.currentQuestionTitle.textContent = title;
+  els.currentQuestionBody.textContent = body;
 }
 
 function advance(delta) {
   const phases = currentPhases();
-
-  if (delta < 0 && state.turn === 1 && state.phaseIndex === 0) {
-    return;
-  }
-
-  state.phaseIndex += delta;
-
-  if (state.phaseIndex >= phases.length) {
-    state.phaseIndex = 0;
-    state.turn += 1;
-  }
-
-  if (state.phaseIndex < 0) {
-    state.phaseIndex = phases.length - 1;
-    state.turn = Math.max(1, state.turn - 1);
-  }
+  state.phaseIndex = (state.phaseIndex + delta + phases.length) % phases.length;
 
   persist();
   render();
@@ -662,26 +604,21 @@ function render() {
   els.factionType.textContent = faction.type;
   els.factionName.textContent = faction.name;
   els.factionSummary.textContent = faction.summary;
-  els.turnNumber.textContent = state.turn;
   els.phaseToken.style.setProperty("--phase", phaseColors[phase]);
-  els.phaseMeta.textContent = `Step ${state.phaseIndex + 1} of ${phases.length}`;
   els.phaseTitle.textContent = phase;
-  els.phaseProgress.style.width = `${((state.phaseIndex + 1) / phases.length) * 100}%`;
-  els.phasePrompt.textContent = `${phase} checklist`;
   els.notes.value = localStorage.getItem(`rootHelperNotes-${faction.id}`) || "";
 
   renderFactions();
   renderPhaseTabs();
   renderTasks(faction, phase);
-  renderTips(faction);
-  renderQuestions(faction);
-  updateDoneCount();
+  renderInsight(faction);
+  updateChecklistHeading();
 }
 
 els.prevStep.addEventListener("click", () => advance(-1));
 els.nextStep.addEventListener("click", () => advance(1));
 els.resetTurn.addEventListener("click", () => {
-  clearCurrentTurnChecks();
+  clearFactionChecks();
   state.phaseIndex = 0;
   persist();
   render();

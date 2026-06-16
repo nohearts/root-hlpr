@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Root Turn Helper</title>
-    <link rel="stylesheet" href="styles.css?v=font-polish" />
+    <link rel="stylesheet" href="styles.css?v=streamlined" />
   </head>
   <body>
     <div class="app-shell">
@@ -14,7 +14,6 @@
           <div>
             <p class="eyebrow">Woodland Aid</p>
             <h1>Root Turn Helper</h1>
-            <p class="rail-note"><span id="factionCount">13</span> player factions</p>
           </div>
         </div>
 
@@ -26,75 +25,51 @@
           <div>
             <p class="eyebrow" id="factionType">Faction</p>
             <h2 id="factionName">Choose a faction</h2>
-            <p class="faction-summary" id="factionSummary">Pick a faction to start the turn guide.</p>
-          </div>
-
-          <div class="table-status" aria-label="Turn status">
-            <div>
-              <span>Turn</span>
-              <strong id="turnNumber">1</strong>
-            </div>
-            <div>
-              <span>Done</span>
-              <strong><span id="doneCount">0</span>/3</strong>
-            </div>
+            <p class="faction-summary" id="factionSummary">Pick a faction to start the phase guide.</p>
           </div>
         </section>
 
-        <section class="table-controls" aria-label="Turn controls">
+        <section class="table-controls" aria-label="Phase controls">
           <div class="round-controls">
             <button class="nav-button" id="prevStep" type="button">Previous</button>
             <div class="turn-count">
-              <span id="phaseMeta">Step 1 of 3</span>
               <strong id="phaseTitle">Birdsong</strong>
-              <div class="phase-progress" aria-hidden="true">
-                <span id="phaseProgress"></span>
-              </div>
             </div>
             <button class="nav-button primary" id="nextStep" type="button">Next</button>
           </div>
-          <button class="reset-button" id="resetTurn" type="button">Reset turn</button>
+          <button class="reset-button" id="resetTurn" type="button">Reset</button>
         </section>
 
-        <section class="phase-board" aria-label="Turn phases">
+        <section class="phase-board" aria-label="Phase guide">
           <div class="phase-tabs" id="phaseTabs"></div>
           <article class="phase-panel">
             <div class="phase-heading">
               <span class="phase-token" id="phaseToken" aria-hidden="true"></span>
               <div>
-                <p class="eyebrow">Do now</p>
-                <h3 id="phasePrompt">Birdsong checklist</h3>
+                <p class="eyebrow">Current phase</p>
+                <h3 id="phasePrompt">Birdsong actions</h3>
               </div>
             </div>
             <ul class="task-list" id="taskList"></ul>
           </article>
         </section>
 
-        <section class="helper-grid">
-          <article class="panel">
-            <div class="panel-heading">
-              <p class="eyebrow">Faction Reminders</p>
-              <h3>Watch This</h3>
-            </div>
-            <ul class="tip-list" id="tipList"></ul>
+        <section class="turn-insight" aria-label="Faction guidance">
+          <article>
+            <p class="eyebrow">Reminder</p>
+            <p id="currentTip">Pick a faction to see a reminder.</p>
           </article>
-
-          <article class="panel">
-            <div class="panel-heading">
-              <p class="eyebrow">Table Tempo</p>
-              <h3>Ask Yourself</h3>
-            </div>
-            <div class="question-stack" id="questionStack"></div>
-          </article>
-
-          <article class="panel wide">
-            <div class="panel-heading">
-              <p class="eyebrow">Turn Notes</p>
-              <h3>Scratchpad</h3>
-            </div>
-            <textarea id="notes" aria-label="Turn notes" placeholder="Track crafted cards, dominance threats, promised battles, exposed tokens, or anything the table will forget between turns."></textarea>
+          <article>
+            <p class="eyebrow">Decision</p>
+            <strong id="currentQuestionTitle">Table question</strong>
+            <p id="currentQuestionBody">Choose a faction to get a useful prompt.</p>
           </article>
         </section>
+
+        <details class="notes-drawer">
+          <summary>Scratchpad</summary>
+          <textarea id="notes" aria-label="Table notes" placeholder="Track crafted cards, dominance threats, promised battles, exposed tokens, or anything the table might forget."></textarea>
+        </details>
       </main>
     </div>
 
