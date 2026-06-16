@@ -6,6 +6,7 @@ const factions = [
     sigil: "M",
     color: "#c95532",
     summary: "Build, recruit, and keep the wood economy moving.",
+    tags: ["Militant", "Buildings"],
     tips: [
       "Your economy is visible. Defend sawmills before you chase flashy battles.",
       "Recruiters are tempo. Losing them can make the next turn feel much smaller.",
@@ -41,6 +42,7 @@ const factions = [
     sigil: "E",
     color: "#3f76a6",
     summary: "Expand the decree without letting it collapse.",
+    tags: ["Militant", "Decree"],
     tips: [
       "The decree is a promise. Add cards that give you room, not just ambition.",
       "Roosts score passively, so preserving them can be stronger than overextending.",
@@ -76,6 +78,7 @@ const factions = [
     sigil: "A",
     color: "#5d8f4e",
     summary: "Spread sympathy, organize bases, and turn outrage into momentum.",
+    tags: ["Insurgent", "Sympathy"],
     tips: [
       "Sympathy is both scoring and threat projection. Place it where it taxes movement.",
       "Bases are priceless. Do not revolt somewhere you cannot defend or exploit.",
@@ -111,6 +114,7 @@ const factions = [
     sigil: "V",
     color: "#72736f",
     summary: "Manage items, relationships, quests, and surgical violence.",
+    tags: ["Solo", "Items"],
     tips: [
       "Item exhaustion is your real action budget. Count boots and swords before plans.",
       "Aid can be safer than fighting, until one faction becomes too rich from it.",
@@ -146,6 +150,7 @@ const factions = [
     sigil: "L",
     color: "#93b95d",
     summary: "Rule through gardens, acolytes, and the outcast suit.",
+    tags: ["Insurgent", "Conversion"],
     tips: [
       "Gardens are scoring, crafting, and fragility all in one place.",
       "Acolytes let you punish attacks, but only if you have useful targets.",
@@ -181,6 +186,7 @@ const factions = [
     sigil: "R",
     color: "#2f8f8b",
     summary: "Sell services, build trade posts, and turn enemy payments into points.",
+    tags: ["Economic", "Services"],
     tips: [
       "Your prices shape the table. Cheap services create customers; expensive services create suspicion.",
       "Trade posts are scoring and crafting anchors, but each one also advertises a target.",
@@ -216,6 +222,7 @@ const factions = [
     sigil: "D",
     color: "#8b7560",
     summary: "Dig tunnels, build markets and citadels, and sway ministers.",
+    tags: ["Militant", "Ministers"],
     tips: [
       "Your hand is political capital. Keep suits that can prove control where you have pieces.",
       "Tunnels make surprise pressure possible, but exposed buildings can trigger painful penalties.",
@@ -251,6 +258,7 @@ const factions = [
     sigil: "C",
     color: "#2e3338",
     summary: "Plant plots, misdirect the table, and score through uncertainty.",
+    tags: ["Insurgent", "Bluffing"],
     tips: [
       "Plots are stronger when several possibilities are plausible.",
       "Your warriors are cheap, but your table credibility is not.",
@@ -286,6 +294,7 @@ const factions = [
     sigil: "H",
     color: "#b13f34",
     summary: "Command the Warlord, loot items, spread mobs, and oppress clearings.",
+    tags: ["Militant", "Warlord"],
     tips: [
       "The Warlord is your tempo piece. Keep it active, supplied, and hard to isolate.",
       "Mobs are board pressure and denial. Let them force opponents to spend real actions.",
@@ -321,6 +330,7 @@ const factions = [
     sigil: "K",
     color: "#858a7a",
     summary: "Build a retinue, recover relics, and guard a disciplined campaign.",
+    tags: ["Militant", "Relics"],
     tips: [
       "Your retinue is powerful but demanding. Add cards that match realistic board positions.",
       "Relic scoring takes preparation. Secure paths before committing to a recovery line.",
@@ -356,6 +366,7 @@ const factions = [
     sigil: "P",
     color: "#4e9871",
     summary: "Integrate carefully, train warriors, and avoid tipping peace into reprisals.",
+    tags: ["Social", "Stability"],
     tips: [
       "This faction is from the Homeland expansion, so treat this guidance as a draft table aid.",
       "Your table story is tension: safety, integration, and the risk of escalation.",
@@ -391,6 +402,7 @@ const factions = [
     sigil: "T",
     color: "#6e679b",
     summary: "Host assemblies, build political connections, and redirect conflict into debate.",
+    tags: ["Social", "Incentives"],
     tips: [
       "This faction is from the Homeland expansion, so treat this guidance as a draft table aid.",
       "Your strength is not just warriors. Look for political leverage and timing.",
@@ -426,6 +438,7 @@ const factions = [
     sigil: "N",
     color: "#69533e",
     summary: "Raid from the treeline, take hostages, and turn chaos into ransom.",
+    tags: ["Solo", "Raiding"],
     tips: [
       "This faction is from the Homeland expansion, so treat this guidance as a draft table aid.",
       "Your leverage comes from timing raids where opponents are least able to answer.",
@@ -529,6 +542,9 @@ function renderFactions() {
       <span class="faction-sigil" aria-hidden="true">${faction.sigil}</span>
       <span class="faction-copy">
         <strong>${faction.name}</strong>
+        <span class="faction-tags">
+          ${faction.tags.map((tag) => `<span>${tag}</span>`).join("")}
+        </span>
       </span>
     `;
     button.addEventListener("click", () => {
