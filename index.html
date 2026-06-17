@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Root Turn Helper</title>
-    <link rel="stylesheet" href="styles.css?v=tagged-roster" />
+    <link rel="stylesheet" href="styles.css?v=setup-helper" />
   </head>
   <body>
     <div class="app-shell">
@@ -28,6 +28,56 @@
             <p class="faction-summary" id="factionSummary">Pick a faction to start the phase guide.</p>
           </div>
         </section>
+
+        <details class="setup-helper">
+          <summary>Game setup</summary>
+          <div class="setup-grid">
+            <section class="setup-card" aria-label="Table choices">
+              <p class="eyebrow">Table</p>
+              <div class="setup-fields">
+                <label>
+                  Map
+                  <select id="mapSelect">
+                    <option value="autumn">Autumn</option>
+                    <option value="winter">Winter</option>
+                    <option value="lake">Lake</option>
+                    <option value="mountain">Mountain</option>
+                  </select>
+                </label>
+                <label>
+                  Deck
+                  <select id="deckSelect">
+                    <option value="standard">Standard</option>
+                    <option value="exiles">Exiles &amp; Partisans</option>
+                  </select>
+                </label>
+                <label>
+                  Players
+                  <select id="playerCountSelect">
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4" selected>4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </label>
+              </div>
+              <ul class="setup-list" id="gameSetupList"></ul>
+            </section>
+
+            <section class="setup-card" aria-label="Faction layout">
+              <p class="eyebrow">Faction layout</p>
+              <div class="setup-factions" id="setupFactionList"></div>
+              <p class="balance-summary" id="balanceSummary"></p>
+            </section>
+
+            <section class="setup-card" aria-label="Selected faction setup">
+              <p class="eyebrow">Selected faction setup</p>
+              <h3 id="setupFactionName">Marquise de Cat</h3>
+              <ul class="setup-list" id="factionSetupList"></ul>
+            </section>
+          </div>
+        </details>
 
         <section class="table-controls" aria-label="Phase controls">
           <div class="round-controls">

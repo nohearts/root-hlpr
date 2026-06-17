@@ -475,13 +475,107 @@ const phaseColors = {
   Evening: "#3f5f77"
 };
 
+const mapNotes = {
+  autumn: "Use the printed clearing suits and normal paths.",
+  winter: "Randomize clearing suits before placing pieces.",
+  lake: "Set up the ferry and remember ferry movement draws a card.",
+  mountain: "Place blocked paths and the tower, then clear paths during play."
+};
+
+const deckNotes = {
+  standard: "Use the standard deck; its favor cards make suit control matter.",
+  exiles: "Use Exiles & Partisans; expect more tactical powers and fewer huge favor swings."
+};
+
+const factionSetup = {
+  marquise: [
+    "Place the keep in a corner clearing.",
+    "Fill the map with cats except the opposite corner, then place starting buildings.",
+    "Put remaining buildings on their tracks and keep wood near sawmills."
+  ],
+  eyrie: [
+    "Place a roost and starting warriors in the corner opposite the keep if possible.",
+    "Choose a leader and set the viziers in the decree.",
+    "Keep the decree visible; every added card is a future obligation."
+  ],
+  alliance: [
+    "Prepare supporters, sympathy, bases, and officers near your board.",
+    "Start with sympathy and supporters as your faction board instructs.",
+    "Keep supporters separate from your hand so outrage and spreading are easy to track."
+  ],
+  vagabond: [
+    "Choose a character card and place the matching starting items.",
+    "Place ruins and ruin items on the map.",
+    "Place the pawn in a forest and keep relationship markers visible."
+  ],
+  cult: [
+    "Place gardens and warriors as your faction board instructs.",
+    "Set up the lost souls and outcast area near the discard pile.",
+    "Keep acolytes separate from supply so conspiracies are easy to count."
+  ],
+  riverfolk: [
+    "Place starting warriors along the river as your board instructs.",
+    "Set service prices before the first player can buy.",
+    "Keep payments, funds, and committed warriors visually separate."
+  ],
+  duchy: [
+    "Place the Burrow, starting tunnel, warriors, and buildings as instructed.",
+    "Set crown ministers aside by rank so swaying is easy to scan.",
+    "Keep market and citadel tracks clear before the first build."
+  ],
+  corvid: [
+    "Place starting warriors and prepare plot tokens face down.",
+    "Keep each plot type easy to identify for yourself but hidden from opponents.",
+    "Remember exposure matters as soon as plots are on the board."
+  ],
+  hundreds: [
+    "Place the Warlord, warriors, strongholds, and mobs as instructed.",
+    "Set up the hoard and mood cards where everyone can see them.",
+    "Keep items near the hoard; they shape future mood choices."
+  ],
+  keepers: [
+    "Place waystations, warriors, relics, and starting cards as instructed.",
+    "Prepare the retinue area before adding cards.",
+    "Keep relic values and suits easy to inspect before delving."
+  ],
+  diaspora: [
+    "Follow the Homeland setup card and keep faction-specific tracks visible.",
+    "Mark safe or contested clearings before the first phase begins.",
+    "Treat this helper as a reminder; use the printed faction materials for exact placement."
+  ],
+  council: [
+    "Follow the Homeland setup card and prepare assembly materials.",
+    "Keep political markers and incentives visible to the table.",
+    "Treat this helper as a reminder; use the printed faction materials for exact placement."
+  ],
+  knaves: [
+    "Follow the Homeland setup card and prepare raiding materials.",
+    "Keep hostages, ransom pieces, and mobility tools easy to track.",
+    "Treat this helper as a reminder; use the printed faction materials for exact placement."
+  ]
+};
+
 const state = {
   factionId: localStorage.getItem("rootHelperFaction") || factions[0].id,
-  phaseIndex: Number(localStorage.getItem("rootHelperPhase") || 0)
+  phaseIndex: Number(localStorage.getItem("rootHelperPhase") || 0),
+  setup: {
+    map: localStorage.getItem("rootHelperMap") || "autumn",
+    deck: localStorage.getItem("rootHelperDeck") || "standard",
+    players: Number(localStorage.getItem("rootHelperPlayers") || 4),
+    factions: JSON.parse(localStorage.getItem("rootHelperSetupFactions") || "[]")
+  }
 };
 
 const els = {
   factionList: document.querySelector("#factionList"),
+  mapSelect: document.querySelector("#mapSelect"),
+  deckSelect: document.querySelector("#deckSelect"),
+  playerCountSelect: document.querySelector("#playerCountSelect"),
+  gameSetupList: document.querySelector("#gameSetupList"),
+  setupFactionList: document.querySelector("#setupFactionList"),
+  balanceSummary: document.querySelector("#balanceSummary"),
+  setupFactionName: document.querySelector("#setupFactionName"),
+  factionSetupList: document.querySelector("#factionSetupList"),
   factionType: document.querySelector("#factionType"),
   factionName: document.querySelector("#factionName"),
   factionSummary: document.querySelector("#factionSummary"),
@@ -509,6 +603,10 @@ function currentPhases() {
 function persist() {
   localStorage.setItem("rootHelperFaction", state.factionId);
   localStorage.setItem("rootHelperPhase", String(state.phaseIndex));
+  localStorage.setItem("rootHelperMap", state.setup.map);
+  localStorage.setItem("rootHelperDeck", state.setup.deck);
+  localStorage.setItem("rootHelperPlayers", String(state.setup.players));
+  localStorage.setItem("rootHelperSetupFactions", JSON.stringify(state.setup.factions));
 }
 
 function taskKey(factionId, phase, index) {
@@ -600,6 +698,103 @@ function renderInsight(faction) {
   els.currentQuestionBody.textContent = body;
 }
 
+function selectedSetupFactions() {
+  return factions.filter((faction) => state.setup.factions.includes(faction.id));
+}
+
+function renderList(list, items) {
+  list.innerHTML = "";
+  items.forEach((text) => {
+    const item = document.createElement("li");
+    item.textContent = text;
+    list.append(item);
+  });
+}
+
+function renderGameSetup() {
+  els.mapSelect.value = state.setup.map;
+  els.deckSelect.value = state.setup.deck;
+  els.playerCountSelect.value = String(state.setup.players);
+
+  renderList(els.gameSetupList, [
+    mapNotes[state.setup.map],
+    deckNotes[state.setup.deck],
+    "Choose factions and seating before placing faction pieces.",
+    "Deal starting hands, then follow each faction board for exact placement."
+  ]);
+}
+
+function renderSetupFactions() {
+  els.setupFactionList.innerHTML = "";
+  factions.forEach((faction) => {
+    const label = document.createElement("label");
+    label.className = "setup-faction";
+    label.style.setProperty("--faction", faction.color);
+    label.innerHTML = `
+      <input type="checkbox" value="${faction.id}" ${state.setup.factions.includes(faction.id) ? "checked" : ""} />
+      <span>${faction.name}</span>
+    `;
+    label.querySelector("input").addEventListener("change", (event) => {
+      if (event.target.checked) {
+        state.setup.factions = [...new Set([...state.setup.factions, faction.id])];
+      } else {
+        state.setup.factions = state.setup.factions.filter((id) => id !== faction.id);
+      }
+      persist();
+      renderSetupFactions();
+      renderBalanceSummary();
+    });
+    els.setupFactionList.append(label);
+  });
+}
+
+function renderBalanceSummary() {
+  const selected = selectedSetupFactions();
+  const playerGap = state.setup.players - selected.length;
+  const militant = selected.filter((faction) => faction.tags.includes("Militant")).length;
+  const insurgent = selected.filter((faction) => faction.tags.includes("Insurgent")).length;
+  const solo = selected.filter((faction) => faction.tags.includes("Solo")).length;
+  const support = selected.filter((faction) => faction.tags.includes("Economic") || faction.tags.includes("Social")).length;
+  const anchors = militant + Math.min(insurgent, 1);
+
+  if (selected.length === 0) {
+    els.balanceSummary.textContent = "Select the factions at the table to get a quick mix check.";
+    return;
+  }
+
+  if (playerGap !== 0) {
+    els.balanceSummary.textContent = playerGap > 0
+      ? `Pick ${playerGap} more faction${playerGap === 1 ? "" : "s"} for a ${state.setup.players}-player game.`
+      : `You have ${Math.abs(playerGap)} extra faction${Math.abs(playerGap) === 1 ? "" : "s"} selected.`;
+    return;
+  }
+
+  if (state.setup.players <= 2 && militant < 2) {
+    els.balanceSummary.textContent = "For 2 players, choose two board-heavy factions for a steadier game.";
+    return;
+  }
+
+  if (state.setup.players >= 4 && anchors < 2) {
+    els.balanceSummary.textContent = "This mix may feel loose. Add another militant or strong board-control faction.";
+    return;
+  }
+
+  if (solo + support > militant + insurgent) {
+    els.balanceSummary.textContent = "This mix leans indirect. Make sure at least two factions can police the board.";
+    return;
+  }
+
+  els.balanceSummary.textContent = "This looks table-ready: enough board presence with some asymmetry in incentives.";
+}
+
+function renderFactionSetup(faction) {
+  els.setupFactionName.textContent = faction.name;
+  renderList(els.factionSetupList, factionSetup[faction.id] || [
+    "Use the printed faction board for exact setup.",
+    "Keep unique faction pieces and tracks visible before play begins."
+  ]);
+}
+
 function advance(delta) {
   const phases = currentPhases();
   state.phaseIndex = (state.phaseIndex + delta + phases.length) % phases.length;
@@ -627,9 +822,28 @@ function render() {
   renderPhaseTabs();
   renderTasks(faction, phase);
   renderInsight(faction);
+  renderGameSetup();
+  renderSetupFactions();
+  renderBalanceSummary();
+  renderFactionSetup(faction);
   updateChecklistHeading();
 }
 
+els.mapSelect.addEventListener("change", (event) => {
+  state.setup.map = event.target.value;
+  persist();
+  renderGameSetup();
+});
+els.deckSelect.addEventListener("change", (event) => {
+  state.setup.deck = event.target.value;
+  persist();
+  renderGameSetup();
+});
+els.playerCountSelect.addEventListener("change", (event) => {
+  state.setup.players = Number(event.target.value);
+  persist();
+  renderBalanceSummary();
+});
 els.nextStep.addEventListener("click", () => advance(1));
 els.resetTurn.addEventListener("click", () => {
   clearFactionChecks();
