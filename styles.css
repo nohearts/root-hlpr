@@ -344,6 +344,23 @@ main {
   line-height: 1.35;
 }
 
+.setup-start-button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 14px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fffdf5;
+  cursor: pointer;
+  font-family: var(--body-font);
+  font-weight: 900;
+}
+
+.setup-start-button:hover {
+  background: color-mix(in srgb, var(--accent) 88%, black);
+}
+
 .turn-count {
   border: 1px solid var(--line);
   border-radius: 8px;

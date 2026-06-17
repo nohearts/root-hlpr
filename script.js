@@ -576,6 +576,8 @@ const els = {
   balanceSummary: document.querySelector("#balanceSummary"),
   setupFactionName: document.querySelector("#setupFactionName"),
   factionSetupList: document.querySelector("#factionSetupList"),
+  setupHelper: document.querySelector("#setupHelper"),
+  startPlaying: document.querySelector("#startPlaying"),
   factionType: document.querySelector("#factionType"),
   factionName: document.querySelector("#factionName"),
   factionSummary: document.querySelector("#factionSummary"),
@@ -737,12 +739,13 @@ function renderSetupFactions() {
     label.querySelector("input").addEventListener("change", (event) => {
       if (event.target.checked) {
         state.setup.factions = [...new Set([...state.setup.factions, faction.id])];
+        state.factionId = faction.id;
+        state.phaseIndex = 0;
       } else {
         state.setup.factions = state.setup.factions.filter((id) => id !== faction.id);
       }
       persist();
-      renderSetupFactions();
-      renderBalanceSummary();
+      render();
     });
     els.setupFactionList.append(label);
   });
@@ -754,11 +757,13 @@ function renderBalanceSummary() {
   const militant = selected.filter((faction) => faction.tags.includes("Militant")).length;
   const insurgent = selected.filter((faction) => faction.tags.includes("Insurgent")).length;
   const solo = selected.filter((faction) => faction.tags.includes("Solo")).length;
-  const support = selected.filter((faction) => faction.tags.includes("Economic") || faction.tags.includes("Social")).length;
+  const economic = selected.filter((faction) => faction.tags.includes("Economic")).length;
+  const social = selected.filter((faction) => faction.tags.includes("Social")).length;
+  const support = economic + social;
   const anchors = militant + Math.min(insurgent, 1);
 
   if (selected.length === 0) {
-    els.balanceSummary.textContent = "Select the factions at the table to get a quick mix check.";
+    els.balanceSummary.textContent = "Select the factions at the table to check board presence, policing, and indirect play.";
     return;
   }
 
@@ -769,22 +774,38 @@ function renderBalanceSummary() {
     return;
   }
 
+  const warnings = [];
+
   if (state.setup.players <= 2 && militant < 2) {
-    els.balanceSummary.textContent = "For 2 players, choose two board-heavy factions for a steadier game.";
-    return;
+    warnings.push("2-player games are best with two board-heavy factions.");
   }
 
   if (state.setup.players >= 4 && anchors < 2) {
-    els.balanceSummary.textContent = "This mix may feel loose. Add another militant or strong board-control faction.";
-    return;
+    warnings.push("Low board anchoring: add another militant or strong board-control faction.");
   }
 
   if (solo + support > militant + insurgent) {
-    els.balanceSummary.textContent = "This mix leans indirect. Make sure at least two factions can police the board.";
+    warnings.push("Indirect-heavy table: make sure at least two factions can police the board.");
+  }
+
+  if (militant === 0) {
+    warnings.push("No militant faction selected; scoring may feel slippery and hard to contest.");
+  }
+
+  if (economic > 0 && state.setup.players <= 2) {
+    warnings.push("Economic factions usually want more customers than a small table provides.");
+  }
+
+  if (social > 1) {
+    warnings.push("Multiple social factions can make incentives hard to read; pick a clear board anchor.");
+  }
+
+  if (warnings.length > 0) {
+    els.balanceSummary.textContent = warnings.join(" ");
     return;
   }
 
-  els.balanceSummary.textContent = "This looks table-ready: enough board presence with some asymmetry in incentives.";
+  els.balanceSummary.textContent = "Table-ready mix: enough board presence, policing, and asymmetric incentives.";
 }
 
 function renderFactionSetup(faction) {
@@ -848,6 +869,15 @@ els.nextStep.addEventListener("click", () => advance(1));
 els.resetTurn.addEventListener("click", () => {
   clearFactionChecks();
   state.phaseIndex = 0;
+  persist();
+  render();
+});
+els.startPlaying.addEventListener("click", () => {
+  if (!state.setup.factions.includes(state.factionId)) {
+    state.setup.factions = [...new Set([...state.setup.factions, state.factionId])];
+  }
+  state.phaseIndex = 0;
+  els.setupHelper.open = false;
   persist();
   render();
 });
