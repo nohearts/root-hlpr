@@ -8,14 +8,14 @@ const factions = [
     summary: "Build, recruit, and keep the wood economy moving.",
     tags: ["Militant", "Buildings"],
     tips: [
-      "Your economy is visible. Defend sawmills before you chase flashy battles.",
-      "Recruiters are tempo. Losing them can make the next turn feel much smaller.",
-      "Score steadily through buildings; do not wait for one perfect explosive turn."
+      "Wood is your tempo. Before building, check whether paths from sawmills to build sites are intact.",
+      "Recruiters keep the map yours. Losing too many makes every future action smaller.",
+      "Cats win by steady pressure. Build where points, rule, and defense all overlap."
     ],
     questions: [
-      ["Can I protect wood?", "Trace paths from sawmills to build sites before committing actions."],
-      ["Where do I need rule?", "A single warrior in the right clearing can unlock an entire build line."],
-      ["Who benefits if I fight?", "Battles are useful, but your action economy is precious."]
+      ["Where is my next build?", "Name the clearing and trace the wood path before spending actions."],
+      ["What must stay ruled?", "A single warrior in the right clearing can unlock movement, building, and defense."],
+      ["Is this battle worth an action?", "Fight when it protects economy or removes points, not just because you can."]
     ],
     phases: {
       Birdsong: [
@@ -44,14 +44,14 @@ const factions = [
     summary: "Expand the decree without letting it collapse.",
     tags: ["Militant", "Decree"],
     tips: [
-      "The decree is a promise. Add cards that give you room, not just ambition.",
-      "Roosts score passively, so preserving them can be stronger than overextending.",
-      "Bird cards are powerful but dangerous in the decree because they broaden obligations."
+      "The decree is a promise. Add cards that are likely to stay legal after opponents move.",
+      "Roosts are both scoring and logistics. Losing the wrong one can break the whole turn.",
+      "Bird cards add flexibility, but they also make obligations harder to contain."
     ],
     questions: [
-      ["Will this decree survive?", "Before adding a card, imagine your worst board state next Birdsong."],
-      ["Where is my safe recruit?", "Recruit failure is the most common avoidable crisis."],
-      ["Can I battle profitably?", "One legal battle is enough, but profitable battles keep opponents honest."]
+      ["Can I recruit safely?", "Recruit failure is one of the easiest ways to fall into turmoil."],
+      ["Where must I move from?", "Check rule and destination before adding movement suits."],
+      ["What battle will remain legal?", "Make sure at least one target survives opponents' turns."]
     ],
     phases: {
       Birdsong: [
@@ -80,14 +80,14 @@ const factions = [
     summary: "Spread sympathy, organize bases, and turn outrage into momentum.",
     tags: ["Insurgent", "Sympathy"],
     tips: [
-      "Sympathy is both scoring and threat projection. Place it where it taxes movement.",
-      "Bases are priceless. Do not revolt somewhere you cannot defend or exploit.",
-      "Supporters are your hidden engine; protect the suit mix."
+      "Sympathy is pressure. Put it where enemies want to move, not only where it is safe.",
+      "A revolt should create a base you can use, defend, and score from.",
+      "Officers are powerful, but organizing sympathy often matters more than fighting."
     ],
     questions: [
-      ["Where will outrage hurt?", "Sympathy near busy paths earns cards and alters enemy routes."],
-      ["Is this revolt worth a base?", "A base should open officers, crafting, and pressure."],
-      ["How many officers do I need?", "Military actions should support the sympathy plan, not replace it."]
+      ["Where will outrage matter?", "Place sympathy beside busy paths, contested clearings, or key build sites."],
+      ["What does this base unlock?", "A base should improve supporters, officers, crafting, and board pressure."],
+      ["Should I organize instead?", "Turning warriors into sympathy can outscore a flashy battle."]
     ],
     phases: {
       Birdsong: [
@@ -116,14 +116,14 @@ const factions = [
     summary: "Manage items, relationships, quests, and surgical violence.",
     tags: ["Solo", "Items"],
     tips: [
-      "Item exhaustion is your real action budget. Count boots and swords before plans.",
-      "Aid can be safer than fighting, until one faction becomes too rich from it.",
-      "Hostile status changes the map; do not become hostile casually."
+      "Items are your action economy. Count boots, tea, coins, and swords before choosing a route.",
+      "Aid changes both score and relationships. Do not feed the leader unless the payoff is immediate.",
+      "Hostile status rewrites movement costs. Becoming hostile should be a plan, not an accident."
     ],
     questions: [
-      ["What refreshes next?", "A strong turn often starts by knowing which exhausted items return."],
-      ["Who should like me?", "Allied movement and aid points can decide the midgame."],
-      ["Can I repair after risk?", "Ruin dives and battles are better when hammers or tea are accounted for."]
+      ["What can I refresh?", "The next turn starts with the items you chose not to exhaust now."],
+      ["Who is worth aiding?", "Aid for points, items, or access, not just because a card matches."],
+      ["Can I afford damage?", "Explore and battle only if repairs or safe forests are accounted for."]
     ],
     phases: {
       Birdsong: [
@@ -152,14 +152,14 @@ const factions = [
     summary: "Rule through gardens, acolytes, and the outcast suit.",
     tags: ["Insurgent", "Conversion"],
     tips: [
-      "Gardens are scoring, crafting, and fragility all in one place.",
-      "Acolytes let you punish attacks, but only if you have useful targets.",
-      "The outcast suit determines your best pressure. Read next turn before acting."
+      "Gardens are your economy and your weakness. Every garden needs a reason and a defender.",
+      "The outcast suit tells you where conspiracies matter. Plan around it before revealing cards.",
+      "Acolytes punish attacks, but only if conversion or sanctify targets are worth taking."
     ],
     questions: [
-      ["Which suit is becoming hated?", "The discard pile is a planning tool, not bookkeeping trivia."],
-      ["Where are gardens safe?", "A garden in the wrong clearing can become points for someone else."],
-      ["Can conversion unlock rule?", "Removing one enemy piece may matter more than winning a battle."]
+      ["What can the outcast suit do?", "Look for conversions, sanctifies, or pressure before spending acolytes."],
+      ["Which garden is exposed?", "Score from gardens before opponents can turn them into points."],
+      ["Can I change rule without battle?", "Conversion often solves problems that warriors cannot."]
     ],
     phases: {
       Birdsong: [
@@ -188,14 +188,14 @@ const factions = [
     summary: "Sell services, build trade posts, and turn enemy payments into points.",
     tags: ["Economic", "Services"],
     tips: [
-      "Your prices shape the table. Cheap services create customers; expensive services create suspicion.",
-      "Trade posts are scoring and crafting anchors, but each one also advertises a target.",
-      "Funds are tempo. Protect warriors where you need future actions, not just where you want points."
+      "Prices are table politics. Set them for the player you expect to buy, not for everyone equally.",
+      "Trade posts score and craft, but they also mark clearings opponents can profitably attack.",
+      "Funds are future actions. Spend enough to matter, but keep next turn alive."
     ],
     questions: [
-      ["Who needs me?", "Price cards, riverboats, and mercenaries around the player most likely to pay this round."],
-      ["Can I defend the post?", "A trade post is much better when the suit, path, and warrior count all support it."],
-      ["What will payments become?", "Picture how every warrior in payments turns into future actions before setting prices."]
+      ["Who is my customer?", "Price around the player with the clearest need for cards, riverboats, or mercenaries."],
+      ["Where is the post safe enough?", "The best trade post scores now and survives long enough to craft later."],
+      ["Am I over-spending funds?", "Every committed warrior is one fewer option next round."]
     ],
     phases: {
       Birdsong: [
@@ -224,14 +224,14 @@ const factions = [
     summary: "Dig tunnels, build markets and citadels, and sway ministers.",
     tags: ["Militant", "Ministers"],
     tips: [
-      "Your hand is political capital. Keep suits that can prove control where you have pieces.",
-      "Tunnels make surprise pressure possible, but exposed buildings can trigger painful penalties.",
-      "Ministers compound quickly. Sway toward actions you can actually support on the map."
+      "Cards are credentials. Keep suits that prove control where you need to sway.",
+      "Digging changes threat lines. Use tunnels to make buildings and battles relevant immediately.",
+      "Ministers compound fast. Sway toward actions your board can actually support."
     ],
     questions: [
-      ["What can I reveal?", "Check which clearings you occupy before planning a sway."],
-      ["Which building matters?", "Markets draw cards; citadels reinforce. The right mix keeps the engine alive."],
-      ["Can I afford exposure?", "Do not build where one attack can collapse both points and ministers."]
+      ["What can I prove?", "Before planning Evening, check which suits you occupy and can reveal."],
+      ["Market or citadel?", "Draw helps future sways; recruitment protects the buildings that make sways safe."],
+      ["What happens if this falls?", "Do not stack your engine where one attack wrecks points and tempo."]
     ],
     phases: {
       Birdsong: [
@@ -260,14 +260,14 @@ const factions = [
     summary: "Plant plots, misdirect the table, and score through uncertainty.",
     tags: ["Insurgent", "Bluffing"],
     tips: [
-      "Plots are stronger when several possibilities are plausible.",
-      "Your warriors are cheap, but your table credibility is not.",
-      "Use exposure fear to shape enemy actions even when a plot is modest."
+      "Plots are strongest when multiple guesses are plausible.",
+      "Your best turns make opponents spend actions checking, exposing, or over-defending.",
+      "A flipped plot should either score, disrupt a plan, or force an awkward response."
     ],
     questions: [
-      ["What story am I selling?", "Place plots so opponents can talk themselves into the wrong answer."],
-      ["Who must spend actions?", "A plot that wastes enemy tempo may be worth more than immediate points."],
-      ["Can I safely flip?", "Score before the board can cheaply collapse your position."]
+      ["What story does this plot tell?", "The suit, clearing, and board state should support at least two believable guesses."],
+      ["Whose action am I taxing?", "Even a modest plot is good if it steals tempo from the right opponent."],
+      ["Can I flip before it dies?", "Score plots before a cheap battle or exposure clears them away."]
     ],
     phases: {
       Birdsong: [
@@ -296,14 +296,14 @@ const factions = [
     summary: "Command the Warlord, loot items, spread mobs, and oppress clearings.",
     tags: ["Militant", "Warlord"],
     tips: [
-      "The Warlord is your tempo piece. Keep it active, supplied, and hard to isolate.",
-      "Mobs are board pressure and denial. Let them force opponents to spend real actions.",
-      "Oppression rewards territory, so choose fights that leave you ruling more clearings."
+      "The Warlord is your turn engine. Keep it active, supplied, and difficult to isolate.",
+      "Mobs force opponents to respond. Place them where inaction is painful.",
+      "Oppression rewards empty rule. Battles should end with territory, not just casualties."
     ],
     questions: [
-      ["Where does the Warlord go?", "Pick a route that creates scoring pressure and does not strand your army."],
-      ["What should burn?", "Mob placement is strongest when it threatens cardboard or blocks future plans."],
-      ["Which mood fits?", "Choose the mood that supports this turn's actual route, not a perfect imaginary turn."]
+      ["Where does the Warlord finish?", "The end position matters more than the first attack."],
+      ["What must the mob threaten?", "Aim mobs at cardboard, choke points, or clearings opponents need soon."],
+      ["Which mood matches this route?", "Pick the mood for the turn you can actually execute."]
     ],
     phases: {
       Birdsong: [
@@ -332,14 +332,14 @@ const factions = [
     summary: "Build a retinue, recover relics, and guard a disciplined campaign.",
     tags: ["Militant", "Relics"],
     tips: [
-      "Your retinue is powerful but demanding. Add cards that match realistic board positions.",
-      "Relic scoring takes preparation. Secure paths before committing to a recovery line.",
-      "Waystations are both logistics and liabilities. Place them where they support multiple turns."
+      "The retinue rewards planning and punishes wishful thinking.",
+      "Relics need routes. Secure movement and escorts before committing to a recovery line.",
+      "Waystations are logistics hubs. Place them for multiple recoveries, not a single score."
     ],
     questions: [
-      ["Can the retinue resolve?", "Before adding a card, check whether the suit and action are genuinely reachable."],
-      ["Which relic is worth it?", "The best relic is the one you can recover without exposing the whole expedition."],
-      ["Where do I need a waystation?", "A good waystation shortens several future turns, not just the current one."]
+      ["Can this retinue card resolve?", "Add only what your current map position can support."],
+      ["Which relic has a route?", "The best relic is the one you can escort, recover, and defend."],
+      ["What does this waystation enable?", "A good waystation makes the next two turns easier."]
     ],
     phases: {
       Birdsong: [
@@ -368,14 +368,14 @@ const factions = [
     summary: "Integrate carefully, train warriors, and avoid tipping peace into reprisals.",
     tags: ["Social", "Stability"],
     tips: [
-      "This faction is from the Homeland expansion, so treat this guidance as a draft table aid.",
-      "Your table story is tension: safety, integration, and the risk of escalation.",
-      "Plan around how other players can misread or punish your board presence."
+      "Your position is political as much as tactical. Look safe enough to ignore, but useful enough to score.",
+      "Stability matters. Do not spread into clearings you cannot protect from retaliation.",
+      "Escalation is a resource. Make opponents pay for disturbing your settled spaces."
     ],
     questions: [
-      ["Am I inviting reprisals?", "A useful position can become a political liability if it looks too aggressive."],
-      ["Where is safety real?", "Choose clearings that can be defended after the current turn, not just occupied now."],
-      ["What changes table perception?", "Sometimes the best move is the one that makes your intent obvious."]
+      ["What looks harmless?", "A quieter board presence can survive longer than an obviously threatening one."],
+      ["Where is stability real?", "Choose clearings that can remain safe after the next opponent acts."],
+      ["Who benefits from attacking me?", "If the answer is unclear, your position may be politically safer."]
     ],
     phases: {
       Birdsong: [
@@ -404,14 +404,14 @@ const factions = [
     summary: "Host assemblies, build political connections, and redirect conflict into debate.",
     tags: ["Social", "Incentives"],
     tips: [
-      "This faction is from the Homeland expansion, so treat this guidance as a draft table aid.",
-      "Your strength is not just warriors. Look for political leverage and timing.",
-      "You can change incentives at the table; use that to slow runaway aggression."
+      "Your best tool is incentive pressure. Make the efficient move point away from you.",
+      "Table talk is part of your tempo, but your board state has to back it up.",
+      "Push conflict toward the leader and away from your fragile political engine."
     ],
     questions: [
-      ["Who needs a deal?", "The best assembly pressure often starts with another player's problem."],
-      ["Where can debate replace battle?", "Push attention toward contested clearings before they become pure violence."],
-      ["What am I making costly?", "Political factions win by changing which choices feel efficient."]
+      ["Whose incentives can I bend?", "Find the player who can profit by solving your problem for you."],
+      ["Where should conflict move?", "Redirect aggression toward the table leader or a more urgent threat."],
+      ["What choice am I making costly?", "Your pressure is working when opponents avoid the line they wanted."]
     ],
     phases: {
       Birdsong: [
@@ -440,14 +440,14 @@ const factions = [
     summary: "Raid from the treeline, take hostages, and turn chaos into ransom.",
     tags: ["Solo", "Raiding"],
     tips: [
-      "This faction is from the Homeland expansion, so treat this guidance as a draft table aid.",
-      "Your leverage comes from timing raids where opponents are least able to answer.",
-      "Hostages and ransom pressure are strongest when they distort another player's next turn."
+      "Raid where the response is awkward. A target is best when it costs actions to punish you.",
+      "Mobility is protection. End where the next raid is possible and the counterattack is inefficient.",
+      "Ransom pressure is tempo pressure. Take what changes an opponent's next decision."
     ],
     questions: [
-      ["Who is vulnerable now?", "Choose targets whose response options are already stretched thin."],
-      ["Can I get away?", "A raid that cannot escape may become a donation of points."],
-      ["What is the ransom worth?", "Pressure is best when it converts into points, tempo, or a forced enemy detour."]
+      ["Who cannot answer cleanly?", "Choose targets whose warriors, cards, or actions are already stretched."],
+      ["Where do I escape?", "A raid is only good if the aftermath does not trap your best pieces."],
+      ["What does ransom change?", "Pressure should become points, tempo, or a forced detour."]
     ],
     phases: {
       Birdsong: [
