@@ -555,6 +555,87 @@ const factionSetup = {
   ]
 };
 
+const openingProfiles = {
+  marquise: {
+    rank: 9,
+    setup: "early",
+    label: "natural opener",
+    note: "starts cleanly because wood, recruiting, and rule matter immediately."
+  },
+  eyrie: {
+    rank: 8,
+    setup: "early",
+    label: "natural opener",
+    note: "likes an early decree before the map becomes too tangled."
+  },
+  duchy: {
+    rank: 7,
+    setup: "early",
+    label: "strong opener",
+    note: "benefits from digging and building its minister engine before pressure arrives."
+  },
+  hundreds: {
+    rank: 7,
+    setup: "early",
+    label: "strong opener",
+    note: "wants tempo before opponents can screen the Warlord."
+  },
+  keepers: {
+    rank: 6,
+    setup: "middle",
+    label: "capable opener",
+    note: "can start, but prefers clear relic routes and enough room to stage."
+  },
+  corvid: {
+    rank: 5,
+    setup: "middle",
+    label: "capable opener",
+    note: "can plant pressure early, though plots are stronger once targets commit."
+  },
+  cult: {
+    rank: 4,
+    setup: "middle",
+    label: "quiet opener",
+    note: "can start, but the first outcast and discard context are usually thin."
+  },
+  alliance: {
+    rank: 4,
+    setup: "middle",
+    label: "quiet opener",
+    note: "can start, but sympathy works best after other factions reveal priorities."
+  },
+  riverfolk: {
+    rank: 3,
+    setup: "late",
+    label: "dependent opener",
+    note: "can start, but usually wants buyers and table needs to exist first."
+  },
+  diaspora: {
+    rank: 3,
+    setup: "late",
+    label: "dependent opener",
+    note: "can start, but its table position is easier to read after board anchors appear."
+  },
+  council: {
+    rank: 3,
+    setup: "late",
+    label: "dependent opener",
+    note: "can start, but political incentives are clearer once the table has shape."
+  },
+  vagabond: {
+    rank: 2,
+    setup: "late",
+    label: "late opener",
+    note: "can technically start, but benefits from seeing early map pressure and item access."
+  },
+  knaves: {
+    rank: 2,
+    setup: "late",
+    label: "late opener",
+    note: "can technically start, but raiding targets are better once opponents expose plans."
+  }
+};
+
 const state = {
   factionId: localStorage.getItem("rootHelperFaction") || factions[0].id,
   phaseIndex: Number(localStorage.getItem("rootHelperPhase") || 0),
@@ -562,7 +643,8 @@ const state = {
     map: localStorage.getItem("rootHelperMap") || "autumn",
     deck: localStorage.getItem("rootHelperDeck") || "standard",
     players: Number(localStorage.getItem("rootHelperPlayers") || 4),
-    factions: JSON.parse(localStorage.getItem("rootHelperSetupFactions") || "[]")
+    factions: JSON.parse(localStorage.getItem("rootHelperSetupFactions") || "[]"),
+    firstPlayer: localStorage.getItem("rootHelperFirstPlayer") || "auto"
   }
 };
 
@@ -571,6 +653,7 @@ const els = {
   mapSelect: document.querySelector("#mapSelect"),
   deckSelect: document.querySelector("#deckSelect"),
   playerCountSelect: document.querySelector("#playerCountSelect"),
+  firstPlayerSelect: document.querySelector("#firstPlayerSelect"),
   gameSetupList: document.querySelector("#gameSetupList"),
   setupFactionList: document.querySelector("#setupFactionList"),
   balanceSummary: document.querySelector("#balanceSummary"),
@@ -609,6 +692,7 @@ function persist() {
   localStorage.setItem("rootHelperDeck", state.setup.deck);
   localStorage.setItem("rootHelperPlayers", String(state.setup.players));
   localStorage.setItem("rootHelperSetupFactions", JSON.stringify(state.setup.factions));
+  localStorage.setItem("rootHelperFirstPlayer", state.setup.firstPlayer);
 }
 
 function taskKey(factionId, phase, index) {
@@ -704,6 +788,79 @@ function selectedSetupFactions() {
   return factions.filter((faction) => state.setup.factions.includes(faction.id));
 }
 
+function openingProfile(faction) {
+  return openingProfiles[faction.id] || {
+    rank: 1,
+    setup: "late",
+    label: "unknown opener",
+    note: "use the printed faction setup card for exact opening guidance."
+  };
+}
+
+function recommendedFirstPlayer(selected) {
+  return [...selected].sort((left, right) => {
+    const rankGap = openingProfile(right).rank - openingProfile(left).rank;
+    if (rankGap !== 0) {
+      return rankGap;
+    }
+    return factions.indexOf(left) - factions.indexOf(right);
+  })[0];
+}
+
+function effectiveFirstPlayer(selected) {
+  if (state.setup.firstPlayer !== "auto") {
+    return selected.find((faction) => faction.id === state.setup.firstPlayer);
+  }
+  return recommendedFirstPlayer(selected);
+}
+
+function renderFirstPlayerOptions(selected) {
+  els.firstPlayerSelect.innerHTML = "";
+
+  const auto = document.createElement("option");
+  auto.value = "auto";
+  auto.textContent = "Auto";
+  els.firstPlayerSelect.append(auto);
+
+  selected.forEach((faction) => {
+    const option = document.createElement("option");
+    option.value = faction.id;
+    option.textContent = faction.name;
+    els.firstPlayerSelect.append(option);
+  });
+
+  if (state.setup.firstPlayer !== "auto" && !selected.some((faction) => faction.id === state.setup.firstPlayer)) {
+    state.setup.firstPlayer = "auto";
+  }
+
+  els.firstPlayerSelect.value = state.setup.firstPlayer;
+}
+
+function openingSetupNotes(selected) {
+  if (selected.length === 0) {
+    return ["Choose factions to get opening and first-turn guidance."];
+  }
+
+  const setupOrder = [...selected]
+    .sort((left, right) => openingProfile(right).rank - openingProfile(left).rank)
+    .map((faction) => `${faction.name} (${openingProfile(faction).setup})`)
+    .join(" / ");
+  const first = effectiveFirstPlayer(selected);
+  const profile = openingProfile(first);
+  const firstMode = state.setup.firstPlayer === "auto" ? "Suggested first turn" : "Chosen first turn";
+  const notes = [
+    `Opening comfort: ${setupOrder}.`,
+    `${firstMode}: ${first.name} (${profile.label}) - ${profile.note}`,
+    `After the first player, continue clockwise around the table.`
+  ];
+
+  if (profile.rank <= 3) {
+    notes.push(`${first.name} can start first, but the table may feel cleaner if a board-heavy faction opens instead.`);
+  }
+
+  return notes;
+}
+
 function renderList(list, items) {
   list.innerHTML = "";
   items.forEach((text) => {
@@ -714,14 +871,18 @@ function renderList(list, items) {
 }
 
 function renderGameSetup() {
+  const selected = selectedSetupFactions();
+
   els.mapSelect.value = state.setup.map;
   els.deckSelect.value = state.setup.deck;
   els.playerCountSelect.value = String(state.setup.players);
+  renderFirstPlayerOptions(selected);
 
   renderList(els.gameSetupList, [
     mapNotes[state.setup.map],
     deckNotes[state.setup.deck],
     "Choose factions and seating before placing faction pieces.",
+    ...openingSetupNotes(selected),
     "Deal starting hands, then follow each faction board for exact placement."
   ]);
 }
@@ -863,6 +1024,13 @@ els.deckSelect.addEventListener("change", (event) => {
 els.playerCountSelect.addEventListener("change", (event) => {
   state.setup.players = Number(event.target.value);
   persist();
+  renderGameSetup();
+  renderBalanceSummary();
+});
+els.firstPlayerSelect.addEventListener("change", (event) => {
+  state.setup.firstPlayer = event.target.value;
+  persist();
+  renderGameSetup();
   renderBalanceSummary();
 });
 els.nextStep.addEventListener("click", () => advance(1));
