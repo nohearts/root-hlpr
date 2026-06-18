@@ -1,12 +1,3 @@
-const {
-  factions,
-  phaseColors,
-  mapNotes,
-  deckNotes,
-  factionSetup,
-  openingProfiles
-} = window.ROOT_DATA;
-
 const factionMeta = {
   marquise: { reach: 10, status: "published", terms: { Wood: "Placed at sawmills and spent through ruled paths to build.", Rule: "You rule a clearing when you have more warriors and buildings there than each other player." } },
   eyrie: { reach: 7, status: "published", terms: { Decree: "The growing set of mandatory Recruit, Move, Battle, and Build actions.", Turmoil: "The penalty for failing to complete any action in the Decree." } },
