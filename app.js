@@ -223,10 +223,17 @@ function matchupFindings() {
 
   const militant = selected.filter((faction) => faction.tags.includes("Militant")).length;
   const economic = selected.filter((faction) => faction.tags.includes("Economic")).length;
+  const social = selected.filter((faction) => faction.tags.includes("Social")).length;
   const indirect = selected.filter((faction) => faction.tags.includes("Insurgent") || faction.tags.includes("Solo") || faction.tags.includes("Social")).length;
+  const ids = new Set(selected.map((faction) => faction.id));
   if (state.setup.players === 2 && militant < 2) findings.push({ level: "caution", text: "Two-player games are most reliable with two militant, board-heavy factions." });
   if (state.setup.players >= 4 && militant === 0) findings.push({ level: "caution", text: "No militant faction: policing and clearing control may be unusually loose." });
   if (economic && state.setup.players < 3) findings.push({ level: "caution", text: "Riverfolk has few potential customers at a two-player table." });
+  if (indirect > militant + 1) findings.push({ level: "unusual", text: "Indirect-heavy lineup: agree that every player is responsible for policing runaway scoring." });
+  if (social > 1) findings.push({ level: "unusual", text: "Multiple social factions may create a negotiation-heavy game with less predictable incentives." });
+  if (ids.has("hundreds") && ids.has("vagabond")) findings.push({ level: "unusual", text: "Hundreds and Vagabond compete sharply for items; item access may decide their tempo early." });
+  if (ids.has("alliance") && ids.has("cult")) findings.push({ level: "unusual", text: "Alliance and Cult both punish careless aggression; board-heavy factions should budget actions for policing." });
+  if (ids.has("keepers") && ids.has("hundreds")) findings.push({ level: "unusual", text: "Keepers and Hundreds both demand space and movement lanes; expect early clearing congestion." });
   if (selected.length === state.setup.players && !findings.some((item) => item.level === "blocker")) {
     findings.push({ level: "ready", text: `${militant} militant, ${indirect} indirect${hasPreview ? ", with preview rules in use" : threshold ? `, Reach ${reach}` : ""}. This describes the table; it does not promise balance.` });
   }
@@ -235,7 +242,24 @@ function matchupFindings() {
 
 function renderMatchup() {
   const findings = matchupFindings();
-  els.matchupReport.innerHTML = findings.map(({ level, text }) => `<p class="matchup-item ${level}"><strong>${level === "blocker" ? "Required" : level === "caution" ? "Check" : "Table read"}</strong><span>${text}</span></p>`).join("");
+  els.matchupReport.innerHTML = findings.map(({ level, text }) => `<p class="matchup-item ${level}"><strong>${level === "blocker" ? "Required" : level === "caution" ? "Check" : level === "unusual" ? "Unusual" : "Table read"}</strong><span>${text}</span></p>`).join("");
+}
+
+function factionTableConcern(faction) {
+  const opponents = selectedFactions().filter((candidate) => candidate.id !== faction.id);
+  const militant = opponents.filter((candidate) => candidate.tags.includes("Militant")).length;
+  const insurgent = opponents.filter((candidate) => candidate.tags.includes("Insurgent")).length;
+  const economic = opponents.some((candidate) => candidate.tags.includes("Economic"));
+
+  if (faction.id === "marquise" && insurgent) return "Protect action efficiency: insurgent pieces can tax movement and turn exposed buildings into easy pressure points.";
+  if (faction.id === "eyrie" && opponents.some((candidate) => candidate.id === "corvid")) return "Keep alternate Decree targets available; plots can make a single required clearing unreliable.";
+  if (faction.id === "vagabond" && opponents.some((candidate) => candidate.id === "hundreds")) return "Items are contested. Explore and aid with a plan before the Warlord can claim the useful supply.";
+  if (faction.id === "riverfolk" && opponents.length < 3) return "With few customers, price services for actual immediate needs and preserve funds for your own actions.";
+  if (faction.id === "alliance" && militant >= 2) return "Several factions can police sympathy. Spread where outrage disrupts routes rather than where removal is merely expensive.";
+  if (economic) return "Riverfolk services can accelerate the leader. Check who can buy and whether that purchase changes your own policing plan.";
+  if (militant >= 2) return "This is a board-heavy table. Preserve movement lanes and avoid becoming the easiest source of cardboard points.";
+  if (insurgent >= 2) return "This table can score without holding much territory. Track engines and tokens, not only clearing rule.";
+  return faction.questions[state.phaseIndex % faction.questions.length][1];
 }
 
 function renderFactionSetup() {
@@ -302,7 +326,7 @@ function renderPlay() {
 
   els.coreAdvice.textContent = faction.tips[0] || faction.summary;
   els.mistakeAdvice.textContent = faction.tips[1] || "Do not spend actions without protecting your scoring engine.";
-  els.matchupAdvice.textContent = faction.questions[state.phaseIndex % faction.questions.length][1];
+  els.matchupAdvice.textContent = factionTableConcern(faction);
   els.factionTerms.innerHTML = Object.entries(factionMeta[faction.id].terms).map(([term, meaning]) => `<dt>${term}</dt><dd>${meaning}</dd>`).join("");
   els.notes.value = localStorage.getItem(`rootHelperNotes-${state.sessionId}-${faction.id}`) || "";
 }

@@ -112,6 +112,7 @@ main { min-width: 0; padding: 24px clamp(18px, 3vw, 42px) 92px; }
 .matchup-item strong { text-transform: uppercase; font-size: .68rem; }
 .matchup-item.blocker { border-color: #b44038; }
 .matchup-item.caution { border-color: #b6872c; }
+.matchup-item.unusual { border-color: #6f6692; }
 .matchup-item.ready { border-color: #4e8062; }
 .setup-step-status { margin: 7px 0 0; color: var(--muted); font-size: .8rem; font-weight: 800; }
 .faction-setup-band .setup-checklist { margin-top: 0; }
