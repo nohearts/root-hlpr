@@ -56,7 +56,7 @@ const state = {
 
 const els = Object.fromEntries([
   "factionList", "factionFilter", "sessionLabel", "factionName", "factionSummary",
-  "openSetup", "newGame", "endGame", "setupWorkspace", "playWorkspace",
+  "openSetup", "resumeGame", "newGame", "endGame", "setupWorkspace", "playWorkspace",
   "setupStyleSelect", "mapSelect", "deckSelect", "playerCountSelect", "firstPlayerSelect",
   "gameSetupList", "setupFactionList", "matchupReport", "setupFactionName",
   "setupStepStatus", "factionSetupList", "nextSetupStep", "resetSetupSequence",
@@ -120,7 +120,8 @@ function renderList(element, items) {
 
 function renderFactions() {
   els.factionList.innerHTML = "";
-  factions
+  const available = state.active && state.mode === "play" && selectedFactions().length ? selectedFactions() : factions;
+  available
     .filter((faction) => state.filter === "all" || faction.tags.includes(state.filter))
     .forEach((faction) => {
       const button = document.createElement("button");
@@ -329,6 +330,7 @@ function renderPlay() {
   els.matchupAdvice.textContent = factionTableConcern(faction);
   els.factionTerms.innerHTML = Object.entries(factionMeta[faction.id].terms).map(([term, meaning]) => `<dt>${term}</dt><dd>${meaning}</dd>`).join("");
   els.notes.value = localStorage.getItem(`rootHelperNotes-${state.sessionId}-${faction.id}`) || "";
+  els.nextStep.textContent = state.phaseIndex === phases.length - 1 ? "Finish turn" : `Next: ${phases[state.phaseIndex + 1]}`;
 }
 
 function render() {
@@ -338,6 +340,7 @@ function render() {
   els.setupWorkspace.hidden = isPlay;
   els.playWorkspace.hidden = !isPlay;
   els.openSetup.hidden = !state.active || !isPlay;
+  els.resumeGame.hidden = !state.active || isPlay;
   els.endGame.hidden = !state.active;
   const rulesStatus = factionMeta[faction.id].status === "preview" ? "Preview guidance" : "Published faction guide";
   els.sessionLabel.textContent = isPlay ? `${rulesStatus} · game in progress` : state.active ? "Setup in progress" : "No active game";
@@ -393,11 +396,22 @@ els.startPlaying.addEventListener("click", () => {
   persist(); render();
 });
 els.openSetup.addEventListener("click", () => { state.mode = "setup"; persist(); render(); });
+els.resumeGame.addEventListener("click", () => {
+  const selected = selectedFactions();
+  if (selected.length && !selected.some((faction) => faction.id === state.factionId)) state.factionId = selected[0].id;
+  state.mode = "play";
+  persist(); render();
+});
 els.newGame.addEventListener("click", resetForNewGame);
 els.endGame.addEventListener("click", () => { state.active = false; state.mode = "setup"; state.checks = {}; persist(); render(); });
 els.nextStep.addEventListener("click", () => {
   const phases = Object.keys(currentFaction().phases);
+  const finishedTurn = state.phaseIndex === phases.length - 1;
   state.phaseIndex = (state.phaseIndex + 1) % phases.length;
+  if (finishedTurn) {
+    const prefix = `${state.factionId}:`;
+    Object.keys(state.checks).filter((key) => key.startsWith(prefix)).forEach((key) => delete state.checks[key]);
+  }
   persist(); render();
 });
 els.resetTurn.addEventListener("click", () => {
