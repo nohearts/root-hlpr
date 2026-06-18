@@ -478,7 +478,9 @@ const mapNotes = {
   autumn: "Use the printed clearing suits and normal paths.",
   winter: "Randomize clearing suits before placing pieces.",
   lake: "Set up the ferry and remember ferry movement draws a card.",
-  mountain: "Place blocked paths and the tower, then clear paths during play."
+  mountain: "Place blocked paths and the tower, then clear paths during play.",
+  gorge: "Follow the printed Gorge map setup, including its map-specific paths and landmarks.",
+  marsh: "Follow the printed Marsh map setup, including its map-specific terrain and landmarks."
 };
 
 const deckNotes = {
