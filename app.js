@@ -186,7 +186,7 @@ function renderSetupFactions() {
     const selectedIndex = state.setup.factions.indexOf(faction.id);
     const setupIndex = sequence.findIndex((item) => item.id === faction.id);
     const label = document.createElement("label");
-    label.className = `setup-faction${setupIndex === state.setup.stepIndex ? " active" : ""}`;
+    label.className = `setup-faction${setupIndex === state.setup.stepIndex ? " active" : ""}${setupIndex >= 0 && setupIndex < state.setup.stepIndex ? " complete" : ""}`;
     label.style.setProperty("--faction", faction.color);
     label.innerHTML = `<input type="checkbox" ${selectedIndex >= 0 ? "checked" : ""}><span><strong>${faction.name}</strong><small>${faction.tags.join(" · ")}${factionMeta[faction.id].status === "preview" ? " · Preview" : ""}</small></span>${selectedIndex >= 0 ? `<b>Seat ${selectedIndex + 1}</b>` : ""}`;
     label.querySelector("input").addEventListener("change", (event) => {
@@ -255,7 +255,8 @@ function renderFactionSetup() {
   const profile = openingProfiles[faction.id];
   const isLast = state.setup.stepIndex === sequence.length - 1;
   els.setupFactionName.textContent = faction.name;
-  els.setupStepStatus.textContent = `Faction ${state.setup.stepIndex + 1} of ${sequence.length} · ${state.setup.style === "advanced" ? "reverse seating order" : profile ? `printed setup ${profile.setupLetter}` : "printed setup card"}`;
+  const publishedOrder = factionMeta[faction.id].status === "published" && profile;
+  els.setupStepStatus.textContent = `Faction ${state.setup.stepIndex + 1} of ${sequence.length} · ${state.setup.style === "advanced" ? "reverse seating order" : publishedOrder ? `printed setup ${profile.setupLetter}` : "verify the printed setup card"}`;
   renderList(els.factionSetupList, [
     "Read the faction board or Advanced Setup card before placing pieces.",
     ...(factionSetup[faction.id] || ["Follow the printed faction setup instructions."]),
@@ -314,7 +315,8 @@ function render() {
   els.playWorkspace.hidden = !isPlay;
   els.openSetup.hidden = !state.active || !isPlay;
   els.endGame.hidden = !state.active;
-  els.sessionLabel.textContent = isPlay ? "Game in progress" : state.active ? "Setup in progress" : "No active game";
+  const rulesStatus = factionMeta[faction.id].status === "preview" ? "Preview guidance" : "Published faction guide";
+  els.sessionLabel.textContent = isPlay ? `${rulesStatus} · game in progress` : state.active ? "Setup in progress" : "No active game";
   els.factionName.textContent = isPlay ? faction.name : "Build your game";
   els.factionSummary.textContent = isPlay ? faction.summary : "Choose a map, deck, and clockwise faction lineup.";
   renderFactions();
@@ -324,6 +326,13 @@ function render() {
     renderSetupFactions();
     renderMatchup();
     renderFactionSetup();
+    const progress = document.querySelectorAll(".setup-progress span");
+    const fullLineup = state.setup.factions.length === state.setup.players;
+    const sequenceComplete = fullLineup && state.setup.stepIndex === Math.max(0, setupSequence().length - 1);
+    progress.forEach((item, index) => {
+      item.classList.toggle("active", index === (fullLineup ? sequenceComplete ? 3 : 2 : state.setup.factions.length ? 1 : 0));
+      item.classList.toggle("complete", index < (fullLineup ? sequenceComplete ? 3 : 2 : state.setup.factions.length ? 1 : 0));
+    });
   }
 }
 

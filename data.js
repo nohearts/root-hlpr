@@ -24,7 +24,7 @@ const factions = [
         "Name the clearing you most need to hold through the table round."
       ],
       Daylight: [
-        "Take three actions: battle, march, recruit, build, or overwork.",
+        "Craft using workshops, then take three actions: battle, march, recruit, build, or overwork.",
         "Spend bird cards carefully; they are often your emergency flexibility.",
         "Build only where the points and board position both matter."
       ],
@@ -55,19 +55,19 @@ const factions = [
     ],
     phases: {
       Birdsong: [
-        "Add one or two cards to the decree.",
-        "Resolve recruit, move, battle, and build in decree order.",
-        "If any decree step cannot be completed, enter turmoil and choose a new leader."
+        "Resolve emergency orders or a new roost if either condition applies.",
+        "Add one or two cards to the decree, with only one card added to any column.",
+        "Check every decree obligation before committing the new cards."
       ],
       Daylight: [
         "Craft using roosts.",
-        "Score points from roosts on the score track.",
-        "Look for dominance or table threats your forced moves may accidentally enable."
+        "Resolve recruit, move, battle, and build in decree order, from left to right within each column.",
+        "If any decree action cannot be completed, enter turmoil immediately."
       ],
       Evening: [
+        "Score the victory points shown for the number of roosts on the map.",
         "Draw one card, plus bonuses from uncovered draw symbols.",
-        "Discard down to five cards.",
-        "Check whether opponents can remove the roost your decree depends on."
+        "Discard down to five cards and check which roost the decree depends on."
       ]
     }
   },
@@ -163,18 +163,17 @@ const factions = [
     ],
     phases: {
       Birdsong: [
-        "Adjust the outcast suit from the discard pile.",
-        "Return revealed cards to hand.",
+        "Set or adjust the outcast from the suits in the Lost Souls pile, then discard Lost Souls.",
         "Use acolytes for conspiracies in outcast clearings when the timing is right."
       ],
       Daylight: [
-        "Reveal cards to recruit, build gardens, score, or craft in matching suits.",
+        "Reveal cards to build, recruit, score, or sacrifice in matching suits.",
         "Stack revealed suits toward the clearings you can actually protect.",
         "Score gardens before opponents get a clean removal line."
       ],
       Evening: [
-        "Discard revealed bird cards, then return the rest to hand next Birdsong.",
-        "Draw one card, plus garden and draw-symbol bonuses.",
+        "Return revealed cards to hand, then craft using gardens matching the outcast suit.",
+        "Draw one card, plus any uncovered draw bonuses, then discard down to five cards.",
         "Check which clearings opponents are tempted to attack for acolyte fuel."
       ]
     }
@@ -199,8 +198,8 @@ const factions = [
     ],
     phases: {
       Birdsong: [
-        "If your funds are empty, add starting funds so the Company can operate.",
-        "Set service prices with the current table needs in mind.",
+        "If the Payments box is empty, place two warriors there as protectionism.",
+        "If you have a trade post on the map, score dividends from funds without removing them.",
         "Identify which suit offers the best trade post or crafting pressure."
       ],
       Daylight: [
@@ -209,9 +208,9 @@ const factions = [
         "Avoid spending so deeply that next turn cannot threaten a trade route or key clearing."
       ],
       Evening: [
-        "Move payments into your available economy at the proper timing.",
-        "Draw cards and discard down to hand limit.",
-        "Recheck prices before the next player decides whether you are worth paying."
+        "Move all warriors on your faction board into Funds.",
+        "Draw one card, plus any uncovered draw bonus, then discard down to five cards.",
+        "Set service prices for the next round of purchases."
       ]
     }
   },
@@ -307,9 +306,9 @@ const factions = [
     ],
     phases: {
       Birdsong: [
-        "Resolve mob pressure and choose or maintain the Warlord's mood.",
-        "Recruit around strongholds and the Warlord.",
-        "Check whether items can be gained or protected for the hoard."
+        "Resolve every mob token, then return the Warlord to the map if it was removed.",
+        "Choose a mood whose listed item is not already in the hoard.",
+        "Follow the faction board before beginning Daylight commands."
       ],
       Daylight: [
         "Command the Warlord and warriors to move, battle, and pressure key clearings.",
@@ -317,9 +316,9 @@ const factions = [
         "Use battles to gain territory, not only to remove pieces."
       ],
       Evening: [
+        "Incite a mob if you can discard the required card.",
         "Score oppression from ruled clearings without enemy pieces.",
-        "Draw cards and discard down to hand limit.",
-        "Confirm opponents cannot easily isolate the Warlord before your next Birdsong."
+        "Draw cards, discard down to five, and check whether the Warlord can be isolated."
       ]
     }
   },
@@ -343,18 +342,18 @@ const factions = [
     ],
     phases: {
       Birdsong: [
-        "Add carefully to the retinue only where the obligation is realistic.",
-        "Resolve retinue actions in order, watching suit and clearing requirements.",
-        "Keep warriors positioned to escort future relic recovery."
+        "Encamp or decamp waystations, then recruit as shown on the faction board.",
+        "Plan the clearings needed for the retinue before adding new cards.",
+        "Keep warriors positioned to escort relics and protect waystations."
       ],
       Daylight: [
-        "Craft and take available actions from your board.",
-        "Move, battle, delve, or recover with an eye toward complete relic sets.",
+        "Craft, then add exactly one card to the retinue if required by your board.",
+        "Resolve retinue columns in printed order, including move, battle, and delve actions.",
         "Defend waystations that your next retinue line depends on."
       ],
       Evening: [
-        "Score recovered relics when applicable.",
-        "Draw cards and discard down to hand limit.",
+        "Recover relics through waystations, checking rule and matching suits carefully.",
+        "Resolve living off the land, then draw and discard down to five cards.",
         "Check which retinue cards are now risky because the board changed."
       ]
     }
