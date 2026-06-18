@@ -261,7 +261,7 @@ function matchupFindings() {
 
 function renderMatchup() {
   const findings = matchupFindings();
-  els.matchupReport.innerHTML = findings.map(({ level, text }) => `<p class="matchup-item ${level}"><strong>${level === "blocker" ? "Required" : level === "caution" ? "Check" : level === "unusual" ? "Unusual" : "Table read"}</strong><span>${text}</span></p>`).join("");
+  els.matchupReport.innerHTML = findings.map(({ level, text }) => `<p class="matchup-item ${level}"><strong>${level === "blocker" ? "Required" : level === "caution" ? "Check" : level === "unusual" ? "Unusual" : "Lineup profile"}</strong><span>${text}</span></p>`).join("");
 }
 
 function factionTableConcern(faction) {

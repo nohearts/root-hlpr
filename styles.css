@@ -111,7 +111,7 @@ main { min-width: 0; padding: 24px clamp(18px, 3vw, 42px) 92px; }
 .setup-faction small { margin-top: 3px; color: var(--muted); font-size: .62rem; }
 .setup-faction b { color: var(--muted); font-size: .62rem; white-space: nowrap; }
 .matchup-report { grid-column: 2; display: grid; gap: 7px; margin-top: 12px; }
-.matchup-item { display: grid; grid-template-columns: 74px 1fr; gap: 9px; margin: 0; padding: 9px 11px; border-left: 4px solid; background: var(--paper); font-size: .85rem; }
+.matchup-item { display: grid; grid-template-columns: 92px 1fr; gap: 9px; margin: 0; padding: 9px 11px; border-left: 4px solid; background: var(--paper); font-size: .85rem; }
 .matchup-item strong { text-transform: uppercase; font-size: .68rem; }
 .matchup-item.blocker { border-color: #b44038; }
 .matchup-item.caution { border-color: #b6872c; }
