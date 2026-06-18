@@ -78,9 +78,14 @@
             </section>
 
             <section class="setup-card" aria-label="Selected faction setup">
-              <p class="eyebrow">Selected faction setup</p>
+              <p class="eyebrow">Faction setup</p>
               <h3 id="setupFactionName">Marquise de Cat</h3>
+              <p class="setup-step-status" id="setupStepStatus"></p>
               <ul class="setup-list" id="factionSetupList"></ul>
+              <div class="setup-actions">
+                <button class="setup-start-button" id="nextSetupStep" type="button">Next setup</button>
+                <button class="setup-secondary-button" id="resetSetupSequence" type="button">Restart</button>
+              </div>
               <button class="setup-start-button" id="startPlaying" type="button">Start playing</button>
             </section>
           </div>

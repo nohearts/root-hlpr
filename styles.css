@@ -337,6 +337,11 @@ main {
   accent-color: var(--faction);
 }
 
+.setup-faction.active {
+  background: color-mix(in srgb, var(--faction) 18%, #fffaf0);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--faction) 50%, transparent);
+}
+
 .balance-summary {
   margin: 12px 0 0;
   color: var(--ink);
@@ -344,10 +349,24 @@ main {
   line-height: 1.35;
 }
 
+.setup-step-status {
+  margin: -4px 0 10px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.setup-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-top: 14px;
+}
+
 .setup-start-button {
   width: 100%;
   min-height: 44px;
-  margin-top: 14px;
   border: 1px solid var(--accent);
   border-radius: 8px;
   background: var(--accent);
@@ -357,8 +376,33 @@ main {
   font-weight: 900;
 }
 
+.setup-card > .setup-start-button {
+  margin-top: 8px;
+}
+
 .setup-start-button:hover {
   background: color-mix(in srgb, var(--accent) 88%, black);
+}
+
+.setup-start-button:disabled,
+.setup-secondary-button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.setup-secondary-button {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper-strong);
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--body-font);
+  font-weight: 900;
+}
+
+.setup-secondary-button:hover {
+  border-color: var(--accent);
 }
 
 .turn-count {

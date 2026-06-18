@@ -557,78 +557,104 @@ const factionSetup = {
 
 const openingProfiles = {
   marquise: {
+    setupOrder: 1,
+    setupLetter: "A",
     rank: 9,
     setup: "early",
     label: "natural opener",
     note: "starts cleanly because wood, recruiting, and rule matter immediately."
   },
   eyrie: {
+    setupOrder: 2,
+    setupLetter: "B",
     rank: 8,
     setup: "early",
     label: "natural opener",
     note: "likes an early decree before the map becomes too tangled."
   },
   duchy: {
+    setupOrder: 7,
+    setupLetter: "G",
     rank: 7,
     setup: "early",
     label: "strong opener",
     note: "benefits from digging and building its minister engine before pressure arrives."
   },
   hundreds: {
+    setupOrder: 9,
+    setupLetter: "I",
     rank: 7,
     setup: "early",
     label: "strong opener",
     note: "wants tempo before opponents can screen the Warlord."
   },
   keepers: {
+    setupOrder: 10,
+    setupLetter: "J",
     rank: 6,
     setup: "middle",
     label: "capable opener",
     note: "can start, but prefers clear relic routes and enough room to stage."
   },
   corvid: {
+    setupOrder: 8,
+    setupLetter: "H",
     rank: 5,
     setup: "middle",
     label: "capable opener",
     note: "can plant pressure early, though plots are stronger once targets commit."
   },
   cult: {
+    setupOrder: 6,
+    setupLetter: "F",
     rank: 4,
     setup: "middle",
     label: "quiet opener",
     note: "can start, but the first outcast and discard context are usually thin."
   },
   alliance: {
+    setupOrder: 3,
+    setupLetter: "C",
     rank: 4,
     setup: "middle",
     label: "quiet opener",
     note: "can start, but sympathy works best after other factions reveal priorities."
   },
   riverfolk: {
+    setupOrder: 5,
+    setupLetter: "E",
     rank: 3,
     setup: "late",
     label: "dependent opener",
     note: "can start, but usually wants buyers and table needs to exist first."
   },
   diaspora: {
+    setupOrder: 11,
+    setupLetter: "K",
     rank: 3,
     setup: "late",
     label: "dependent opener",
     note: "can start, but its table position is easier to read after board anchors appear."
   },
   council: {
+    setupOrder: 12,
+    setupLetter: "L",
     rank: 3,
     setup: "late",
     label: "dependent opener",
     note: "can start, but political incentives are clearer once the table has shape."
   },
   vagabond: {
+    setupOrder: 4,
+    setupLetter: "D",
     rank: 2,
     setup: "late",
     label: "late opener",
     note: "can technically start, but benefits from seeing early map pressure and item access."
   },
   knaves: {
+    setupOrder: 13,
+    setupLetter: "M",
     rank: 2,
     setup: "late",
     label: "late opener",
@@ -644,7 +670,8 @@ const state = {
     deck: localStorage.getItem("rootHelperDeck") || "standard",
     players: Number(localStorage.getItem("rootHelperPlayers") || 4),
     factions: JSON.parse(localStorage.getItem("rootHelperSetupFactions") || "[]"),
-    firstPlayer: localStorage.getItem("rootHelperFirstPlayer") || "auto"
+    firstPlayer: localStorage.getItem("rootHelperFirstPlayer") || "auto",
+    stepIndex: Number(localStorage.getItem("rootHelperSetupStep") || 0)
   }
 };
 
@@ -658,8 +685,11 @@ const els = {
   setupFactionList: document.querySelector("#setupFactionList"),
   balanceSummary: document.querySelector("#balanceSummary"),
   setupFactionName: document.querySelector("#setupFactionName"),
+  setupStepStatus: document.querySelector("#setupStepStatus"),
   factionSetupList: document.querySelector("#factionSetupList"),
   setupHelper: document.querySelector("#setupHelper"),
+  nextSetupStep: document.querySelector("#nextSetupStep"),
+  resetSetupSequence: document.querySelector("#resetSetupSequence"),
   startPlaying: document.querySelector("#startPlaying"),
   factionType: document.querySelector("#factionType"),
   factionName: document.querySelector("#factionName"),
@@ -693,6 +723,7 @@ function persist() {
   localStorage.setItem("rootHelperPlayers", String(state.setup.players));
   localStorage.setItem("rootHelperSetupFactions", JSON.stringify(state.setup.factions));
   localStorage.setItem("rootHelperFirstPlayer", state.setup.firstPlayer);
+  localStorage.setItem("rootHelperSetupStep", String(state.setup.stepIndex));
 }
 
 function taskKey(factionId, phase, index) {
@@ -788,13 +819,47 @@ function selectedSetupFactions() {
   return factions.filter((faction) => state.setup.factions.includes(faction.id));
 }
 
+function sortedSetupFactions(selected = selectedSetupFactions()) {
+  return [...selected].sort((left, right) => {
+    const orderGap = openingProfile(left).setupOrder - openingProfile(right).setupOrder;
+    if (orderGap !== 0) {
+      return orderGap;
+    }
+    return factions.indexOf(left) - factions.indexOf(right);
+  });
+}
+
 function openingProfile(faction) {
   return openingProfiles[faction.id] || {
+    setupOrder: 99,
+    setupLetter: "?",
     rank: 1,
     setup: "late",
     label: "unknown opener",
     note: "use the printed faction setup card for exact opening guidance."
   };
+}
+
+function setupOrderLabel(faction) {
+  const profile = openingProfile(faction);
+  return Number.isFinite(profile.setupOrder) && profile.setupOrder < 99
+    ? `${profile.setupLetter}. ${faction.name}`
+    : faction.name;
+}
+
+function clampSetupStep(selected = sortedSetupFactions()) {
+  if (selected.length === 0) {
+    state.setup.stepIndex = 0;
+    return;
+  }
+
+  state.setup.stepIndex = Math.max(0, Math.min(state.setup.stepIndex, selected.length - 1));
+}
+
+function currentSetupFaction() {
+  const selected = sortedSetupFactions();
+  clampSetupStep(selected);
+  return selected[state.setup.stepIndex] || currentFaction();
 }
 
 function recommendedFirstPlayer(selected) {
@@ -838,10 +903,13 @@ function renderFirstPlayerOptions(selected) {
 
 function openingSetupNotes(selected) {
   if (selected.length === 0) {
-    return ["Choose factions to get opening and first-turn guidance."];
+    return ["Choose factions to get faction setup order, opening comfort, and first-turn guidance."];
   }
 
-  const setupOrder = [...selected]
+  const factionSetupOrder = sortedSetupFactions(selected)
+    .map(setupOrderLabel)
+    .join(" / ");
+  const openingComfort = [...selected]
     .sort((left, right) => openingProfile(right).rank - openingProfile(left).rank)
     .map((faction) => `${faction.name} (${openingProfile(faction).setup})`)
     .join(" / ");
@@ -849,9 +917,10 @@ function openingSetupNotes(selected) {
   const profile = openingProfile(first);
   const firstMode = state.setup.firstPlayer === "auto" ? "Suggested first turn" : "Chosen first turn";
   const notes = [
-    `Opening comfort: ${setupOrder}.`,
+    `Faction setup sequence: ${factionSetupOrder}.`,
+    `Opening comfort: ${openingComfort}.`,
     `${firstMode}: ${first.name} (${profile.label}) - ${profile.note}`,
-    `After the first player, continue clockwise around the table.`
+    `Once play begins, continue clockwise from the first player.`
   ];
 
   if (profile.rank <= 3) {
@@ -872,6 +941,7 @@ function renderList(list, items) {
 
 function renderGameSetup() {
   const selected = selectedSetupFactions();
+  clampSetupStep(sortedSetupFactions(selected));
 
   els.mapSelect.value = state.setup.map;
   els.deckSelect.value = state.setup.deck;
@@ -889,9 +959,10 @@ function renderGameSetup() {
 
 function renderSetupFactions() {
   els.setupFactionList.innerHTML = "";
+  const setupFaction = currentSetupFaction();
   factions.forEach((faction) => {
     const label = document.createElement("label");
-    label.className = "setup-faction";
+    label.className = `setup-faction${setupFaction.id === faction.id && state.setup.factions.includes(faction.id) ? " active" : ""}`;
     label.style.setProperty("--faction", faction.color);
     label.innerHTML = `
       <input type="checkbox" value="${faction.id}" ${state.setup.factions.includes(faction.id) ? "checked" : ""} />
@@ -902,8 +973,10 @@ function renderSetupFactions() {
         state.setup.factions = [...new Set([...state.setup.factions, faction.id])];
         state.factionId = faction.id;
         state.phaseIndex = 0;
+        state.setup.stepIndex = sortedSetupFactions().findIndex((setupFaction) => setupFaction.id === faction.id);
       } else {
         state.setup.factions = state.setup.factions.filter((id) => id !== faction.id);
+        clampSetupStep();
       }
       persist();
       render();
@@ -970,10 +1043,34 @@ function renderBalanceSummary() {
 }
 
 function renderFactionSetup(faction) {
-  els.setupFactionName.textContent = faction.name;
-  renderList(els.factionSetupList, factionSetup[faction.id] || [
+  const selected = sortedSetupFactions();
+  const setupFaction = selected.length > 0 ? currentSetupFaction() : faction;
+  const currentIndex = selected.findIndex((selectedFaction) => selectedFaction.id === setupFaction.id);
+  const displayIndex = currentIndex >= 0 ? currentIndex + 1 : 1;
+  const total = selected.length || 1;
+  const isLast = selected.length > 0 && currentIndex === selected.length - 1;
+  const isSelected = selected.length > 0;
+  const nextFaction = isSelected && !isLast ? selected[currentIndex + 1] : null;
+
+  els.setupFactionName.textContent = setupFaction.name;
+  const setupProfile = openingProfile(setupFaction);
+  const orderNote = setupProfile.setupOrder < 99
+    ? `Setup ${setupProfile.setupLetter}: position ${setupProfile.setupOrder} in the faction setup sequence.`
+    : "Use the printed setup card to place this faction in sequence.";
+  els.setupStepStatus.textContent = isSelected
+    ? `Step ${displayIndex} of ${total}${nextFaction ? ` - next: ${nextFaction.name}` : " - setup sequence complete"}`
+    : "Select factions in the layout card to build the setup sequence.";
+
+  els.nextSetupStep.disabled = !isSelected || isLast;
+  els.resetSetupSequence.disabled = !isSelected || state.setup.stepIndex === 0;
+  els.nextSetupStep.textContent = isLast ? "Sequence complete" : "Next setup";
+
+  renderList(els.factionSetupList, [
+    orderNote,
+    ...(factionSetup[setupFaction.id] || [
     "Use the printed faction board for exact setup.",
     "Keep unique faction pieces and tracks visible before play begins."
+    ])
   ]);
 }
 
@@ -1033,6 +1130,33 @@ els.firstPlayerSelect.addEventListener("change", (event) => {
   renderGameSetup();
   renderBalanceSummary();
 });
+els.nextSetupStep.addEventListener("click", () => {
+  const selected = sortedSetupFactions();
+  if (selected.length === 0) {
+    return;
+  }
+
+  if (state.setup.stepIndex >= selected.length - 1) {
+    return;
+  }
+
+  state.setup.stepIndex += 1;
+  state.factionId = selected[state.setup.stepIndex].id;
+  state.phaseIndex = 0;
+  persist();
+  render();
+});
+els.resetSetupSequence.addEventListener("click", () => {
+  const selected = sortedSetupFactions();
+  state.setup.stepIndex = 0;
+  if (selected.length > 0) {
+    state.factionId = selected[0].id;
+    state.phaseIndex = 0;
+  }
+
+  persist();
+  render();
+});
 els.nextStep.addEventListener("click", () => advance(1));
 els.resetTurn.addEventListener("click", () => {
   clearFactionChecks();
@@ -1041,9 +1165,15 @@ els.resetTurn.addEventListener("click", () => {
   render();
 });
 els.startPlaying.addEventListener("click", () => {
-  if (!state.setup.factions.includes(state.factionId)) {
+  const selected = selectedSetupFactions();
+  const first = selected.length > 0 ? effectiveFirstPlayer(selected) : null;
+
+  if (first) {
+    state.factionId = first.id;
+  } else if (!state.setup.factions.includes(state.factionId)) {
     state.setup.factions = [...new Set([...state.setup.factions, state.factionId])];
   }
+
   state.phaseIndex = 0;
   els.setupHelper.open = false;
   persist();
