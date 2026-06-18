@@ -234,9 +234,9 @@ function matchupFindings() {
   const knownReach = selected.map((faction) => factionMeta[faction.id].reach);
   const hasPreview = knownReach.some((reach) => reach === null);
   const reach = knownReach.filter(Number.isFinite).reduce((total, value) => total + value, 0);
-  const threshold = { 2: 17, 3: 18, 4: 21 }[state.setup.players];
+  const threshold = { 2: 17, 3: 18, 4: 21, 5: 25, 6: 28 }[state.setup.players];
   if (state.setup.style === "standard" && threshold && !hasPreview && selected.length === state.setup.players && reach < threshold) {
-    findings.push({ level: "caution", text: `Combined Reach is ${reach}; Reach estimates board presence and interaction, and the published recommendation for ${state.setup.players} players is ${threshold}.` });
+    findings.push({ level: "caution", text: `Reach ${reach} / ${threshold} recommended. These are assigned lineup points, not score or strength; higher values indicate more board presence and interaction.` });
   }
   if (hasPreview) findings.push({ level: "caution", text: "Homeland preview factions do not yet have verified Reach values here; use their final setup materials." });
 
@@ -254,7 +254,7 @@ function matchupFindings() {
   if (ids.has("alliance") && ids.has("cult")) findings.push({ level: "unusual", text: "Alliance and Cult both punish careless aggression; board-heavy factions should budget actions for policing." });
   if (ids.has("keepers") && ids.has("hundreds")) findings.push({ level: "unusual", text: "Keepers and Hundreds both demand space and movement lanes; expect early clearing congestion." });
   if (selected.length === state.setup.players && !findings.some((item) => item.level === "blocker")) {
-    findings.push({ level: "ready", text: `${militant} militant, ${indirect} indirect${hasPreview ? ", with preview rules in use" : threshold ? `, combined Reach ${reach} for board presence and interaction` : ""}. Reach describes lineup viability, not faction strength or guaranteed balance.` });
+    findings.push({ level: "ready", text: `${militant} militant, ${indirect} indirect${hasPreview ? ", with preview rules in use" : threshold ? `, Reach ${reach} / ${threshold} recommended` : ""}. Reach points estimate lineup interaction; they are not score, strength, or guaranteed balance.` });
   }
   return findings;
 }
