@@ -662,6 +662,16 @@ const openingProfiles = {
   }
 };
 
+window.ROOT_DATA = {
+  factions,
+  phaseColors,
+  mapNotes,
+  deckNotes,
+  factionSetup,
+  openingProfiles
+};
+
+if (!window.ROOT_DATA_ONLY) {
 const state = {
   factionId: localStorage.getItem("rootHelperFaction") || factions[0].id,
   phaseIndex: Number(localStorage.getItem("rootHelperPhase") || 0),
@@ -1184,3 +1194,4 @@ els.notes.addEventListener("input", () => {
 });
 
 render();
+}

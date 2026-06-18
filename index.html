@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Root Turn Helper</title>
-    <link rel="stylesheet" href="styles.css?v=setup-helper" />
+    <link rel="stylesheet" href="styles.css?v=product-pass" />
   </head>
   <body>
     <div class="app-shell">
@@ -17,123 +17,142 @@
           </div>
         </div>
 
+        <label class="rail-filter">
+          <span>Show factions</span>
+          <select id="factionFilter">
+            <option value="all">All factions</option>
+            <option value="Militant">Militant</option>
+            <option value="Insurgent">Insurgent</option>
+            <option value="Economic">Economic</option>
+            <option value="Social">Social</option>
+            <option value="Solo">Solo</option>
+          </select>
+        </label>
         <div class="faction-list" id="factionList"></div>
       </aside>
 
       <main>
-        <section class="turn-topbar" aria-label="Current faction overview">
-          <div>
-            <p class="eyebrow" id="factionType">Faction</p>
-            <h2 id="factionName">Choose a faction</h2>
-            <p class="faction-summary" id="factionSummary">Pick a faction to start the phase guide.</p>
+        <header class="app-header">
+          <div class="session-copy">
+            <p class="eyebrow" id="sessionLabel">No active game</p>
+            <h2 id="factionName">Build your game</h2>
+            <p class="faction-summary" id="factionSummary">Choose a map, deck, and factions to begin.</p>
           </div>
-        </section>
-
-        <details class="setup-helper" id="setupHelper">
-          <summary>Game setup</summary>
-          <div class="setup-grid">
-            <section class="setup-card" aria-label="Table choices">
-              <p class="eyebrow">Table</p>
-              <div class="setup-fields">
-                <label>
-                  Map
-                  <select id="mapSelect">
-                    <option value="autumn">Autumn</option>
-                    <option value="winter">Winter</option>
-                    <option value="lake">Lake</option>
-                    <option value="mountain">Mountain</option>
-                  </select>
-                </label>
-                <label>
-                  Deck
-                  <select id="deckSelect">
-                    <option value="standard">Standard</option>
-                    <option value="exiles">Exiles &amp; Partisans</option>
-                  </select>
-                </label>
-                <label>
-                  Players
-                  <select id="playerCountSelect">
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4" selected>4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                  </select>
-                </label>
-                <label>
-                  First turn
-                  <select id="firstPlayerSelect">
-                    <option value="auto">Auto</option>
-                  </select>
-                </label>
-              </div>
-              <ul class="setup-list" id="gameSetupList"></ul>
-            </section>
-
-            <section class="setup-card" aria-label="Faction layout">
-              <p class="eyebrow">Faction layout</p>
-              <div class="setup-factions" id="setupFactionList"></div>
-              <p class="balance-summary" id="balanceSummary"></p>
-            </section>
-
-            <section class="setup-card" aria-label="Selected faction setup">
-              <p class="eyebrow">Faction setup</p>
-              <h3 id="setupFactionName">Marquise de Cat</h3>
-              <p class="setup-step-status" id="setupStepStatus"></p>
-              <ul class="setup-list" id="factionSetupList"></ul>
-              <div class="setup-actions">
-                <button class="setup-start-button" id="nextSetupStep" type="button">Next setup</button>
-                <button class="setup-secondary-button" id="resetSetupSequence" type="button">Restart</button>
-              </div>
-              <button class="setup-start-button" id="startPlaying" type="button">Start playing</button>
-            </section>
+          <div class="session-actions" aria-label="Game session controls">
+            <button class="quiet-button" id="openSetup" type="button">Game setup</button>
+            <button class="quiet-button" id="newGame" type="button">New game</button>
+            <button class="quiet-button danger" id="endGame" type="button">End game</button>
           </div>
-        </details>
+        </header>
 
-        <section class="table-controls" aria-label="Phase controls">
-          <div class="round-controls">
-            <div class="turn-count">
-              <strong id="phaseTitle">Birdsong</strong>
+        <section class="setup-workspace" id="setupWorkspace" aria-labelledby="setupTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Game setup</p>
+              <h2 id="setupTitle">Prepare the table</h2>
             </div>
-            <button class="nav-button primary" id="nextStep" type="button">Next</button>
+            <p class="source-note">Use the current printed Law, faction boards, and setup cards for exact rules text.</p>
           </div>
-          <button class="reset-button" id="resetTurn" type="button">Reset</button>
+
+          <div class="setup-progress" aria-label="Setup progress">
+            <span class="active">1. Table</span>
+            <span>2. Lineup</span>
+            <span>3. Factions</span>
+            <span>4. Play</span>
+          </div>
+
+          <section class="setup-band" aria-labelledby="tableHeading">
+            <div class="band-heading">
+              <p class="eyebrow">Table</p>
+              <h3 id="tableHeading">Choose the game format</h3>
+            </div>
+            <div class="setup-fields">
+              <label>Setup rules
+                <select id="setupStyleSelect">
+                  <option value="standard">Standard Setup</option>
+                  <option value="advanced">Advanced Setup</option>
+                </select>
+              </label>
+              <label>Map
+                <select id="mapSelect">
+                  <option value="autumn">Autumn</option>
+                  <option value="winter">Winter</option>
+                  <option value="lake">Lake</option>
+                  <option value="mountain">Mountain</option>
+                </select>
+              </label>
+              <label>Deck
+                <select id="deckSelect">
+                  <option value="standard">Standard</option>
+                  <option value="exiles">Exiles &amp; Partisans</option>
+                </select>
+              </label>
+              <label>Players
+                <select id="playerCountSelect">
+                  <option value="2">2</option><option value="3">3</option>
+                  <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                </select>
+              </label>
+              <label>First player
+                <select id="firstPlayerSelect"><option value="auto">Seat one</option></select>
+              </label>
+            </div>
+            <ul class="setup-list" id="gameSetupList"></ul>
+          </section>
+
+          <section class="setup-band" aria-labelledby="lineupHeading">
+            <div class="band-heading">
+              <p class="eyebrow">Lineup</p>
+              <h3 id="lineupHeading">Choose factions in clockwise seat order</h3>
+            </div>
+            <div class="setup-factions" id="setupFactionList"></div>
+            <div class="matchup-report" id="matchupReport" aria-live="polite"></div>
+          </section>
+
+          <section class="setup-band faction-setup-band" aria-labelledby="setupFactionName">
+            <div class="band-heading">
+              <p class="eyebrow">Faction setup</p>
+              <h3 id="setupFactionName">Choose a lineup</h3>
+              <p class="setup-step-status" id="setupStepStatus"></p>
+            </div>
+            <ol class="setup-list setup-checklist" id="factionSetupList"></ol>
+            <div class="setup-actions">
+              <button class="quiet-button" id="resetSetupSequence" type="button">Restart setup</button>
+              <button class="primary-button" id="nextSetupStep" type="button">Next faction</button>
+              <button class="primary-button" id="startPlaying" type="button">Start playing</button>
+            </div>
+          </section>
         </section>
 
-        <section class="phase-board" aria-label="Phase guide">
-          <div class="phase-tabs" id="phaseTabs"></div>
+        <section class="play-workspace" id="playWorkspace" hidden>
+          <nav class="phase-tabs" id="phaseTabs" aria-label="Turn phases"></nav>
           <article class="phase-panel">
             <div class="phase-heading">
               <span class="phase-token" id="phaseToken" aria-hidden="true"></span>
-              <div>
-                <p class="eyebrow">Current phase</p>
-                <h3 id="phasePrompt">Birdsong actions</h3>
-              </div>
+              <div><p class="eyebrow">Current phase</p><h3 id="phasePrompt">Birdsong</h3></div>
             </div>
             <ul class="task-list" id="taskList"></ul>
           </article>
-        </section>
 
-        <section class="turn-insight" aria-label="Faction guidance">
-          <article>
-            <p class="eyebrow">Reminder</p>
-            <p id="currentTip">Pick a faction to see a reminder.</p>
-          </article>
-          <article>
-            <p class="eyebrow">Decision</p>
-            <strong id="currentQuestionTitle">Table question</strong>
-            <p id="currentQuestionBody">Choose a faction to get a useful prompt.</p>
-          </article>
-        </section>
+          <section class="advice-grid" aria-label="Faction advice">
+            <article><p class="eyebrow">Core objective</p><p id="coreAdvice"></p></article>
+            <article><p class="eyebrow">Common mistake</p><p id="mistakeAdvice"></p></article>
+            <article><p class="eyebrow">Table concern</p><p id="matchupAdvice"></p></article>
+          </section>
 
-        <details class="notes-drawer">
-          <summary>Scratchpad</summary>
-          <textarea id="notes" aria-label="Table notes" placeholder="Track crafted cards, dominance threats, promised battles, exposed tokens, or anything the table might forget."></textarea>
-        </details>
+          <details class="terms-drawer"><summary>Faction terms</summary><dl id="factionTerms"></dl></details>
+          <details class="notes-drawer"><summary>Scratchpad</summary><textarea id="notes" aria-label="Table notes" placeholder="Track crafted cards, dominance threats, promises, or exposed tokens."></textarea></details>
+
+          <div class="play-controls">
+            <button class="quiet-button" id="resetTurn" type="button">Reset faction</button>
+            <button class="primary-button" id="nextStep" type="button">Next phase</button>
+          </div>
+        </section>
       </main>
     </div>
 
-    <script src="script.js"></script>
+    <script>window.ROOT_DATA_ONLY = true;</script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
