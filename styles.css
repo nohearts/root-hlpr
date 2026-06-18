@@ -97,6 +97,9 @@ main { min-width: 0; padding: 24px clamp(18px, 3vw, 42px) 92px; }
 .setup-fields select { width: 100%; min-height: 40px; padding: 0 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper-strong); color: var(--ink); }
 .setup-list { display: grid; gap: 7px; grid-column: 2; margin: 12px 0 0; padding: 0; list-style: none; }
 .setup-list li { padding-left: 12px; border-left: 3px solid #9a9d96; color: var(--muted); font-size: .9rem; }
+.setup-checklist li.current { padding: 12px; border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); border-left: 6px solid var(--accent); background: var(--paper-strong); color: var(--ink); font-weight: 800; }
+.setup-checklist li.complete { color: #52705b; border-left-color: #5f896c; text-decoration: line-through; }
+.setup-checklist li.upcoming { opacity: .52; }
 
 .setup-factions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
 .setup-faction { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 7px; align-items: center; min-height: 55px; padding: 7px; border: 1px solid var(--line); border-left: 5px solid var(--faction); border-radius: 6px; background: var(--paper); cursor: pointer; }

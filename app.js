@@ -23,6 +23,22 @@ const factionMeta = {
   knaves: { reach: null, status: "preview", terms: { Homeland: "This faction belongs to the Homeland expansion; use final printed materials for exact terms." } }
 };
 
+const factionMistakes = {
+  marquise: "Building for points while leaving the wood route or recruiter network easy to break.",
+  eyrie: "Adding a Decree card because it works now without checking whether it will remain legal next turn.",
+  alliance: "Revolting for spectacle instead of placing a base that supports officers, cards, and future sympathy.",
+  vagabond: "Spending boots and swords early, then discovering there is no safe route or repair plan.",
+  cult: "Building gardens faster than they can be defended, giving opponents points and disrupting card draw.",
+  riverfolk: "Pricing every service high and then starving the Company of the payments that power its turn.",
+  duchy: "Swaying a prestigious minister whose action the current board position cannot use consistently.",
+  corvid: "Planting plots in obvious locations where exposure or one inexpensive battle removes the bluff.",
+  hundreds: "Chasing battles while leaving the Warlord isolated and too little territory available for oppression.",
+  keepers: "Adding Retinue obligations before securing the movement lanes, relics, and waystations needed to resolve them.",
+  diaspora: "Treating preview strategy as settled before checking the final printed Homeland faction board.",
+  council: "Relying on table promises without enough board position to make those incentives credible.",
+  knaves: "Taking a tempting raid without planning the escape, ransom timing, or response from the target."
+};
+
 const defaultSetup = {
   style: "standard",
   map: "autumn",
@@ -30,7 +46,8 @@ const defaultSetup = {
   players: 4,
   factions: [],
   firstPlayer: "auto",
-  stepIndex: 0
+  stepIndex: 0,
+  taskIndex: 0
 };
 
 function readJson(key, fallback) {
@@ -107,6 +124,15 @@ function setupSequence() {
 
 function clampSetupStep() {
   state.setup.stepIndex = Math.max(0, Math.min(state.setup.stepIndex, Math.max(0, setupSequence().length - 1)));
+  state.setup.taskIndex = Math.max(0, Number(state.setup.taskIndex) || 0);
+}
+
+function setupTasks(faction) {
+  return [
+    "Read the faction board or Advanced Setup card before placing pieces.",
+    ...(factionSetup[faction.id] || ["Follow the printed faction setup instructions."]),
+    "Confirm all tracks, cards, and faction supplies are ready before continuing."
+  ];
 }
 
 function renderList(element, items) {
@@ -200,6 +226,7 @@ function renderSetupFactions() {
         state.setup.factions = state.setup.factions.filter((id) => id !== faction.id);
       }
       clampSetupStep();
+      state.setup.taskIndex = 0;
       persist();
       render();
     });
@@ -279,18 +306,17 @@ function renderFactionSetup() {
 
   const profile = openingProfiles[faction.id];
   const isLast = state.setup.stepIndex === sequence.length - 1;
+  const tasks = setupTasks(faction);
+  state.setup.taskIndex = Math.min(state.setup.taskIndex, tasks.length - 1);
+  const isLastTask = state.setup.taskIndex === tasks.length - 1;
   els.setupFactionName.textContent = faction.name;
   const publishedOrder = factionMeta[faction.id].status === "published" && profile;
-  els.setupStepStatus.textContent = `Faction ${state.setup.stepIndex + 1} of ${sequence.length} · ${state.setup.style === "advanced" ? "reverse seating order" : publishedOrder ? `printed setup ${profile.setupLetter}` : "verify the printed setup card"}`;
-  renderList(els.factionSetupList, [
-    "Read the faction board or Advanced Setup card before placing pieces.",
-    ...(factionSetup[faction.id] || ["Follow the printed faction setup instructions."]),
-    "Confirm all tracks, cards, and faction supplies are ready before continuing."
-  ]);
-  els.nextSetupStep.disabled = isLast;
-  els.nextSetupStep.textContent = isLast ? "Setup sequence complete" : "Next faction";
-  els.resetSetupSequence.disabled = state.setup.stepIndex === 0;
-  els.startPlaying.disabled = matchupFindings().some((finding) => finding.level === "blocker") || !isLast;
+  els.setupStepStatus.textContent = `Faction ${state.setup.stepIndex + 1} of ${sequence.length} · task ${state.setup.taskIndex + 1} of ${tasks.length} · ${state.setup.style === "advanced" ? "reverse seating order" : publishedOrder ? `printed setup ${profile.setupLetter}` : "verify the printed setup card"}`;
+  els.factionSetupList.innerHTML = tasks.map((task, index) => `<li class="${index < state.setup.taskIndex ? "complete" : index === state.setup.taskIndex ? "current" : "upcoming"}">${task}</li>`).join("");
+  els.nextSetupStep.disabled = isLast && isLastTask;
+  els.nextSetupStep.textContent = isLastTask ? isLast ? "Setup sequence complete" : "Next faction" : "Complete task";
+  els.resetSetupSequence.disabled = state.setup.stepIndex === 0 && state.setup.taskIndex === 0;
+  els.startPlaying.disabled = matchupFindings().some((finding) => finding.level === "blocker") || !isLast || !isLastTask;
 }
 
 function taskKey(faction, phase, index) {
@@ -326,7 +352,7 @@ function renderPlay() {
   });
 
   els.coreAdvice.textContent = faction.tips[0] || faction.summary;
-  els.mistakeAdvice.textContent = faction.tips[1] || "Do not spend actions without protecting your scoring engine.";
+  els.mistakeAdvice.textContent = factionMistakes[faction.id] || "Spending actions without protecting the faction's scoring engine.";
   els.matchupAdvice.textContent = factionTableConcern(faction);
   els.factionTerms.innerHTML = Object.entries(factionMeta[faction.id].terms).map(([term, meaning]) => `<dt>${term}</dt><dd>${meaning}</dd>`).join("");
   els.notes.value = localStorage.getItem(`rootHelperNotes-${state.sessionId}-${faction.id}`) || "";
@@ -355,7 +381,8 @@ function render() {
     renderFactionSetup();
     const progress = document.querySelectorAll(".setup-progress span");
     const fullLineup = state.setup.factions.length === state.setup.players;
-    const sequenceComplete = fullLineup && state.setup.stepIndex === Math.max(0, setupSequence().length - 1);
+    const setupFaction = setupSequence()[state.setup.stepIndex];
+    const sequenceComplete = fullLineup && setupFaction && state.setup.stepIndex === setupSequence().length - 1 && state.setup.taskIndex === setupTasks(setupFaction).length - 1;
     progress.forEach((item, index) => {
       item.classList.toggle("active", index === (fullLineup ? sequenceComplete ? 3 : 2 : state.setup.factions.length ? 1 : 0));
       item.classList.toggle("complete", index < (fullLineup ? sequenceComplete ? 3 : 2 : state.setup.factions.length ? 1 : 0));
@@ -375,16 +402,28 @@ function resetForNewGame() {
 els.factionFilter.addEventListener("change", (event) => { state.filter = event.target.value; renderFactions(); });
 [
   [els.setupStyleSelect, "style"], [els.mapSelect, "map"], [els.deckSelect, "deck"]
-].forEach(([element, key]) => element.addEventListener("change", (event) => { state.setup[key] = event.target.value; state.setup.stepIndex = 0; persist(); render(); }));
+].forEach(([element, key]) => element.addEventListener("change", (event) => {
+  state.setup[key] = event.target.value;
+  state.setup.stepIndex = 0;
+  state.setup.taskIndex = 0;
+  persist(); render();
+}));
 els.playerCountSelect.addEventListener("change", (event) => {
   state.setup.players = Number(event.target.value);
   state.setup.factions = state.setup.factions.slice(0, state.setup.players);
   state.setup.stepIndex = 0;
+  state.setup.taskIndex = 0;
   persist(); render();
 });
 els.firstPlayerSelect.addEventListener("change", (event) => { state.setup.firstPlayer = event.target.value; persist(); });
-els.nextSetupStep.addEventListener("click", () => { state.setup.stepIndex += 1; clampSetupStep(); persist(); render(); });
-els.resetSetupSequence.addEventListener("click", () => { state.setup.stepIndex = 0; persist(); render(); });
+els.nextSetupStep.addEventListener("click", () => {
+  const faction = setupSequence()[state.setup.stepIndex];
+  if (!faction) return;
+  if (state.setup.taskIndex < setupTasks(faction).length - 1) state.setup.taskIndex += 1;
+  else { state.setup.stepIndex += 1; state.setup.taskIndex = 0; }
+  clampSetupStep(); persist(); render();
+});
+els.resetSetupSequence.addEventListener("click", () => { state.setup.stepIndex = 0; state.setup.taskIndex = 0; persist(); render(); });
 els.startPlaying.addEventListener("click", () => {
   if (!state.sessionId) createSession();
   const selected = selectedFactions();
