@@ -483,7 +483,8 @@ const mapNotes = {
 
 const deckNotes = {
   standard: "Use the standard deck; its favor cards make suit control matter.",
-  exiles: "Use Exiles & Partisans; expect more tactical powers and fewer huge favor swings."
+  exiles: "Use Exiles & Partisans; expect more tactical powers and fewer huge favor swings.",
+  squires: "Use Squires & Disciples and follow the printed card text for its newer crafted powers."
 };
 
 const factionSetup = {
