@@ -21,12 +21,12 @@ const factionMistakes = {
   vagabond: "Spending boots and swords early, then discovering there is no safe route or repair plan.",
   cult: "Building gardens faster than they can be defended, giving opponents points and disrupting card draw.",
   riverfolk: "Pricing every service high and then starving the Company of the payments that power its turn.",
-  duchy: "Swaying a prestigious minister whose action the current board position cannot use consistently.",
+  duchy: "Swaying an impressive minister whose action you cannot use turn after turn.",
   corvid: "Planting plots in obvious locations where exposure or one inexpensive battle removes the bluff.",
   hundreds: "Chasing battles while leaving the Warlord isolated and too little territory available for oppression.",
   keepers: "Adding Retinue obligations before securing the movement lanes, relics, and waystations needed to resolve them.",
   diaspora: "Treating preview strategy as settled before checking the final printed Homeland faction board.",
-  council: "Relying on table promises without enough board position to make those incentives credible.",
+  council: "Relying on promises when your pieces give the table no reason to keep them.",
   knaves: "Taking a tempting raid without planning the escape, ransom timing, or response from the target."
 };
 
@@ -120,9 +120,9 @@ function clampSetupStep() {
 
 function setupTasks(faction) {
   return [
-    "Read the faction board or Advanced Setup card before placing pieces.",
-    ...(factionSetup[faction.id] || ["Follow the printed faction setup instructions."]),
-    "Confirm all tracks, cards, and faction supplies are ready before continuing."
+    "Put the faction board or Advanced Setup card in front of you.",
+    ...(factionSetup[faction.id] || ["Set up from the printed faction instructions."]),
+    "Make sure every track, card, and piece is ready."
   ];
 }
 
@@ -159,17 +159,17 @@ function renderFactions() {
 function setupRuleNotes() {
   if (state.setup.style === "advanced") {
     return [
-      "Determine clockwise seating and first player before drafting.",
-      "Draft factions in reverse turn order; the last player chooses and sets up first.",
-      "This helper uses the selected clockwise lineup and guides setup in reverse order.",
-      "Follow each Advanced Setup card for exact placement and starting pieces."
+      "Choose seats and first player before the draft.",
+      "Draft in reverse turn order: the last player picks and sets up first.",
+      "Add factions here in clockwise turn order; the setup guide will reverse them for you.",
+      "Use each Advanced Setup card for pieces and placement."
     ];
   }
   return [
-    "Determine seating and first player randomly.",
-    "Prepare the shared map, deck, ruins, items, and supply.",
-    "Set up selected factions by the letter printed on their faction board.",
-    "Faction setup order does not determine which faction takes the first turn."
+    "Choose seats and first player at random.",
+    "Put out the map, deck, ruins, items, and shared supply.",
+    "Set up factions by the letter on their faction board.",
+    "Setup order and turn order are separate."
   ];
 }
 
@@ -206,7 +206,7 @@ function renderSetupFactions() {
     const label = document.createElement("label");
     label.className = `setup-faction${setupIndex === state.setup.stepIndex ? " active" : ""}${setupIndex >= 0 && setupIndex < state.setup.stepIndex ? " complete" : ""}`;
     label.style.setProperty("--faction", faction.color);
-    label.innerHTML = `<input type="checkbox" ${selectedIndex >= 0 ? "checked" : ""}><span><strong>${faction.name}</strong><small>${faction.tags.join(" · ")}${factionMeta[faction.id].status === "preview" ? " · Preview" : ""}</small></span>${selectedIndex >= 0 ? `<b>Seat ${selectedIndex + 1}</b>` : ""}`;
+    label.innerHTML = `<input type="checkbox" ${selectedIndex >= 0 ? "checked" : ""}><span><strong>${faction.name}</strong><small>${faction.tags.join(" / ")}${factionMeta[faction.id].status === "preview" ? " / Preview" : ""}</small></span>${selectedIndex >= 0 ? `<b>Seat ${selectedIndex + 1}</b>` : ""}`;
     label.querySelector("input").addEventListener("change", (event) => {
       if (event.target.checked && state.setup.factions.length < state.setup.players) {
         state.setup.factions.push(faction.id);
@@ -229,39 +229,39 @@ function matchupFindings() {
   const selected = selectedFactions();
   const findings = [];
   const missing = state.setup.players - selected.length;
-  if (missing !== 0) findings.push({ level: "blocker", text: missing > 0 ? `Choose ${missing} more faction${missing === 1 ? "" : "s"}.` : `Remove ${Math.abs(missing)} faction${Math.abs(missing) === 1 ? "" : "s"}.` });
+  if (missing !== 0) findings.push({ level: "blocker", text: missing > 0 ? `${missing} seat${missing === 1 ? " is" : "s are"} still open.` : `${Math.abs(missing)} too many faction${Math.abs(missing) === 1 ? "" : "s"} selected.` });
 
   const knownReach = selected.map((faction) => factionMeta[faction.id].reach);
   const hasPreview = knownReach.some((reach) => reach === null);
   const reach = knownReach.filter(Number.isFinite).reduce((total, value) => total + value, 0);
   const threshold = { 2: 17, 3: 18, 4: 21, 5: 25, 6: 28 }[state.setup.players];
   if (state.setup.style === "standard" && threshold && !hasPreview && selected.length === state.setup.players && reach < threshold) {
-    findings.push({ level: "caution", text: `Reach ${reach} / ${threshold} recommended. These are assigned lineup points, not score or strength; higher values indicate more board presence and interaction.` });
+    findings.push({ level: "caution", text: `Reach is ${reach}; ${threshold} is recommended. Expect a quieter map with less built-in policing.` });
   }
-  if (hasPreview) findings.push({ level: "caution", text: "Homeland preview factions do not yet have verified Reach values here; use their final setup materials." });
+  if (hasPreview) findings.push({ level: "caution", text: "This lineup includes Homeland preview material, so its Reach total is incomplete." });
 
   const militant = selected.filter((faction) => faction.tags.includes("Militant")).length;
   const economic = selected.filter((faction) => faction.tags.includes("Economic")).length;
   const social = selected.filter((faction) => faction.tags.includes("Social")).length;
   const indirect = selected.filter((faction) => faction.tags.includes("Insurgent") || faction.tags.includes("Solo") || faction.tags.includes("Social")).length;
   const ids = new Set(selected.map((faction) => faction.id));
-  if (state.setup.players === 2 && militant < 2) findings.push({ level: "caution", text: "Two-player games are most reliable with two militant, board-heavy factions." });
-  if (state.setup.players >= 4 && militant === 0) findings.push({ level: "caution", text: "No militant faction: policing and clearing control may be unusually loose." });
-  if (economic && state.setup.players < 3) findings.push({ level: "caution", text: "Riverfolk has few potential customers at a two-player table." });
-  if (indirect > militant + 1) findings.push({ level: "unusual", text: "Indirect-heavy lineup: agree that every player is responsible for policing runaway scoring." });
-  if (social > 1) findings.push({ level: "unusual", text: "Multiple social factions may create a negotiation-heavy game with less predictable incentives." });
-  if (ids.has("hundreds") && ids.has("vagabond")) findings.push({ level: "unusual", text: "Hundreds and Vagabond compete sharply for items; item access may decide their tempo early." });
-  if (ids.has("alliance") && ids.has("cult")) findings.push({ level: "unusual", text: "Alliance and Cult both punish careless aggression; board-heavy factions should budget actions for policing." });
-  if (ids.has("keepers") && ids.has("hundreds")) findings.push({ level: "unusual", text: "Keepers and Hundreds both demand space and movement lanes; expect early clearing congestion." });
+  if (state.setup.players === 2 && militant < 2) findings.push({ level: "caution", text: "Two-player Root works best when both factions can hold and contest territory." });
+  if (state.setup.players >= 4 && militant === 0) findings.push({ level: "caution", text: "Nobody naturally anchors the map. Keep an eye on scoring engines that are hard to reach." });
+  if (economic && state.setup.players < 3) findings.push({ level: "caution", text: "Riverfolk will have only one customer, which can make their economy brittle." });
+  if (indirect > militant + 1) findings.push({ level: "unusual", text: "This table scores more easily than it polices. Someone still has to slow the leader down." });
+  if (social > 1) findings.push({ level: "unusual", text: "Expect plenty of negotiation, with deals shaping turns as much as the pieces do." });
+  if (ids.has("hundreds") && ids.has("vagabond")) findings.push({ level: "unusual", text: "Hundreds and Vagabond both want the items. Early access will matter." });
+  if (ids.has("alliance") && ids.has("cult")) findings.push({ level: "unusual", text: "Alliance and Cult both make aggression awkward. The militant factions need to leave actions for policing." });
+  if (ids.has("keepers") && ids.has("hundreds")) findings.push({ level: "unusual", text: "Keepers and Hundreds both need room to travel. The map may get cramped early." });
   if (selected.length === state.setup.players && !findings.some((item) => item.level === "blocker")) {
-    findings.push({ level: "ready", text: `${militant} militant, ${indirect} indirect${hasPreview ? ", with preview rules in use" : threshold ? `, Reach ${reach} / ${threshold} recommended` : ""}. Reach points estimate lineup interaction; they are not score, strength, or guaranteed balance.` });
+    findings.push({ level: "ready", text: `${militant} militant, ${indirect} indirect${hasPreview ? ", with preview material" : threshold ? `, Reach ${reach} against ${threshold} recommended` : ""}. This should give you a sense of the table, not predict the winner.` });
   }
   return findings;
 }
 
 function renderMatchup() {
   const findings = matchupFindings();
-  els.matchupReport.innerHTML = findings.map(({ level, text }) => `<p class="matchup-item ${level}"><strong>${level === "blocker" ? "Required" : level === "caution" ? "Check" : level === "unusual" ? "Unusual" : "Lineup profile"}</strong><span>${text}</span></p>`).join("");
+  els.matchupReport.innerHTML = findings.map(({ level, text }) => `<p class="matchup-item ${level}"><strong>${level === "blocker" ? "Required" : level === "caution" ? "Heads up" : level === "unusual" ? "Unusual" : "Lineup"}</strong><span>${text}</span></p>`).join("");
 }
 
 function factionTableConcern(faction) {
@@ -270,14 +270,14 @@ function factionTableConcern(faction) {
   const insurgent = opponents.filter((candidate) => candidate.tags.includes("Insurgent")).length;
   const economic = opponents.some((candidate) => candidate.tags.includes("Economic"));
 
-  if (faction.id === "marquise" && insurgent) return "Protect action efficiency: insurgent pieces can tax movement and turn exposed buildings into easy pressure points.";
-  if (faction.id === "eyrie" && opponents.some((candidate) => candidate.id === "corvid")) return "Keep alternate Decree targets available; plots can make a single required clearing unreliable.";
-  if (faction.id === "vagabond" && opponents.some((candidate) => candidate.id === "hundreds")) return "Items are contested. Explore and aid with a plan before the Warlord can claim the useful supply.";
-  if (faction.id === "riverfolk" && opponents.length < 3) return "With few customers, price services for actual immediate needs and preserve funds for your own actions.";
-  if (faction.id === "alliance" && militant >= 2) return "Several factions can police sympathy. Spread where outrage disrupts routes rather than where removal is merely expensive.";
-  if (economic) return "Riverfolk services can accelerate the leader. Check who can buy and whether that purchase changes your own policing plan.";
-  if (militant >= 2) return "This is a board-heavy table. Preserve movement lanes and avoid becoming the easiest source of cardboard points.";
-  if (insurgent >= 2) return "This table can score without holding much territory. Track engines and tokens, not only clearing rule.";
+  if (faction.id === "marquise" && insurgent) return "Insurgent pieces can clog your routes and pick off exposed buildings. Keep the wood network short.";
+  if (faction.id === "eyrie" && opponents.some((candidate) => candidate.id === "corvid")) return "Corvid plots can spoil a required clearing. Leave yourself another legal Decree target.";
+  if (faction.id === "vagabond" && opponents.some((candidate) => candidate.id === "hundreds")) return "The Warlord wants your items. Explore and aid before the useful supply disappears.";
+  if (faction.id === "riverfolk" && opponents.length < 3) return "There are not many customers here. Price for what someone needs now and keep enough funds to act yourself.";
+  if (faction.id === "alliance" && militant >= 2) return "Several factions can clear sympathy. Put it on routes they cannot comfortably ignore.";
+  if (economic) return "Buying from Riverfolk can launch the leader. Notice who gets the biggest turn from a purchase.";
+  if (militant >= 2) return "This map will fill quickly. Keep a route open and do not become the easiest source of cardboard points.";
+  if (insurgent >= 2) return "A lot of scoring here does not depend on rule. Watch engines and tokens, not just territory.";
   return faction.questions[state.phaseIndex % faction.questions.length][1];
 }
 
@@ -287,7 +287,7 @@ function renderFactionSetup() {
   const faction = sequence[state.setup.stepIndex];
   if (!faction) {
     els.setupFactionName.textContent = "Choose a lineup";
-    els.setupStepStatus.textContent = "Faction setup will appear in rules order.";
+    els.setupStepStatus.textContent = "Your setup order will appear here.";
     renderList(els.factionSetupList, []);
     els.nextSetupStep.disabled = true;
     els.resetSetupSequence.disabled = true;
@@ -302,10 +302,10 @@ function renderFactionSetup() {
   const isLastTask = state.setup.taskIndex === tasks.length - 1;
   els.setupFactionName.textContent = faction.name;
   const publishedOrder = factionMeta[faction.id].status === "published" && profile;
-  els.setupStepStatus.textContent = `Faction ${state.setup.stepIndex + 1} of ${sequence.length} · task ${state.setup.taskIndex + 1} of ${tasks.length} · ${state.setup.style === "advanced" ? "reverse seating order" : publishedOrder ? `printed setup ${profile.setupLetter}` : "verify the printed setup card"}`;
+  els.setupStepStatus.textContent = `${state.setup.stepIndex + 1} of ${sequence.length} factions / step ${state.setup.taskIndex + 1} of ${tasks.length} / ${state.setup.style === "advanced" ? "reverse turn order" : publishedOrder ? `setup ${profile.setupLetter}` : "use the printed setup card"}`;
   els.factionSetupList.innerHTML = tasks.map((task, index) => `<li class="${index < state.setup.taskIndex ? "complete" : index === state.setup.taskIndex ? "current" : "upcoming"}">${task}</li>`).join("");
   els.nextSetupStep.disabled = isLast && isLastTask;
-  els.nextSetupStep.textContent = isLastTask ? isLast ? "Setup sequence complete" : "Next faction" : "Complete task";
+  els.nextSetupStep.textContent = isLastTask ? isLast ? "Setup complete" : "Next faction" : "Done";
   els.resetSetupSequence.disabled = state.setup.stepIndex === 0 && state.setup.taskIndex === 0;
   els.startPlaying.disabled = matchupFindings().some((finding) => finding.level === "blocker") || !isLast || !isLastTask;
 }
@@ -359,10 +359,10 @@ function render() {
   els.openSetup.hidden = !state.active || !isPlay;
   els.resumeGame.hidden = !state.active || isPlay;
   els.endGame.hidden = !state.active;
-  const rulesStatus = factionMeta[faction.id].status === "preview" ? "Preview guidance" : "Published faction guide";
-  els.sessionLabel.textContent = isPlay ? `${rulesStatus} · game in progress` : state.active ? "Setup in progress" : "No active game";
-  els.factionName.textContent = isPlay ? faction.name : "Build your game";
-  els.factionSummary.textContent = isPlay ? faction.summary : "Choose a map, deck, and clockwise faction lineup.";
+  const rulesStatus = factionMeta[faction.id].status === "preview" ? "Preview rules" : "Published rules";
+  els.sessionLabel.textContent = isPlay ? `${rulesStatus} / playing` : state.active ? "Setting up" : "No active game";
+  els.factionName.textContent = isPlay ? faction.name : "Set up a game";
+  els.factionSummary.textContent = isPlay ? faction.summary : "Pick the table, then add factions clockwise from first player.";
   renderFactions();
   if (isPlay) renderPlay();
   else {

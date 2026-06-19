@@ -62,7 +62,7 @@ button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-
 .faction-copy, .faction-copy strong, .faction-tags { display: block; min-width: 0; }
 .faction-copy strong { font: 800 .96rem/1.15 var(--serif-font); }
 .faction-tags { margin-top: 4px; color: #bfc6be; font-size: .67rem; font-weight: 800; }
-.faction-tags span + span::before { content: " · "; }
+.faction-tags span + span::before { content: " / "; }
 
 main { min-width: 0; padding: 24px clamp(18px, 3vw, 42px) 92px; }
 .app-header { display: flex; justify-content: space-between; align-items: start; gap: 20px; max-width: 1100px; margin: 0 auto 24px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }

@@ -18,7 +18,7 @@
         </div>
 
         <label class="rail-filter">
-          <span>Show factions</span>
+          <span>Faction type</span>
           <select id="factionFilter">
             <option value="all">All factions</option>
             <option value="Militant">Militant</option>
@@ -35,8 +35,8 @@
         <header class="app-header">
           <div class="session-copy">
             <p class="eyebrow" id="sessionLabel">No active game</p>
-            <h2 id="factionName">Build your game</h2>
-            <p class="faction-summary" id="factionSummary">Choose a map, deck, and factions to begin.</p>
+            <h2 id="factionName">Set up a game</h2>
+            <p class="faction-summary" id="factionSummary">Pick the table, then seat your factions.</p>
           </div>
           <div class="session-actions" aria-label="Game session controls">
             <button class="quiet-button" id="openSetup" type="button">Game setup</button>
@@ -50,22 +50,22 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">Game setup</p>
-              <h2 id="setupTitle">Prepare the table</h2>
+              <h2 id="setupTitle">Set the table</h2>
             </div>
-            <p class="source-note">Use the current printed Law, faction boards, and setup cards for exact rules text.</p>
+            <p class="source-note">Your printed Law, faction boards, and setup cards have the final word.</p>
           </div>
 
           <div class="setup-progress" aria-label="Setup progress">
             <span class="active">1. Table</span>
-            <span>2. Lineup</span>
-            <span>3. Factions</span>
+            <span>2. Pick factions</span>
+            <span>3. Set them up</span>
             <span>4. Play</span>
           </div>
 
           <section class="setup-band" aria-labelledby="tableHeading">
             <div class="band-heading">
               <p class="eyebrow">Table</p>
-              <h3 id="tableHeading">Choose the game format</h3>
+              <h3 id="tableHeading">What are you playing with?</h3>
             </div>
             <div class="setup-fields">
               <label>Setup rules
@@ -107,7 +107,7 @@
           <section class="setup-band" aria-labelledby="lineupHeading">
             <div class="band-heading">
               <p class="eyebrow">Lineup</p>
-              <h3 id="lineupHeading">Choose factions in clockwise seat order</h3>
+              <h3 id="lineupHeading">Pick factions clockwise from first player</h3>
             </div>
             <div class="setup-factions" id="setupFactionList"></div>
             <div class="matchup-report" id="matchupReport" aria-live="polite"></div>
@@ -121,7 +121,7 @@
             </div>
             <ol class="setup-list setup-checklist" id="factionSetupList"></ol>
             <div class="setup-actions">
-              <button class="quiet-button" id="resetSetupSequence" type="button">Restart setup</button>
+              <button class="quiet-button" id="resetSetupSequence" type="button">Start this setup over</button>
               <button class="primary-button" id="nextSetupStep" type="button">Next faction</button>
               <button class="primary-button" id="startPlaying" type="button">Start playing</button>
             </div>
@@ -139,16 +139,16 @@
           </article>
 
           <section class="advice-grid" aria-label="Faction advice">
-            <article><p class="eyebrow">Core objective</p><p id="coreAdvice"></p></article>
-            <article><p class="eyebrow">Common mistake</p><p id="mistakeAdvice"></p></article>
-            <article><p class="eyebrow">Table concern</p><p id="matchupAdvice"></p></article>
+            <article><p class="eyebrow">Your plan</p><p id="coreAdvice"></p></article>
+            <article><p class="eyebrow">Easy trap</p><p id="mistakeAdvice"></p></article>
+            <article><p class="eyebrow">At this table</p><p id="matchupAdvice"></p></article>
           </section>
 
           <details class="terms-drawer"><summary>Faction terms</summary><dl id="factionTerms"></dl></details>
           <details class="notes-drawer"><summary>Scratchpad</summary><textarea id="notes" aria-label="Table notes" placeholder="Track crafted cards, dominance threats, promises, or exposed tokens."></textarea></details>
 
           <div class="play-controls">
-            <button class="quiet-button" id="resetTurn" type="button">Reset faction</button>
+            <button class="quiet-button" id="resetTurn" type="button">Clear this faction</button>
             <button class="primary-button" id="nextStep" type="button">Next phase</button>
           </div>
         </section>

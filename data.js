@@ -8,7 +8,7 @@ const factions = [
     summary: "Build, recruit, and keep the wood economy moving.",
     tags: ["Militant", "Buildings"],
     tips: [
-      "Wood is your tempo. Before building, check whether paths from sawmills to build sites are intact.",
+      "Keep wood connected to the clearings where you plan to build. One broken route can waste the turn.",
       "Recruiters keep the map yours. Losing too many makes every future action smaller.",
       "Cats win by steady pressure. Build where points, rule, and defense all overlap."
     ],
@@ -20,13 +20,13 @@ const factions = [
     phases: {
       Birdsong: [
         "Place one wood at each sawmill.",
-        "Check whether enemy pieces interrupt paths from wood to intended build clearings.",
-        "Name the clearing you most need to hold through the table round."
+        "Trace the wood route to each place you want to build.",
+        "Pick the one clearing that must still be yours next turn."
       ],
       Daylight: [
         "Craft using workshops, then take three actions: battle, march, recruit, build, or overwork.",
         "Spend bird cards carefully; they are often your emergency flexibility.",
-        "Build only where the points and board position both matter."
+        "Build where it scores and helps you hold the map."
       ],
       Evening: [
         "Draw one card, plus one more if you have at least three recruiters.",
@@ -44,20 +44,20 @@ const factions = [
     summary: "Expand the decree without letting it collapse.",
     tags: ["Militant", "Decree"],
     tips: [
-      "The decree is a promise. Add cards that are likely to stay legal after opponents move.",
+      "Add only Decree cards you can still satisfy after everyone has had a chance to interfere.",
       "Roosts are both scoring and logistics. Losing the wrong one can break the whole turn.",
       "Bird cards add flexibility, but they also make obligations harder to contain."
     ],
     questions: [
       ["Can I recruit safely?", "Recruit failure is one of the easiest ways to fall into turmoil."],
-      ["Where must I move from?", "Check rule and destination before adding movement suits."],
+      ["Where must I move from?", "Make sure you will rule the source or destination before adding that suit."],
       ["What battle will remain legal?", "Make sure at least one target survives opponents' turns."]
     ],
     phases: {
       Birdsong: [
         "Resolve emergency orders or a new roost if either condition applies.",
         "Add one or two cards to the decree, with only one card added to any column.",
-        "Check every decree obligation before committing the new cards."
+        "Run through the whole Decree once before adding the new cards."
       ],
       Daylight: [
         "Craft using roosts.",
@@ -80,7 +80,7 @@ const factions = [
     summary: "Spread sympathy, organize bases, and turn outrage into momentum.",
     tags: ["Insurgent", "Sympathy"],
     tips: [
-      "Sympathy is pressure. Put it where enemies want to move, not only where it is safe.",
+      "Put sympathy where opponents actually want to move. Safe sympathy rarely taxes anyone.",
       "A revolt should create a base you can use, defend, and score from.",
       "Officers are powerful, but organizing sympathy often matters more than fighting."
     ],
@@ -93,7 +93,7 @@ const factions = [
       Birdsong: [
         "You may revolt by spending two matching supporters in a sympathetic clearing.",
         "Spread sympathy by spending supporters matching the target clearing.",
-        "Prioritize clearings that tax movement or threaten future bases."
+        "Favor busy clearings and places that could support a useful base."
       ],
       Daylight: [
         "Craft using sympathy.",
@@ -116,7 +116,7 @@ const factions = [
     summary: "Manage items, relationships, quests, and surgical violence.",
     tags: ["Solo", "Items"],
     tips: [
-      "Items are your action economy. Count boots, tea, coins, and swords before choosing a route.",
+      "Count ready boots first. They decide how much of the map this turn can reach.",
       "Aid changes both score and relationships. Do not feed the leader unless the payoff is immediate.",
       "Hostile status rewrites movement costs. Becoming hostile should be a plan, not an accident."
     ],
@@ -129,17 +129,17 @@ const factions = [
       Birdsong: [
         "Refresh items based on tea, then slip to an adjacent clearing or forest.",
         "Plan around boots first; movement quietly constrains everything.",
-        "Check ruins and quest suits before spending flexible items."
+        "Look at ruins and quest suits before spending flexible items."
       ],
       Daylight: [
         "Exhaust items to move, battle, explore, aid, quest, strike, repair, or craft.",
         "Resolve aid timing carefully if it changes relationships.",
-        "Avoid ending exposed if damaged items would strand next turn."
+        "Do not end exposed unless you can live with the damage next turn."
       ],
       Evening: [
         "Draw one card, plus coin bonuses.",
         "Discard down to five cards.",
-        "Confirm your next refresh, repairs, and likely slip destination."
+        "Know what you will refresh, repair, and slip toward next turn."
       ]
     }
   },
@@ -152,7 +152,7 @@ const factions = [
     summary: "Rule through gardens, acolytes, and the outcast suit.",
     tags: ["Insurgent", "Conversion"],
     tips: [
-      "Gardens are your economy and your weakness. Every garden needs a reason and a defender.",
+      "Every garden needs a job and enough protection. Losing one costs more than the cardboard.",
       "The outcast suit tells you where conspiracies matter. Plan around it before revealing cards.",
       "Acolytes punish attacks, but only if conversion or sanctify targets are worth taking."
     ],
@@ -174,7 +174,7 @@ const factions = [
       Evening: [
         "Return revealed cards to hand, then craft using gardens matching the outcast suit.",
         "Draw one card, plus any uncovered draw bonuses, then discard down to five cards.",
-        "Check which clearings opponents are tempted to attack for acolyte fuel."
+        "Notice which garden looks easiest to attack, and whether the acolytes are worth it."
       ]
     }
   },
@@ -187,7 +187,7 @@ const factions = [
     summary: "Sell services, build trade posts, and turn enemy payments into points.",
     tags: ["Economic", "Services"],
     tips: [
-      "Prices are table politics. Set them for the player you expect to buy, not for everyone equally.",
+      "Price for the player who needs a service now. A shop with no buyers does nothing.",
       "Trade posts score and craft, but they also mark clearings opponents can profitably attack.",
       "Funds are future actions. Spend enough to matter, but keep next turn alive."
     ],
@@ -200,12 +200,12 @@ const factions = [
       Birdsong: [
         "If the Payments box is empty, place two warriors there as protectionism.",
         "If you have a trade post on the map, score dividends from funds without removing them.",
-        "Identify which suit offers the best trade post or crafting pressure."
+        "Pick the suit where a trade post or craft would matter most."
       ],
       Daylight: [
         "Craft using trade posts.",
         "Commit and spend funds for actions: move, battle, recruit, draw, or establish trade posts.",
-        "Avoid spending so deeply that next turn cannot threaten a trade route or key clearing."
+        "Leave enough funds to have a real turn next round."
       ],
       Evening: [
         "Move all warriors on your faction board into Funds.",
@@ -223,7 +223,7 @@ const factions = [
     summary: "Dig tunnels, build markets and citadels, and sway ministers.",
     tags: ["Militant", "Ministers"],
     tips: [
-      "Cards are credentials. Keep suits that prove control where you need to sway.",
+      "Keep cards in suits you occupy. They are what turn board presence into ministers.",
       "Digging changes threat lines. Use tunnels to make buildings and battles relevant immediately.",
       "Ministers compound fast. Sway toward actions your board can actually support."
     ],
@@ -259,7 +259,7 @@ const factions = [
     summary: "Plant plots, misdirect the table, and score through uncertainty.",
     tags: ["Insurgent", "Bluffing"],
     tips: [
-      "Plots are strongest when multiple guesses are plausible.",
+      "Plant plots where at least two guesses make sense. An obvious bluff is barely a bluff.",
       "Your best turns make opponents spend actions checking, exposing, or over-defending.",
       "A flipped plot should either score, disrupt a plan, or force an awkward response."
     ],
@@ -272,7 +272,7 @@ const factions = [
       Birdsong: [
         "Place warriors in clearings with corvid pieces.",
         "Consider whether new warriors make a plot guess easier or harder.",
-        "Identify which opponent can most cheaply expose you."
+        "Notice who can expose a plot without hurting their own turn."
       ],
       Daylight: [
         "Take three actions: move, battle, recruit, plot, trick, or exert.",
@@ -295,7 +295,7 @@ const factions = [
     summary: "Command the Warlord, loot items, spread mobs, and oppress clearings.",
     tags: ["Militant", "Warlord"],
     tips: [
-      "The Warlord is your turn engine. Keep it active, supplied, and difficult to isolate.",
+      "Choose the Warlord's final clearing before the first move. That is where the turn pays off.",
       "Mobs force opponents to respond. Place them where inaction is painful.",
       "Oppression rewards empty rule. Battles should end with territory, not just casualties."
     ],
@@ -308,7 +308,7 @@ const factions = [
       Birdsong: [
         "Resolve every mob token, then return the Warlord to the map if it was removed.",
         "Choose a mood whose listed item is not already in the hoard.",
-        "Follow the faction board before beginning Daylight commands."
+        "Finish the Warlord's Birdsong steps before starting commands."
       ],
       Daylight: [
         "Command the Warlord and warriors to move, battle, and pressure key clearings.",
@@ -331,7 +331,7 @@ const factions = [
     summary: "Build a retinue, recover relics, and guard a disciplined campaign.",
     tags: ["Militant", "Relics"],
     tips: [
-      "The retinue rewards planning and punishes wishful thinking.",
+      "Build the route before committing the Retinue. A relic only matters if you can bring it home.",
       "Relics need routes. Secure movement and escorts before committing to a recovery line.",
       "Waystations are logistics hubs. Place them for multiple recoveries, not a single score."
     ],
@@ -354,7 +354,7 @@ const factions = [
       Evening: [
         "Recover relics through waystations, checking rule and matching suits carefully.",
         "Resolve living off the land, then draw and discard down to five cards.",
-        "Check which retinue cards are now risky because the board changed."
+        "Spot any Retinue card the changed board has made risky."
       ]
     }
   },
@@ -367,7 +367,7 @@ const factions = [
     summary: "Integrate carefully, train warriors, and avoid tipping peace into reprisals.",
     tags: ["Social", "Stability"],
     tips: [
-      "Your position is political as much as tactical. Look safe enough to ignore, but useful enough to score.",
+      "Settle where you can score without giving the table an easy reason to push you out.",
       "Stability matters. Do not spread into clearings you cannot protect from retaliation.",
       "Escalation is a resource. Make opponents pay for disturbing your settled spaces."
     ],
@@ -380,12 +380,12 @@ const factions = [
       Birdsong: [
         "Review your integration and safety plan before adding pressure.",
         "Train or position warriors where they support defense and future scoring.",
-        "Check which clearings could become flashpoints if opponents respond harshly."
+        "Notice which clearings could turn into flashpoints after one attack."
       ],
       Daylight: [
         "Take faction actions toward presence, protection, and scoring.",
-        "Craft or develop only where the board position can survive a table round.",
-        "Avoid moves that create unnecessary retaliation unless escalation is the plan."
+        "Develop where the pieces can survive a full round.",
+        "Do not invite retaliation unless you mean to escalate."
       ],
       Evening: [
         "Resolve scoring and draw effects from your faction board.",
@@ -403,7 +403,7 @@ const factions = [
     summary: "Host assemblies, build political connections, and redirect conflict into debate.",
     tags: ["Social", "Incentives"],
     tips: [
-      "Your best tool is incentive pressure. Make the efficient move point away from you.",
+      "Give opponents a good reason to solve someone else's problem before yours.",
       "Table talk is part of your tempo, but your board state has to back it up.",
       "Push conflict toward the leader and away from your fragile political engine."
     ],
@@ -416,7 +416,7 @@ const factions = [
       Birdsong: [
         "Review assemblies, connections, and the clearings where conflict is about to spike.",
         "Prepare the political position you want to exploit this turn.",
-        "Check whether another player's threat can be redirected rather than fought directly."
+        "See whether someone else's threat can be redirected instead of fought."
       ],
       Daylight: [
         "Take faction actions that develop assemblies and political leverage.",
@@ -439,9 +439,9 @@ const factions = [
     summary: "Raid from the treeline, take hostages, and turn chaos into ransom.",
     tags: ["Solo", "Raiding"],
     tips: [
-      "Raid where the response is awkward. A target is best when it costs actions to punish you.",
+      "Pick the escape before the raid. A hostage is no good if the counterattack wipes you out.",
       "Mobility is protection. End where the next raid is possible and the counterattack is inefficient.",
-      "Ransom pressure is tempo pressure. Take what changes an opponent's next decision."
+      "Take a hostage only when it changes what that opponent can afford to do next."
     ],
     questions: [
       ["Who cannot answer cleanly?", "Choose targets whose warriors, cards, or actions are already stretched."],
@@ -450,12 +450,12 @@ const factions = [
     ],
     phases: {
       Birdsong: [
-        "Check raid lanes from forests, edges, or safe staging positions.",
+        "Trace a raid lane from a forest, edge, or safe staging point.",
         "Prepare the captain or band that best fits the target this turn.",
-        "Identify which opponent can least afford a hostage or forced detour."
+        "Pick the opponent who can least afford a hostage or detour."
       ],
       Daylight: [
-        "Raid, move, battle, or develop your position according to your faction board.",
+        "Take raids, moves, battles, and other actions in the order on your faction board.",
         "Take hostages or pressure targets where the ransom threat matters immediately.",
         "Do not leave your best pieces where one counterattack erases the turn."
       ],
@@ -475,18 +475,18 @@ const phaseColors = {
 };
 
 const mapNotes = {
-  autumn: "Use the printed clearing suits and normal paths.",
-  winter: "Randomize clearing suits before placing pieces.",
-  lake: "Set up the ferry and remember ferry movement draws a card.",
-  mountain: "Place blocked paths and the tower, then clear paths during play.",
-  gorge: "Follow the printed Gorge map setup, including its map-specific paths and landmarks.",
-  marsh: "Follow the printed Marsh map setup, including its map-specific terrain and landmarks."
+  autumn: "Printed suits and open paths; there is nothing extra to randomize.",
+  winter: "Randomize the clearing suits before any faction pieces go down.",
+  lake: "Put out the ferry. Anyone who moves with it draws a card.",
+  mountain: "Block the printed paths and set up the tower. Paths can open during play.",
+  gorge: "Use the Gorge setup printed with the map for its paths and landmarks.",
+  marsh: "Use the Marsh setup printed with the map for its terrain and landmarks."
 };
 
 const deckNotes = {
-  standard: "Use the standard deck; its favor cards make suit control matter.",
-  exiles: "Use Exiles & Partisans; expect more tactical powers and fewer huge favor swings.",
-  squires: "Use Squires & Disciples and follow the printed card text for its newer crafted powers."
+  standard: "The base deck has the Favor cards, so suit control can swing the whole map.",
+  exiles: "Exiles & Partisans trades the Favor cards for smaller, sharper crafted powers.",
+  squires: "Squires & Disciples brings its own crafted powers; use the wording on the cards."
 };
 
 const factionSetup = {
@@ -541,19 +541,19 @@ const factionSetup = {
     "Keep relic values and suits easy to inspect before delving."
   ],
   diaspora: [
-    "Follow the Homeland setup card and keep faction-specific tracks visible.",
-    "Mark safe or contested clearings before the first phase begins.",
-    "Treat this helper as a reminder; use the printed faction materials for exact placement."
+    "Set up from the Homeland faction card.",
+    "Keep the faction tracks where everyone can read them.",
+    "Use the printed materials for the exact pieces and clearings."
   ],
   council: [
-    "Follow the Homeland setup card and prepare assembly materials.",
-    "Keep political markers and incentives visible to the table.",
-    "Treat this helper as a reminder; use the printed faction materials for exact placement."
+    "Set up from the Homeland faction card.",
+    "Put the assembly pieces and political markers where everyone can see them.",
+    "Use the printed materials for the exact pieces and clearings."
   ],
   knaves: [
-    "Follow the Homeland setup card and prepare raiding materials.",
-    "Keep hostages, ransom pieces, and mobility tools easy to track.",
-    "Treat this helper as a reminder; use the printed faction materials for exact placement."
+    "Set up from the Homeland faction card.",
+    "Keep hostages, ransom pieces, and raiding pieces easy to reach.",
+    "Use the printed materials for the exact pieces and clearings."
   ]
 };
 
