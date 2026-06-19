@@ -6,21 +6,17 @@ const factions = [
     color: "#c95532",
     summary: "Build, recruit, and keep the wood economy moving.",
     tags: ["Militant", "Buildings"],
-    tips: [
-      "Keep wood connected to the clearings where you plan to build. One broken route can waste the turn.",
-      "Recruiters replace losses and extend your draw. Do not let opponents strip away too many.",
-      "Build where the points also help you rule or defend an important clearing."
-    ],
+    tip: "Keep wood connected to the clearings where you plan to build. One broken route can waste the turn.",
     questions: [
-      ["Where is my next build?", "Name the clearing and trace the wood path before spending actions."],
-      ["What must stay ruled?", "A single warrior in the right clearing can unlock movement, building, and defense."],
+      ["Where is my next build?", "Choose the clearing and trace its wood path before spending actions."],
+      ["Which clearing must stay ruled?", "One warrior in the right place can preserve movement, building, and defense."],
       ["Is this battle worth an action?", "Fight when it protects economy or removes points, not just because you can."]
     ],
     phases: {
       Birdsong: [
         "Place one wood at each sawmill.",
         "Trace the wood route to each place you want to build.",
-        "Pick the one clearing that must still be yours next turn."
+        "Choose one clearing that must still be yours next turn."
       ],
       Daylight: [
         "Craft using workshops, then take three actions: battle, march, recruit, build, or overwork.",
@@ -41,13 +37,9 @@ const factions = [
     color: "#3f76a6",
     summary: "Expand the decree without letting it collapse.",
     tags: ["Militant", "Decree"],
-    tips: [
-      "Add only Decree cards you can still satisfy after everyone has had a chance to interfere.",
-      "Roosts score and give the Decree places to recruit and build. Losing the wrong one can cause turmoil.",
-      "Bird cards fit any column, but every one adds another action you must complete."
-    ],
+    tip: "Add only Decree cards you can still satisfy after everyone has had a chance to interfere.",
     questions: [
-      ["Can I recruit safely?", "Recruit failure is one of the easiest ways to fall into turmoil."],
+      ["Is recruitment still safe?", "Recruit failure is one of the easiest ways to fall into turmoil."],
       ["Where must I move from?", "Make sure you will rule the source or destination before adding that suit."],
       ["What battle will remain legal?", "Make sure at least one target survives opponents' turns."]
     ],
@@ -76,14 +68,10 @@ const factions = [
     color: "#5d8f4e",
     summary: "Spread sympathy, revolt into bases, and train officers for evening actions.",
     tags: ["Insurgent", "Sympathy"],
-    tips: [
-      "Put sympathy where opponents actually want to move. Safe sympathy rarely taxes anyone.",
-      "A revolt should create a base you can use, defend, and score from.",
-      "Officers are powerful, but organizing sympathy often matters more than fighting."
-    ],
+    tip: "Put sympathy where opponents actually want to move. Safe sympathy rarely taxes anyone.",
     questions: [
       ["Where will outrage matter?", "Place sympathy beside busy paths, contested clearings, or key build sites."],
-      ["What does this base give me?", "A useful base improves your supporters, officers, and crafting."],
+      ["What will this base improve?", "A useful base helps your supporters, officers, and crafting."],
       ["Should I organize instead?", "Turning warriors into sympathy can outscore a flashy battle."]
     ],
     phases: {
@@ -111,15 +99,11 @@ const factions = [
     color: "#72736f",
     summary: "Manage items, relationships, quests, and pick your fights.",
     tags: ["Solo", "Items"],
-    tips: [
-      "Count ready boots first. They decide how much of the map this turn can reach.",
-      "Aid changes both score and relationships. Do not feed the leader unless the payoff is immediate.",
-      "Hostile warriors cost an extra boot to enter. Pick that fight deliberately."
-    ],
+    tip: "Count ready boots first. They decide how much of the map this turn can reach.",
     questions: [
-      ["What can I refresh?", "The next turn starts with the items you chose not to exhaust now."],
+      ["Which items will refresh?", "Next turn begins with whatever you chose not to exhaust now."],
       ["Who is worth aiding?", "Aid for points, items, or access, not just because a card matches."],
-      ["Can I afford damage?", "Explore or battle only when you know how the damaged items get repaired."]
+      ["How much damage can I afford?", "Explore or battle only when you know how the damaged items get repaired."]
     ],
     phases: {
       Birdsong: [
@@ -146,15 +130,11 @@ const factions = [
     color: "#93b95d",
     summary: "Rule through gardens, acolytes, and the outcast suit.",
     tags: ["Insurgent", "Conversion"],
-    tips: [
-      "Every garden needs a job and enough protection. Losing one costs more than the cardboard.",
-      "The outcast suit tells you where conspiracies matter. Plan around it before revealing cards.",
-      "Acolytes matter only when the outcast suit offers a useful conversion or sanctify target."
-    ],
+    tip: "Every garden needs a job and enough protection. Losing one costs more than the cardboard.",
     questions: [
-      ["What can the outcast suit do?", "Look for a useful conversion or sanctify before spending acolytes."],
+      ["What does the outcast suit offer?", "Look for a useful conversion or sanctify before spending acolytes."],
       ["Which garden is exposed?", "Score from gardens before opponents can turn them into points."],
-      ["Can I change rule without battle?", "Conversion often solves problems that warriors cannot."]
+      ["Could conversion change rule?", "Conversion can solve problems that warriors cannot."]
     ],
     phases: {
       Birdsong: [
@@ -164,12 +144,12 @@ const factions = [
       Daylight: [
         "Reveal cards to build, recruit, score, or sacrifice in matching suits.",
         "Reveal suits where the warriors or gardens will be useful.",
-        "Score from a garden before an opponent gets an easy chance to remove it."
+        "Use a scoring ritual before an opponent gets an easy chance to remove that garden."
       ],
       Evening: [
         "Return revealed cards to hand, then craft using gardens matching the outcast suit.",
         "Draw one card, plus any uncovered draw bonuses, then discard down to five cards.",
-        "Notice which garden looks easiest to attack, and whether the acolytes are worth it."
+        "Decide whether the easiest garden to attack is worth the acolytes it may produce."
       ]
     }
   },
@@ -180,11 +160,7 @@ const factions = [
     color: "#2f8f8b",
     summary: "Sell services, build trade posts, and turn enemy payments into points.",
     tags: ["Economic", "Services"],
-    tips: [
-      "Price for the player who needs a service now. A shop with no buyers does nothing.",
-      "Trade posts score and craft, but opponents also score for removing them.",
-      "Every fund you commit is unavailable until Evening. Leave enough for the actions you still need."
-    ],
+    tip: "Price for the player who needs a service now. A shop with no buyers does nothing.",
     questions: [
       ["Who is my customer?", "Price around the player with the clearest need for cards, riverboats, or mercenaries."],
       ["Where is the post safe enough?", "The best trade post scores now and survives long enough to craft later."],
@@ -194,7 +170,7 @@ const factions = [
       Birdsong: [
         "If the Payments box is empty, place two warriors there as protectionism.",
         "If you have a trade post on the map, score dividends from funds without removing them.",
-        "Pick the suit where a trade post or craft would matter most."
+        "Decide which suit would make the best trade post or craft."
       ],
       Daylight: [
         "Craft using trade posts.",
@@ -215,13 +191,9 @@ const factions = [
     color: "#8b7560",
     summary: "Dig tunnels, build markets and citadels, and sway ministers.",
     tags: ["Militant", "Ministers"],
-    tips: [
-      "Keep cards in suits you occupy. They are what turn board presence into ministers.",
-      "A tunnel can put a build or battle on the other side of the map in one action.",
-      "Choose ministers whose actions fit what your pieces can already do."
-    ],
+    tip: "Keep cards in suits you occupy. They are what turn board presence into ministers.",
     questions: [
-      ["What can I prove?", "Before planning Evening, check which suits you occupy and can reveal."],
+      ["Which suits can I reveal?", "Before Evening, check the clearings you occupy."],
       ["Market or citadel?", "Markets help future sways. Citadels replace warriors and protect your buildings."],
       ["What happens if this falls?", "Do not put so many buildings together that one battle ruins the turn."]
     ],
@@ -248,17 +220,13 @@ const factions = [
     name: "Corvid Conspiracy",
     sigil: "C",
     color: "#2e3338",
-    summary: "Plant plots, misdirect the table, and score through uncertainty.",
+    summary: "Hide plots, misdirect the table, and score before opponents expose them.",
     tags: ["Insurgent", "Bluffing"],
-    tips: [
-      "Plant plots where at least two guesses make sense. An obvious bluff is barely a bluff.",
-      "A plot has already helped if an opponent wastes an action dealing with it.",
-      "Flip a plot when its points or effect are worth more than keeping the bluff alive."
-    ],
+    tip: "Plant plots where at least two guesses make sense. An obvious bluff is barely a bluff.",
     questions: [
       ["What could this plot be?", "The clearing should make at least two plot types look believable."],
       ["Who has to deal with it?", "A plot is useful when the right opponent has to spend an action on it."],
-      ["Can I flip before it dies?", "Score plots before a cheap battle or exposure clears them away."]
+      ["Will this plot survive to flip?", "Score it before a cheap battle or exposure clears it away."]
     ],
     phases: {
       Birdsong: [
@@ -285,14 +253,10 @@ const factions = [
     color: "#b13f34",
     summary: "Command the Warlord, loot items, spread mobs, and oppress clearings.",
     tags: ["Militant", "Warlord"],
-    tips: [
-      "Choose the Warlord's final clearing before the first move. That is where the turn pays off.",
-      "Put mobs beside cardboard or in clearings an opponent needs soon.",
-      "Oppression needs clearings with no enemy pieces. Finish the job when you battle."
-    ],
+    tip: "Work backward from the Warlord's final clearing before making the first move.",
     questions: [
       ["Where does the Warlord finish?", "Choose the final clearing before planning the first attack."],
-      ["What must the mob threaten?", "Aim mobs at cardboard, choke points, or clearings opponents need soon."],
+      ["Where will a mob hurt?", "Aim at cardboard, a choke point, or a clearing someone needs soon."],
       ["Which mood helps this turn?", "Pick for the actions you can take now, not the turn you wish you had."]
     ],
     phases: {
@@ -318,17 +282,13 @@ const factions = [
     name: "Keepers in Iron",
     sigil: "K",
     color: "#858a7a",
-    summary: "Build the Retinue, recover relics, and keep the expedition moving.",
+    summary: "Recover relics with a planned Retinue and protected waystations.",
     tags: ["Militant", "Relics"],
-    tips: [
-      "Build the route before committing the Retinue. A relic only matters if you can bring it home.",
-      "Secure the route and escort before committing to a relic.",
-      "Place waystations where they can help recover more than one relic."
-    ],
+    tip: "Build the route before committing the Retinue. A relic only matters if you can bring it home.",
     questions: [
       ["Can this Retinue card resolve?", "Add only what your warriors and waystations can support."],
       ["Which relic has a route?", "The best relic is the one you can escort, recover, and defend."],
-      ["What does this waystation enable?", "A good waystation makes the next two turns easier."]
+      ["What will this waystation support?", "A good location should help with more than one recovery."]
     ],
     phases: {
       Birdsong: [
@@ -355,21 +315,17 @@ const factions = [
     color: "#4e9871",
     summary: "Settle clearings, train warriors, and manage reprisals.",
     tags: ["Social", "Stability"],
-    tips: [
-      "Settle where you can score without giving the table an easy reason to push you out.",
-      "Do not settle a clearing you cannot protect from the next attack.",
-      "Make opponents pay when they disturb a settled clearing."
-    ],
+    tip: "Settle where you can score without giving the table an easy reason to push you out.",
     questions: [
       ["Where can I settle safely?", "Choose a clearing that can survive the next opponent's turn."],
-      ["What must I defend?", "Protect the clearing that holds your scoring together."],
+      ["Which clearing holds this together?", "Protect the one your scoring depends on."],
       ["Who gains by attacking me?", "If nobody gains much, the clearing is less likely to be disturbed."]
     ],
     phases: {
       Birdsong: [
         "Look over settled clearings before adding another one.",
         "Train or move warriors where they defend the clearings you score from.",
-        "Notice which clearings could turn into flashpoints after one attack."
+        "Watch for clearings that could become flashpoints after one attack."
       ],
       Daylight: [
         "Take faction actions to settle, protect, and score.",
@@ -377,9 +333,9 @@ const factions = [
         "Do not invite retaliation unless you mean to escalate."
       ],
       Evening: [
-        "Resolve scoring and draw effects from your faction board.",
+        "Score and draw from the spaces shown on the Diaspora board.",
         "Discard down to hand limit.",
-        "Name the one clearing you most need to keep stable before your next turn."
+        "Choose the one clearing that must remain stable until your next turn."
       ]
     }
   },
@@ -390,15 +346,11 @@ const factions = [
     color: "#6e679b",
     summary: "Hold assemblies, build support, and steer conflict through debate.",
     tags: ["Social", "Incentives"],
-    tips: [
-      "Give opponents a good reason to solve someone else's problem before yours.",
-      "A promise works only when your pieces give the other player a reason to believe it.",
-      "Point conflict toward the leader and away from your assemblies."
-    ],
+    tip: "Give opponents a good reason to solve someone else's problem before yours.",
     questions: [
       ["Who can solve this for me?", "Find the player who gains something by dealing with the same threat."],
       ["Where should conflict move?", "Redirect aggression toward the table leader or a more urgent threat."],
-      ["What choice am I making costly?", "Give opponents a concrete reason to choose another target."]
+      ["What choice am I making costly?", "Make another target more attractive than you are."]
     ],
     phases: {
       Birdsong: [
@@ -412,7 +364,7 @@ const factions = [
         "Promise only what you can still afford to do."
       ],
       Evening: [
-        "Resolve scoring and draw effects from your faction board.",
+        "Score and draw from the spaces shown on the Council board.",
         "Discard down to hand limit.",
         "Notice who has the easiest way to disrupt an assembly before your next turn."
       ]
@@ -425,21 +377,17 @@ const factions = [
     color: "#69533e",
     summary: "Raid from the treeline, take hostages, and turn chaos into ransom.",
     tags: ["Solo", "Raiding"],
-    tips: [
-      "Pick the escape before the raid. A hostage is no good if the counterattack wipes you out.",
-      "End where you can raid again and the target cannot answer cheaply.",
-      "Take a hostage only when it changes what that opponent can afford to do next."
-    ],
+    tip: "Pick the escape before the raid. A hostage is no good if the counterattack wipes you out.",
     questions: [
       ["Who cannot answer cheaply?", "Choose someone whose warriors, cards, or actions are already stretched."],
       ["Where do I escape?", "A raid is only good if the aftermath does not trap your best pieces."],
-      ["What does the ransom change?", "A useful hostage costs the opponent points, actions, or a detour."]
+      ["How does the ransom change the turn?", "A useful hostage costs the opponent points, actions, or a detour."]
     ],
     phases: {
       Birdsong: [
         "Trace a raid route from a forest, edge, or safe starting point.",
         "Prepare the captain or band that best fits the target this turn.",
-        "Pick the opponent who can least afford a hostage or detour."
+        "Target the opponent who can least afford a hostage or detour."
       ],
       Daylight: [
         "Take raids, moves, battles, and other actions in the order on your faction board.",
@@ -528,19 +476,19 @@ const factionSetup = {
     "Arrange relics so their values and suits are easy to see before delving."
   ],
   diaspora: [
-    "Place the starting pieces listed on the Homeland setup card.",
+    "Set out the Diaspora pieces listed on the Homeland setup card.",
     "Keep the faction tracks where everyone can read them.",
-    "Put the remaining pieces beside the faction board."
+    "Group unused warriors and markers beside the faction board."
   ],
   council: [
-    "Place the starting pieces listed on the Homeland setup card.",
+    "Lay out the Council pieces listed on the Homeland setup card.",
     "Put the assembly pieces and political markers where everyone can see them.",
-    "Put the remaining pieces beside the faction board."
+    "Keep unused assembly pieces beside the faction board."
   ],
   knaves: [
-    "Place the starting pieces listed on the Homeland setup card.",
+    "Gather the Knaves pieces listed on the Homeland setup card.",
     "Keep hostages, ransom pieces, and raiding pieces easy to reach.",
-    "Put the remaining pieces beside the faction board."
+    "Set unused bands and markers beside the faction board."
   ]
 };
 

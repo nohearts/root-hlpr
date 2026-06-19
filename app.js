@@ -9,9 +9,9 @@ const factionMeta = {
   corvid: { reach: 3, status: "published", terms: { Exposure: "An enemy guesses a facedown plot by showing a matching card.", Trick: "Swap two plot tokens without revealing them." } },
   hundreds: { reach: 9, status: "published", terms: { Mood: "The Warlord ability chosen for this turn.", Oppress: "Score from clearings you rule that contain no enemy pieces." } },
   keepers: { reach: 8, status: "published", terms: { Retinue: "Cards that set the actions you must take.", Delve: "Move a relic from a forest into an adjacent clearing." } },
-  diaspora: { reach: null, status: "preview", terms: { Homeland: "One of the factions introduced in the Homeland expansion." } },
-  council: { reach: null, status: "preview", terms: { Homeland: "One of the factions introduced in the Homeland expansion." } },
-  knaves: { reach: null, status: "preview", terms: { Homeland: "One of the factions introduced in the Homeland expansion." } }
+  diaspora: { reach: null, status: "preview", terms: {} },
+  council: { reach: null, status: "preview", terms: {} },
+  knaves: { reach: null, status: "preview", terms: {} }
 };
 
 const factionMistakes = {
@@ -69,7 +69,7 @@ const els = Object.fromEntries([
   "gameSetupList", "setupFactionList", "matchupReport", "setupFactionName",
   "setupStepStatus", "factionSetupList", "nextSetupStep", "resetSetupSequence",
   "startPlaying", "phaseTabs", "phaseToken", "phasePrompt", "taskList",
-  "coreAdvice", "mistakeAdvice", "matchupAdvice", "factionTerms", "notes",
+  "coreAdvice", "mistakeAdvice", "matchupAdvice", "termsDrawer", "factionTerms", "notes",
   "nextStep", "resetTurn"
 ].map((id) => [id, document.querySelector(`#${id}`)]));
 
@@ -388,10 +388,12 @@ function renderPlay() {
     els.taskList.append(item);
   });
 
-  els.coreAdvice.textContent = faction.tips[0] || faction.summary;
+  els.coreAdvice.textContent = faction.tip || faction.summary;
   els.mistakeAdvice.textContent = factionMistakes[faction.id] || "Spending actions without protecting the pieces that score.";
   els.matchupAdvice.textContent = factionTableConcern(faction);
-  els.factionTerms.innerHTML = Object.entries(factionMeta[faction.id].terms).map(([term, meaning]) => `<dt>${term}</dt><dd>${meaning}</dd>`).join("");
+  const terms = Object.entries(factionMeta[faction.id].terms);
+  els.termsDrawer.hidden = terms.length === 0;
+  els.factionTerms.innerHTML = terms.map(([term, meaning]) => `<dt>${term}</dt><dd>${meaning}</dd>`).join("");
   els.notes.value = localStorage.getItem(`rootHelperNotes-${state.sessionId}-${faction.id}`) || "";
   els.nextStep.textContent = state.phaseIndex === phases.length - 1 ? "Finish turn" : `Next: ${phases[state.phaseIndex + 1]}`;
 }
