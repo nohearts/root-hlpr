@@ -1,17 +1,17 @@
 const factionMeta = {
-  marquise: { reach: 10, status: "published", terms: { Wood: "Sawmills produce wood. Spend it along connected clearings you rule to build.", Rule: "You rule a clearing if you have more warriors and buildings there than any other player." } },
-  eyrie: { reach: 7, status: "published", terms: { Decree: "The Recruit, Move, Battle, and Build actions you must complete each turn.", Turmoil: "What happens when you cannot complete an action in the Decree." } },
-  alliance: { reach: 3, status: "published", terms: { Supporters: "Cards kept beside your board and spent on revolts and sympathy.", Outrage: "The card an enemy owes when moving into sympathy or removing it." } },
-  vagabond: { reach: 5, status: "published", terms: { Refresh: "Turn exhausted items upright so they can be used again.", Hostile: "A relationship that changes movement and scoring against that faction." } },
-  cult: { reach: 2, status: "published", terms: { Outcast: "The suit where conspiracies can be used.", Acolytes: "Warriors gained while defending and later spent on conspiracies." } },
-  riverfolk: { reach: 5, status: "published", terms: { Funds: "Warriors in the Funds box that can pay for actions.", Services: "Cards, Riverboats, and Mercenaries that other players can buy." } },
-  duchy: { reach: 8, status: "published", terms: { Sway: "Reveal cards matching clearings you occupy to gain a minister.", "Price of Failure": "The penalty for losing a building in battle." } },
-  corvid: { reach: 3, status: "published", terms: { Exposure: "An enemy guesses a facedown plot by showing a matching card.", Trick: "Swap two plot tokens without revealing them." } },
-  hundreds: { reach: 9, status: "published", terms: { Mood: "The Warlord ability chosen for this turn.", Oppress: "Score from clearings you rule that contain no enemy pieces." } },
-  keepers: { reach: 8, status: "published", terms: { Retinue: "Cards that set the actions you must take.", Delve: "Move a relic from a forest into an adjacent clearing." } },
-  diaspora: { reach: null, status: "preview", terms: {} },
-  council: { reach: null, status: "preview", terms: {} },
-  knaves: { reach: null, status: "preview", terms: {} }
+  marquise: { reach: 10, terms: { Wood: "Sawmills produce wood. Spend it along connected clearings you rule to build.", Rule: "You rule a clearing if you have more warriors and buildings there than any other player." } },
+  eyrie: { reach: 7, terms: { Decree: "The Recruit, Move, Battle, and Build actions you must complete each turn.", Turmoil: "What happens when you cannot complete an action in the Decree." } },
+  alliance: { reach: 3, terms: { Supporters: "Cards kept beside your board and spent on revolts and sympathy.", Outrage: "The card an enemy owes when moving into sympathy or removing it." } },
+  vagabond: { reach: 5, terms: { Refresh: "Turn exhausted items upright so they can be used again.", Hostile: "A relationship that changes movement and scoring against that faction." } },
+  cult: { reach: 2, terms: { Outcast: "The suit where conspiracies can be used.", Acolytes: "Warriors gained while defending and later spent on conspiracies." } },
+  riverfolk: { reach: 5, terms: { Funds: "Warriors in the Funds box that can pay for actions.", Services: "Cards, Riverboats, and Mercenaries that other players can buy." } },
+  duchy: { reach: 8, terms: { Sway: "Reveal cards matching clearings you occupy to gain a minister.", "Price of Failure": "The penalty for losing a building in battle." } },
+  corvid: { reach: 3, terms: { Exposure: "An enemy guesses a facedown plot by showing a matching card.", Trick: "Swap two plot tokens without revealing them." } },
+  hundreds: { reach: 9, terms: { Mood: "The Warlord ability chosen for this turn.", Oppress: "Score from clearings you rule that contain no enemy pieces." } },
+  keepers: { reach: 8, terms: { Retinue: "Cards that set the actions you must take.", Delve: "Move a relic from a forest into an adjacent clearing." } },
+  diaspora: { reach: null, terms: {} },
+  council: { reach: null, terms: {} },
+  knaves: { reach: null, terms: {} }
 };
 
 const factionMistakes = {
@@ -221,7 +221,7 @@ function renderSetupFactions() {
 
     const choice = document.createElement("label");
     choice.className = "setup-faction-choice";
-    choice.innerHTML = `<input type="checkbox" ${selectedIndex >= 0 ? "checked" : ""} ${selectedIndex < 0 && lineupFull ? "disabled" : ""}><span><strong>${faction.name}</strong><small>${faction.tags.join(" / ")}${factionMeta[faction.id].status === "preview" ? " / Preview" : ""}</small></span>`;
+    choice.innerHTML = `<input type="checkbox" ${selectedIndex >= 0 ? "checked" : ""} ${selectedIndex < 0 && lineupFull ? "disabled" : ""}><span><strong>${faction.name}</strong><small>${faction.tags.join(" / ")}</small></span>`;
     choice.querySelector("input").addEventListener("change", (event) => {
       if (event.target.checked) {
         state.setup.factions.push(faction.id);
@@ -273,14 +273,13 @@ function matchupFindings() {
   const missing = state.setup.players - selected.length;
   if (missing !== 0) findings.push({ level: "blocker", text: missing > 0 ? `${missing} seat${missing === 1 ? " is" : "s are"} still open.` : `${Math.abs(missing)} too many faction${Math.abs(missing) === 1 ? "" : "s"} selected.` });
 
-  const knownReach = selected.map((faction) => factionMeta[faction.id].reach);
-  const hasPreview = knownReach.some((reach) => reach === null);
-  const reach = knownReach.filter(Number.isFinite).reduce((total, value) => total + value, 0);
+  const reachValues = selected.map((faction) => factionMeta[faction.id].reach);
+  const reachComplete = reachValues.every(Number.isFinite);
+  const reach = reachValues.filter(Number.isFinite).reduce((total, value) => total + value, 0);
   const threshold = { 2: 17, 3: 18, 4: 21, 5: 25, 6: 28 }[state.setup.players];
-  if (state.setup.style === "standard" && threshold && !hasPreview && selected.length === state.setup.players && reach < threshold) {
+  if (state.setup.style === "standard" && threshold && reachComplete && selected.length === state.setup.players && reach < threshold) {
     findings.push({ level: "caution", text: `Reach is ${reach}, while ${threshold} is recommended. Fewer pieces will contest the map, so slowing a leader may take extra work.` });
   }
-  if (hasPreview) findings.push({ level: "caution", text: "This lineup includes Homeland preview material, so its Reach total is incomplete." });
 
   const militant = selected.filter((faction) => faction.tags.includes("Militant")).length;
   const economic = selected.filter((faction) => faction.tags.includes("Economic")).length;
@@ -296,7 +295,7 @@ function matchupFindings() {
   if (ids.has("alliance") && ids.has("cult")) findings.push({ level: "unusual", text: "Alliance and Cult can both punish attacks. Militant factions should save actions for policing them." });
   if (ids.has("keepers") && ids.has("hundreds")) findings.push({ level: "unusual", text: "Keepers and Hundreds both need room to travel. The map may get cramped early." });
   if (selected.length === state.setup.players && !findings.some((item) => item.level === "blocker")) {
-    findings.push({ level: "ready", text: `${militant} militant, ${indirect} indirect${hasPreview ? ", with preview material" : threshold ? `, Reach ${reach} against ${threshold} recommended` : ""}. This describes how the lineup may interact; it does not predict a winner.` });
+    findings.push({ level: "ready", text: `${militant} militant, ${indirect} indirect${reachComplete && threshold ? `, Reach ${reach} against ${threshold} recommended` : ""}. This describes how the lineup may interact; it does not predict a winner.` });
   }
   return findings;
 }
@@ -344,8 +343,7 @@ function renderFactionSetup() {
   state.setup.taskIndex = Math.min(state.setup.taskIndex, tasks.length - 1);
   const isLastTask = state.setup.taskIndex === tasks.length - 1;
   els.setupFactionName.textContent = faction.name;
-  const publishedOrder = factionMeta[faction.id].status === "published" && profile;
-  els.setupStepStatus.textContent = `${state.setup.stepIndex + 1} of ${sequence.length} factions / step ${state.setup.taskIndex + 1} of ${tasks.length} / ${state.setup.style === "advanced" ? "reverse turn order" : publishedOrder ? `setup ${profile.setupLetter}` : "Homeland setup card"}`;
+  els.setupStepStatus.textContent = `${state.setup.stepIndex + 1} of ${sequence.length} factions / step ${state.setup.taskIndex + 1} of ${tasks.length} / ${state.setup.style === "advanced" ? "reverse turn order" : profile ? `setup ${profile.setupLetter}` : "faction setup card"}`;
   els.factionSetupList.innerHTML = tasks.map((task, index) => `<li class="${index < state.setup.taskIndex ? "complete" : index === state.setup.taskIndex ? "current" : "upcoming"}">${task}</li>`).join("");
   els.nextSetupStep.disabled = isLast && isLastTask;
   els.nextSetupStep.textContent = isLastTask ? isLast ? "Setup complete" : "Next faction" : "Done";
@@ -407,9 +405,7 @@ function render() {
   els.openSetup.hidden = !state.active || !isPlay;
   els.resumeGame.hidden = !state.active || isPlay;
   els.endGame.hidden = !state.active;
-  els.sessionLabel.textContent = isPlay
-    ? factionMeta[faction.id].status === "preview" ? "Game in progress / Homeland preview" : "Game in progress"
-    : state.active ? "Setting up" : "No active game";
+  els.sessionLabel.textContent = isPlay ? "Game in progress" : state.active ? "Setting up" : "No active game";
   els.factionName.textContent = isPlay ? faction.name : "Set up a game";
   els.factionSummary.textContent = isPlay ? faction.summary : "Pick the table, then add factions clockwise from first player.";
   renderFactions();
