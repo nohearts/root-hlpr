@@ -87,6 +87,17 @@ function loadChecks() {
   state.checks = state.sessionId ? readJson(checksKey(), {}) : {};
 }
 
+function clearSessionData() {
+  if (!state.sessionId) return;
+  localStorage.removeItem(checksKey());
+  const notePrefix = `rootHelperNotes-${state.sessionId}-`;
+  for (let index = localStorage.length - 1; index >= 0; index -= 1) {
+    const key = localStorage.key(index);
+    if (key?.startsWith(notePrefix)) localStorage.removeItem(key);
+  }
+  state.checks = {};
+}
+
 function persist() {
   localStorage.setItem("rootHelperMode", state.mode);
   localStorage.setItem("rootHelperActive", String(state.active));
@@ -200,19 +211,20 @@ function renderTableSetup() {
 function renderSetupFactions() {
   els.setupFactionList.innerHTML = "";
   const sequence = setupSequence();
+  const lineupFull = state.setup.factions.length >= state.setup.players;
   factions.forEach((faction) => {
     const selectedIndex = state.setup.factions.indexOf(faction.id);
     const setupIndex = sequence.findIndex((item) => item.id === faction.id);
-    const label = document.createElement("label");
-    label.className = `setup-faction${setupIndex === state.setup.stepIndex ? " active" : ""}${setupIndex >= 0 && setupIndex < state.setup.stepIndex ? " complete" : ""}`;
-    label.style.setProperty("--faction", faction.color);
-    label.innerHTML = `<input type="checkbox" ${selectedIndex >= 0 ? "checked" : ""}><span><strong>${faction.name}</strong><small>${faction.tags.join(" / ")}${factionMeta[faction.id].status === "preview" ? " / Preview" : ""}</small></span>${selectedIndex >= 0 ? `<b>Seat ${selectedIndex + 1}</b>` : ""}`;
-    label.querySelector("input").addEventListener("change", (event) => {
-      if (event.target.checked && state.setup.factions.length < state.setup.players) {
+    const row = document.createElement("div");
+    row.className = `setup-faction${setupIndex === state.setup.stepIndex ? " active" : ""}${setupIndex >= 0 && setupIndex < state.setup.stepIndex ? " complete" : ""}${selectedIndex < 0 && lineupFull ? " unavailable" : ""}`;
+    row.style.setProperty("--faction", faction.color);
+
+    const choice = document.createElement("label");
+    choice.className = "setup-faction-choice";
+    choice.innerHTML = `<input type="checkbox" ${selectedIndex >= 0 ? "checked" : ""} ${selectedIndex < 0 && lineupFull ? "disabled" : ""}><span><strong>${faction.name}</strong><small>${faction.tags.join(" / ")}${factionMeta[faction.id].status === "preview" ? " / Preview" : ""}</small></span>`;
+    choice.querySelector("input").addEventListener("change", (event) => {
+      if (event.target.checked) {
         state.setup.factions.push(faction.id);
-      } else if (event.target.checked) {
-        event.target.checked = false;
-        return;
       } else {
         state.setup.factions = state.setup.factions.filter((id) => id !== faction.id);
       }
@@ -221,7 +233,37 @@ function renderSetupFactions() {
       persist();
       render();
     });
-    els.setupFactionList.append(label);
+    row.append(choice);
+
+    if (selectedIndex >= 0) {
+      const controls = document.createElement("div");
+      controls.className = "seat-controls";
+      controls.innerHTML = `<b>Seat ${selectedIndex + 1}</b>`;
+      [
+        { offset: -1, label: `Move ${faction.name} earlier`, symbol: "&uarr;" },
+        { offset: 1, label: `Move ${faction.name} later`, symbol: "&darr;" }
+      ].forEach(({ offset, label, symbol }) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "seat-order-button";
+        button.innerHTML = symbol;
+        button.setAttribute("aria-label", label);
+        button.title = label;
+        button.disabled = selectedIndex + offset < 0 || selectedIndex + offset >= state.setup.factions.length;
+        button.addEventListener("click", () => {
+          const targetIndex = selectedIndex + offset;
+          [state.setup.factions[selectedIndex], state.setup.factions[targetIndex]] = [state.setup.factions[targetIndex], state.setup.factions[selectedIndex]];
+          state.setup.stepIndex = 0;
+          state.setup.taskIndex = 0;
+          persist();
+          render();
+        });
+        controls.append(button);
+      });
+      row.append(controls);
+    }
+
+    els.setupFactionList.append(row);
   });
 }
 
@@ -292,6 +334,7 @@ function renderFactionSetup() {
     els.nextSetupStep.disabled = true;
     els.resetSetupSequence.disabled = true;
     els.startPlaying.disabled = true;
+    els.startPlaying.textContent = "Choose factions first";
     return;
   }
 
@@ -307,7 +350,10 @@ function renderFactionSetup() {
   els.nextSetupStep.disabled = isLast && isLastTask;
   els.nextSetupStep.textContent = isLastTask ? isLast ? "Setup complete" : "Next faction" : "Done";
   els.resetSetupSequence.disabled = state.setup.stepIndex === 0 && state.setup.taskIndex === 0;
-  els.startPlaying.disabled = matchupFindings().some((finding) => finding.level === "blocker") || !isLast || !isLastTask;
+  const lineupBlocked = matchupFindings().some((finding) => finding.level === "blocker");
+  const setupComplete = isLast && isLastTask;
+  els.startPlaying.disabled = lineupBlocked || !setupComplete;
+  els.startPlaying.textContent = lineupBlocked ? "Fill every seat" : setupComplete ? "Start playing" : "Finish faction setup";
 }
 
 function taskKey(faction, phase, index) {
@@ -383,6 +429,8 @@ function render() {
 }
 
 function resetForNewGame() {
+  if (state.active && !window.confirm("Start a new game? Current checklist and notes will be cleared.")) return;
+  clearSessionData();
   createSession();
   state.mode = "setup";
   state.phaseIndex = 0;
@@ -434,7 +482,15 @@ els.resumeGame.addEventListener("click", () => {
   persist(); render();
 });
 els.newGame.addEventListener("click", resetForNewGame);
-els.endGame.addEventListener("click", () => { state.active = false; state.mode = "setup"; state.checks = {}; persist(); render(); });
+els.endGame.addEventListener("click", () => {
+  if (!window.confirm("End this game? Current checklist and notes will be cleared.")) return;
+  clearSessionData();
+  state.active = false;
+  state.mode = "setup";
+  state.sessionId = "";
+  persist();
+  render();
+});
 els.nextStep.addEventListener("click", () => {
   const phases = Object.keys(currentFaction().phases);
   const finishedTurn = state.phaseIndex === phases.length - 1;

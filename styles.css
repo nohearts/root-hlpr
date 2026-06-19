@@ -102,14 +102,21 @@ main { min-width: 0; padding: 24px clamp(18px, 3vw, 42px) 92px; }
 .setup-checklist li.upcoming { opacity: .52; }
 
 .setup-factions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
-.setup-faction { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 7px; align-items: center; min-height: 55px; padding: 7px; border: 1px solid var(--line); border-left: 5px solid var(--faction); border-radius: 6px; background: var(--paper); cursor: pointer; }
+.setup-faction { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px; align-items: center; min-height: 55px; padding: 7px; border: 1px solid var(--line); border-left: 5px solid var(--faction); border-radius: 6px; background: var(--paper); }
 .setup-faction.active { background: color-mix(in srgb, var(--faction) 13%, white); box-shadow: inset 0 0 0 1px var(--faction); }
 .setup-faction.complete { opacity: .66; }
+.setup-faction.unavailable { opacity: .46; }
+.setup-faction-choice { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 7px; align-items: center; min-width: 0; cursor: pointer; }
+.setup-faction-choice:has(input:disabled) { cursor: not-allowed; }
 .setup-faction input { width: 17px; height: 17px; accent-color: var(--faction); }
 .setup-faction span, .setup-faction strong, .setup-faction small { display: block; min-width: 0; }
 .setup-faction strong { font-size: .78rem; line-height: 1.2; }
 .setup-faction small { margin-top: 3px; color: var(--muted); font-size: .62rem; }
 .setup-faction b { color: var(--muted); font-size: .62rem; white-space: nowrap; }
+.seat-controls { display: grid; grid-template-columns: auto 30px 30px; gap: 3px; align-items: center; }
+.seat-order-button { display: grid; place-items: center; width: 30px; height: 30px; min-height: 30px; padding: 0; border: 1px solid var(--line); border-radius: 5px; background: var(--paper-strong); color: var(--ink); font-weight: 900; cursor: pointer; }
+.seat-order-button:hover:not(:disabled) { border-color: var(--faction); }
+.seat-order-button:disabled { opacity: .3; cursor: not-allowed; }
 .matchup-report { grid-column: 2; display: grid; gap: 7px; margin-top: 12px; }
 .matchup-item { display: grid; grid-template-columns: 92px 1fr; gap: 9px; margin: 0; padding: 9px 11px; border-left: 4px solid; background: var(--paper); font-size: .85rem; }
 .matchup-item strong { text-transform: uppercase; font-size: .68rem; }
