@@ -1,33 +1,33 @@
 const factionMeta = {
-  marquise: { reach: 10, status: "published", terms: { Wood: "Placed at sawmills and spent through ruled paths to build.", Rule: "You rule a clearing when you have more warriors and buildings there than each other player." } },
-  eyrie: { reach: 7, status: "published", terms: { Decree: "The growing set of mandatory Recruit, Move, Battle, and Build actions.", Turmoil: "The penalty for failing to complete any action in the Decree." } },
-  alliance: { reach: 3, status: "published", terms: { Supporters: "Cards kept separately and spent for revolt and sympathy.", Outrage: "The penalty enemies pay when removing sympathy or moving into a sympathetic clearing." } },
+  marquise: { reach: 10, status: "published", terms: { Wood: "Sawmills produce wood. Spend it along connected clearings you rule to build.", Rule: "You rule a clearing if you have more warriors and buildings there than any other player." } },
+  eyrie: { reach: 7, status: "published", terms: { Decree: "The Recruit, Move, Battle, and Build actions you must complete each turn.", Turmoil: "What happens when you cannot complete an action in the Decree." } },
+  alliance: { reach: 3, status: "published", terms: { Supporters: "Cards kept beside your board and spent on revolts and sympathy.", Outrage: "The card an enemy owes when moving into sympathy or removing it." } },
   vagabond: { reach: 5, status: "published", terms: { Refresh: "Turn exhausted items upright so they can be used again.", Hostile: "A relationship that changes movement and scoring against that faction." } },
-  cult: { reach: 2, status: "published", terms: { Outcast: "The suit currently eligible for conspiracies.", Acolytes: "Warriors gained when defending in battle; spent on conspiracies." } },
-  riverfolk: { reach: 5, status: "published", terms: { Funds: "Warriors in the Funds box available for actions.", Services: "Cards, Riverboats, and Mercenaries offered to other players." } },
-  duchy: { reach: 8, status: "published", terms: { Sway: "Reveal cards matching occupied clearings to gain a minister.", "Price of Failure": "The penalty for losing a building in battle." } },
+  cult: { reach: 2, status: "published", terms: { Outcast: "The suit where conspiracies can be used.", Acolytes: "Warriors gained while defending and later spent on conspiracies." } },
+  riverfolk: { reach: 5, status: "published", terms: { Funds: "Warriors in the Funds box that can pay for actions.", Services: "Cards, Riverboats, and Mercenaries that other players can buy." } },
+  duchy: { reach: 8, status: "published", terms: { Sway: "Reveal cards matching clearings you occupy to gain a minister.", "Price of Failure": "The penalty for losing a building in battle." } },
   corvid: { reach: 3, status: "published", terms: { Exposure: "An enemy guesses a facedown plot by showing a matching card.", Trick: "Swap two plot tokens without revealing them." } },
-  hundreds: { reach: 9, status: "published", terms: { Mood: "The Warlord ability chosen for the turn.", Oppress: "Score for clearings you rule that contain no enemy pieces." } },
-  keepers: { reach: 8, status: "published", terms: { Retinue: "Cards assigned to mandatory faction actions.", Delve: "Move a relic from a forest into an adjacent clearing." } },
-  diaspora: { reach: null, status: "preview", terms: { Homeland: "This faction belongs to the Homeland expansion; use final printed materials for exact terms." } },
-  council: { reach: null, status: "preview", terms: { Homeland: "This faction belongs to the Homeland expansion; use final printed materials for exact terms." } },
-  knaves: { reach: null, status: "preview", terms: { Homeland: "This faction belongs to the Homeland expansion; use final printed materials for exact terms." } }
+  hundreds: { reach: 9, status: "published", terms: { Mood: "The Warlord ability chosen for this turn.", Oppress: "Score from clearings you rule that contain no enemy pieces." } },
+  keepers: { reach: 8, status: "published", terms: { Retinue: "Cards that set the actions you must take.", Delve: "Move a relic from a forest into an adjacent clearing." } },
+  diaspora: { reach: null, status: "preview", terms: { Homeland: "One of the factions introduced in the Homeland expansion." } },
+  council: { reach: null, status: "preview", terms: { Homeland: "One of the factions introduced in the Homeland expansion." } },
+  knaves: { reach: null, status: "preview", terms: { Homeland: "One of the factions introduced in the Homeland expansion." } }
 };
 
 const factionMistakes = {
   marquise: "Building for points while leaving the wood route or recruiter network easy to break.",
   eyrie: "Adding a Decree card because it works now without checking whether it will remain legal next turn.",
-  alliance: "Revolting for spectacle instead of placing a base that supports officers, cards, and future sympathy.",
+  alliance: "Revolting somewhere a new base will be hard to defend or use.",
   vagabond: "Spending boots and swords early, then discovering there is no safe route or repair plan.",
   cult: "Building gardens faster than they can be defended, giving opponents points and disrupting card draw.",
   riverfolk: "Pricing every service high and then starving the Company of the payments that power its turn.",
-  duchy: "Swaying an impressive minister whose action you cannot use turn after turn.",
+  duchy: "Swaying a minister whose action you cannot use turn after turn.",
   corvid: "Planting plots in obvious locations where exposure or one inexpensive battle removes the bluff.",
   hundreds: "Chasing battles while leaving the Warlord isolated and too little territory available for oppression.",
-  keepers: "Adding Retinue obligations before securing the movement lanes, relics, and waystations needed to resolve them.",
-  diaspora: "Treating preview strategy as settled before checking the final printed Homeland faction board.",
-  council: "Relying on promises when your pieces give the table no reason to keep them.",
-  knaves: "Taking a tempting raid without planning the escape, ransom timing, or response from the target."
+  keepers: "Adding cards to the Retinue before you have the route, relic, or waystation to complete them.",
+  diaspora: "Spreading into clearings that cannot survive the next round of retaliation.",
+  council: "Making promises when your pieces give the table no reason to honor them.",
+  knaves: "Starting a raid without planning the escape or the target's counterattack."
 };
 
 const defaultSetup = {
@@ -121,7 +121,7 @@ function clampSetupStep() {
 function setupTasks(faction) {
   return [
     "Put the faction board or Advanced Setup card in front of you.",
-    ...(factionSetup[faction.id] || ["Set up from the printed faction instructions."]),
+    ...(factionSetup[faction.id] || ["Place the starting pieces listed on the faction board."]),
     "Make sure every track, card, and piece is ready."
   ];
 }
@@ -161,7 +161,7 @@ function setupRuleNotes() {
     return [
       "Choose seats and first player before the draft.",
       "Draft in reverse turn order: the last player picks and sets up first.",
-      "Add factions here in clockwise turn order; the setup guide will reverse them for you.",
+      "Add factions here in clockwise turn order. The setup guide will reverse them for you.",
       "Use each Advanced Setup card for pieces and placement."
     ];
   }
@@ -236,7 +236,7 @@ function matchupFindings() {
   const reach = knownReach.filter(Number.isFinite).reduce((total, value) => total + value, 0);
   const threshold = { 2: 17, 3: 18, 4: 21, 5: 25, 6: 28 }[state.setup.players];
   if (state.setup.style === "standard" && threshold && !hasPreview && selected.length === state.setup.players && reach < threshold) {
-    findings.push({ level: "caution", text: `Reach is ${reach}; ${threshold} is recommended. Expect a quieter map with less built-in policing.` });
+    findings.push({ level: "caution", text: `Reach is ${reach}, while ${threshold} is recommended. Fewer pieces will contest the map, so slowing a leader may take extra work.` });
   }
   if (hasPreview) findings.push({ level: "caution", text: "This lineup includes Homeland preview material, so its Reach total is incomplete." });
 
@@ -246,15 +246,15 @@ function matchupFindings() {
   const indirect = selected.filter((faction) => faction.tags.includes("Insurgent") || faction.tags.includes("Solo") || faction.tags.includes("Social")).length;
   const ids = new Set(selected.map((faction) => faction.id));
   if (state.setup.players === 2 && militant < 2) findings.push({ level: "caution", text: "Two-player Root works best when both factions can hold and contest territory." });
-  if (state.setup.players >= 4 && militant === 0) findings.push({ level: "caution", text: "Nobody naturally anchors the map. Keep an eye on scoring engines that are hard to reach." });
-  if (economic && state.setup.players < 3) findings.push({ level: "caution", text: "Riverfolk will have only one customer, which can make their economy brittle." });
+  if (state.setup.players >= 4 && militant === 0) findings.push({ level: "caution", text: "No selected faction begins with a large army. Watch factions that can score without holding much territory." });
+  if (economic && state.setup.players < 3) findings.push({ level: "caution", text: "Riverfolk will have only one customer, leaving little room for a bad sales round." });
   if (indirect > militant + 1) findings.push({ level: "unusual", text: "This table scores more easily than it polices. Someone still has to slow the leader down." });
   if (social > 1) findings.push({ level: "unusual", text: "Expect plenty of negotiation, with deals shaping turns as much as the pieces do." });
   if (ids.has("hundreds") && ids.has("vagabond")) findings.push({ level: "unusual", text: "Hundreds and Vagabond both want the items. Early access will matter." });
-  if (ids.has("alliance") && ids.has("cult")) findings.push({ level: "unusual", text: "Alliance and Cult both make aggression awkward. The militant factions need to leave actions for policing." });
+  if (ids.has("alliance") && ids.has("cult")) findings.push({ level: "unusual", text: "Alliance and Cult can both punish attacks. Militant factions should save actions for policing them." });
   if (ids.has("keepers") && ids.has("hundreds")) findings.push({ level: "unusual", text: "Keepers and Hundreds both need room to travel. The map may get cramped early." });
   if (selected.length === state.setup.players && !findings.some((item) => item.level === "blocker")) {
-    findings.push({ level: "ready", text: `${militant} militant, ${indirect} indirect${hasPreview ? ", with preview material" : threshold ? `, Reach ${reach} against ${threshold} recommended` : ""}. This should give you a sense of the table, not predict the winner.` });
+    findings.push({ level: "ready", text: `${militant} militant, ${indirect} indirect${hasPreview ? ", with preview material" : threshold ? `, Reach ${reach} against ${threshold} recommended` : ""}. This describes how the lineup may interact; it does not predict a winner.` });
   }
   return findings;
 }
@@ -277,7 +277,7 @@ function factionTableConcern(faction) {
   if (faction.id === "alliance" && militant >= 2) return "Several factions can clear sympathy. Put it on routes they cannot comfortably ignore.";
   if (economic) return "Buying from Riverfolk can launch the leader. Notice who gets the biggest turn from a purchase.";
   if (militant >= 2) return "This map will fill quickly. Keep a route open and do not become the easiest source of cardboard points.";
-  if (insurgent >= 2) return "A lot of scoring here does not depend on rule. Watch engines and tokens, not just territory.";
+  if (insurgent >= 2) return "A lot of scoring here does not depend on rule. Watch scoring tracks and tokens, not just territory.";
   return faction.questions[state.phaseIndex % faction.questions.length][1];
 }
 
@@ -302,7 +302,7 @@ function renderFactionSetup() {
   const isLastTask = state.setup.taskIndex === tasks.length - 1;
   els.setupFactionName.textContent = faction.name;
   const publishedOrder = factionMeta[faction.id].status === "published" && profile;
-  els.setupStepStatus.textContent = `${state.setup.stepIndex + 1} of ${sequence.length} factions / step ${state.setup.taskIndex + 1} of ${tasks.length} / ${state.setup.style === "advanced" ? "reverse turn order" : publishedOrder ? `setup ${profile.setupLetter}` : "use the printed setup card"}`;
+  els.setupStepStatus.textContent = `${state.setup.stepIndex + 1} of ${sequence.length} factions / step ${state.setup.taskIndex + 1} of ${tasks.length} / ${state.setup.style === "advanced" ? "reverse turn order" : publishedOrder ? `setup ${profile.setupLetter}` : "Homeland setup card"}`;
   els.factionSetupList.innerHTML = tasks.map((task, index) => `<li class="${index < state.setup.taskIndex ? "complete" : index === state.setup.taskIndex ? "current" : "upcoming"}">${task}</li>`).join("");
   els.nextSetupStep.disabled = isLast && isLastTask;
   els.nextSetupStep.textContent = isLastTask ? isLast ? "Setup complete" : "Next faction" : "Done";
@@ -343,7 +343,7 @@ function renderPlay() {
   });
 
   els.coreAdvice.textContent = faction.tips[0] || faction.summary;
-  els.mistakeAdvice.textContent = factionMistakes[faction.id] || "Spending actions without protecting the faction's scoring engine.";
+  els.mistakeAdvice.textContent = factionMistakes[faction.id] || "Spending actions without protecting the pieces that score.";
   els.matchupAdvice.textContent = factionTableConcern(faction);
   els.factionTerms.innerHTML = Object.entries(factionMeta[faction.id].terms).map(([term, meaning]) => `<dt>${term}</dt><dd>${meaning}</dd>`).join("");
   els.notes.value = localStorage.getItem(`rootHelperNotes-${state.sessionId}-${faction.id}`) || "";
@@ -359,8 +359,9 @@ function render() {
   els.openSetup.hidden = !state.active || !isPlay;
   els.resumeGame.hidden = !state.active || isPlay;
   els.endGame.hidden = !state.active;
-  const rulesStatus = factionMeta[faction.id].status === "preview" ? "Preview rules" : "Published rules";
-  els.sessionLabel.textContent = isPlay ? `${rulesStatus} / playing` : state.active ? "Setting up" : "No active game";
+  els.sessionLabel.textContent = isPlay
+    ? factionMeta[faction.id].status === "preview" ? "Game in progress / Homeland preview" : "Game in progress"
+    : state.active ? "Setting up" : "No active game";
   els.factionName.textContent = isPlay ? faction.name : "Set up a game";
   els.factionSummary.textContent = isPlay ? faction.summary : "Pick the table, then add factions clockwise from first player.";
   renderFactions();

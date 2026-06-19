@@ -2,15 +2,14 @@ const factions = [
   {
     id: "marquise",
     name: "Marquise de Cat",
-    type: "Engine Builder",
     sigil: "M",
     color: "#c95532",
     summary: "Build, recruit, and keep the wood economy moving.",
     tags: ["Militant", "Buildings"],
     tips: [
       "Keep wood connected to the clearings where you plan to build. One broken route can waste the turn.",
-      "Recruiters keep the map yours. Losing too many makes every future action smaller.",
-      "Cats win by steady pressure. Build where points, rule, and defense all overlap."
+      "Recruiters replace losses and extend your draw. Do not let opponents strip away too many.",
+      "Build where the points also help you rule or defend an important clearing."
     ],
     questions: [
       ["Where is my next build?", "Name the clearing and trace the wood path before spending actions."],
@@ -25,28 +24,27 @@ const factions = [
       ],
       Daylight: [
         "Craft using workshops, then take three actions: battle, march, recruit, build, or overwork.",
-        "Spend bird cards carefully; they are often your emergency flexibility.",
+        "A bird card can buy an extra action, so keep one when you can.",
         "Build where it scores and helps you hold the map."
       ],
       Evening: [
         "Draw one card, plus one more if you have at least three recruiters.",
         "Discard down to five cards.",
-        "Mark exposed buildings that opponents can score from next turn."
+        "Notice which building is easiest for an opponent to remove."
       ]
     }
   },
   {
     id: "eyrie",
     name: "Eyrie Dynasties",
-    type: "Programmed Aggressor",
     sigil: "E",
     color: "#3f76a6",
     summary: "Expand the decree without letting it collapse.",
     tags: ["Militant", "Decree"],
     tips: [
       "Add only Decree cards you can still satisfy after everyone has had a chance to interfere.",
-      "Roosts are both scoring and logistics. Losing the wrong one can break the whole turn.",
-      "Bird cards add flexibility, but they also make obligations harder to contain."
+      "Roosts score and give the Decree places to recruit and build. Losing the wrong one can cause turmoil.",
+      "Bird cards fit any column, but every one adds another action you must complete."
     ],
     questions: [
       ["Can I recruit safely?", "Recruit failure is one of the easiest ways to fall into turmoil."],
@@ -67,17 +65,16 @@ const factions = [
       Evening: [
         "Score the victory points shown for the number of roosts on the map.",
         "Draw one card, plus bonuses from uncovered draw symbols.",
-        "Discard down to five cards and check which roost the decree depends on."
+        "Discard down to five, then spot any roost the Decree cannot afford to lose."
       ]
     }
   },
   {
     id: "alliance",
     name: "Woodland Alliance",
-    type: "Insurgent Network",
     sigil: "A",
     color: "#5d8f4e",
-    summary: "Spread sympathy, organize bases, and turn outrage into momentum.",
+    summary: "Spread sympathy, revolt into bases, and train officers for evening actions.",
     tags: ["Insurgent", "Sympathy"],
     tips: [
       "Put sympathy where opponents actually want to move. Safe sympathy rarely taxes anyone.",
@@ -86,14 +83,14 @@ const factions = [
     ],
     questions: [
       ["Where will outrage matter?", "Place sympathy beside busy paths, contested clearings, or key build sites."],
-      ["What does this base unlock?", "A base should improve supporters, officers, crafting, and board pressure."],
+      ["What does this base give me?", "A useful base improves your supporters, officers, and crafting."],
       ["Should I organize instead?", "Turning warriors into sympathy can outscore a flashy battle."]
     ],
     phases: {
       Birdsong: [
         "You may revolt by spending two matching supporters in a sympathetic clearing.",
         "Spread sympathy by spending supporters matching the target clearing.",
-        "Favor busy clearings and places that could support a useful base."
+        "Favor busy clearings and places where a base would help."
       ],
       Daylight: [
         "Craft using sympathy.",
@@ -110,30 +107,29 @@ const factions = [
   {
     id: "vagabond",
     name: "Vagabond",
-    type: "Solo Opportunist",
     sigil: "V",
     color: "#72736f",
-    summary: "Manage items, relationships, quests, and surgical violence.",
+    summary: "Manage items, relationships, quests, and pick your fights.",
     tags: ["Solo", "Items"],
     tips: [
       "Count ready boots first. They decide how much of the map this turn can reach.",
       "Aid changes both score and relationships. Do not feed the leader unless the payoff is immediate.",
-      "Hostile status rewrites movement costs. Becoming hostile should be a plan, not an accident."
+      "Hostile warriors cost an extra boot to enter. Pick that fight deliberately."
     ],
     questions: [
       ["What can I refresh?", "The next turn starts with the items you chose not to exhaust now."],
       ["Who is worth aiding?", "Aid for points, items, or access, not just because a card matches."],
-      ["Can I afford damage?", "Explore and battle only if repairs or safe forests are accounted for."]
+      ["Can I afford damage?", "Explore or battle only when you know how the damaged items get repaired."]
     ],
     phases: {
       Birdsong: [
         "Refresh items based on tea, then slip to an adjacent clearing or forest.",
-        "Plan around boots first; movement quietly constrains everything.",
+        "Boots spent on movement are not available for anything else.",
         "Look at ruins and quest suits before spending flexible items."
       ],
       Daylight: [
         "Exhaust items to move, battle, explore, aid, quest, strike, repair, or craft.",
-        "Resolve aid timing carefully if it changes relationships.",
+        "Aid before spending the card or item you need for it.",
         "Do not end exposed unless you can live with the damage next turn."
       ],
       Evening: [
@@ -146,7 +142,6 @@ const factions = [
   {
     id: "cult",
     name: "Lizard Cult",
-    type: "Conversion Engine",
     sigil: "L",
     color: "#93b95d",
     summary: "Rule through gardens, acolytes, and the outcast suit.",
@@ -154,10 +149,10 @@ const factions = [
     tips: [
       "Every garden needs a job and enough protection. Losing one costs more than the cardboard.",
       "The outcast suit tells you where conspiracies matter. Plan around it before revealing cards.",
-      "Acolytes punish attacks, but only if conversion or sanctify targets are worth taking."
+      "Acolytes matter only when the outcast suit offers a useful conversion or sanctify target."
     ],
     questions: [
-      ["What can the outcast suit do?", "Look for conversions, sanctifies, or pressure before spending acolytes."],
+      ["What can the outcast suit do?", "Look for a useful conversion or sanctify before spending acolytes."],
       ["Which garden is exposed?", "Score from gardens before opponents can turn them into points."],
       ["Can I change rule without battle?", "Conversion often solves problems that warriors cannot."]
     ],
@@ -168,8 +163,8 @@ const factions = [
       ],
       Daylight: [
         "Reveal cards to build, recruit, score, or sacrifice in matching suits.",
-        "Stack revealed suits toward the clearings you can actually protect.",
-        "Score gardens before opponents get a clean removal line."
+        "Reveal suits where the warriors or gardens will be useful.",
+        "Score from a garden before an opponent gets an easy chance to remove it."
       ],
       Evening: [
         "Return revealed cards to hand, then craft using gardens matching the outcast suit.",
@@ -181,15 +176,14 @@ const factions = [
   {
     id: "riverfolk",
     name: "Riverfolk Company",
-    type: "Merchant Network",
     sigil: "R",
     color: "#2f8f8b",
     summary: "Sell services, build trade posts, and turn enemy payments into points.",
     tags: ["Economic", "Services"],
     tips: [
       "Price for the player who needs a service now. A shop with no buyers does nothing.",
-      "Trade posts score and craft, but they also mark clearings opponents can profitably attack.",
-      "Funds are future actions. Spend enough to matter, but keep next turn alive."
+      "Trade posts score and craft, but opponents also score for removing them.",
+      "Every fund you commit is unavailable until Evening. Leave enough for the actions you still need."
     ],
     questions: [
       ["Who is my customer?", "Price around the player with the clearest need for cards, riverboats, or mercenaries."],
@@ -205,7 +199,7 @@ const factions = [
       Daylight: [
         "Craft using trade posts.",
         "Commit and spend funds for actions: move, battle, recruit, draw, or establish trade posts.",
-        "Leave enough funds to have a real turn next round."
+        "Leave enough funds to take several actions next round."
       ],
       Evening: [
         "Move all warriors on your faction board into Funds.",
@@ -217,26 +211,25 @@ const factions = [
   {
     id: "duchy",
     name: "Underground Duchy",
-    type: "Minister Engine",
     sigil: "D",
     color: "#8b7560",
     summary: "Dig tunnels, build markets and citadels, and sway ministers.",
     tags: ["Militant", "Ministers"],
     tips: [
       "Keep cards in suits you occupy. They are what turn board presence into ministers.",
-      "Digging changes threat lines. Use tunnels to make buildings and battles relevant immediately.",
-      "Ministers compound fast. Sway toward actions your board can actually support."
+      "A tunnel can put a build or battle on the other side of the map in one action.",
+      "Choose ministers whose actions fit what your pieces can already do."
     ],
     questions: [
       ["What can I prove?", "Before planning Evening, check which suits you occupy and can reveal."],
-      ["Market or citadel?", "Draw helps future sways; recruitment protects the buildings that make sways safe."],
-      ["What happens if this falls?", "Do not stack your engine where one attack wrecks points and tempo."]
+      ["Market or citadel?", "Markets help future sways. Citadels replace warriors and protect your buildings."],
+      ["What happens if this falls?", "Do not put so many buildings together that one battle ruins the turn."]
     ],
     phases: {
       Birdsong: [
         "Muster warriors in the Burrow.",
-        "Consider digging a tunnel where it opens rule, building, or battle pressure.",
-        "Plan which suit you need to reveal for swaying ministers."
+        "Dig where a tunnel gives you a useful build, move, or battle.",
+        "Know which suits you need to reveal before trying to sway a minister."
       ],
       Daylight: [
         "Craft using buildings.",
@@ -253,56 +246,54 @@ const factions = [
   {
     id: "corvid",
     name: "Corvid Conspiracy",
-    type: "Bluffing Disruptor",
     sigil: "C",
     color: "#2e3338",
     summary: "Plant plots, misdirect the table, and score through uncertainty.",
     tags: ["Insurgent", "Bluffing"],
     tips: [
       "Plant plots where at least two guesses make sense. An obvious bluff is barely a bluff.",
-      "Your best turns make opponents spend actions checking, exposing, or over-defending.",
-      "A flipped plot should either score, disrupt a plan, or force an awkward response."
+      "A plot has already helped if an opponent wastes an action dealing with it.",
+      "Flip a plot when its points or effect are worth more than keeping the bluff alive."
     ],
     questions: [
-      ["What story does this plot tell?", "The suit, clearing, and board state should support at least two believable guesses."],
-      ["Whose action am I taxing?", "Even a modest plot is good if it steals tempo from the right opponent."],
+      ["What could this plot be?", "The clearing should make at least two plot types look believable."],
+      ["Who has to deal with it?", "A plot is useful when the right opponent has to spend an action on it."],
       ["Can I flip before it dies?", "Score plots before a cheap battle or exposure clears them away."]
     ],
     phases: {
       Birdsong: [
         "Place warriors in clearings with corvid pieces.",
-        "Consider whether new warriors make a plot guess easier or harder.",
+        "Place new warriors where they help a plot without giving away its type.",
         "Notice who can expose a plot without hurting their own turn."
       ],
       Daylight: [
         "Take three actions: move, battle, recruit, plot, trick, or exert.",
-        "Place plots where the suit, board state, and bluff all make sense.",
-        "Flip plots when the points, effect, and timing align."
+        "Place plots where more than one type would make sense.",
+        "Flip when the points or effect are better than keeping the token hidden."
       ],
       Evening: [
         "Draw one card, plus draw-symbol bonuses.",
         "Discard down to five cards.",
-        "Reset your bluff map: which face-down tokens now look suspicious?"
+        "Look at each facedown plot from the opponents' side. Which one is obvious?"
       ]
     }
   },
   {
     id: "hundreds",
     name: "Lord of the Hundreds",
-    type: "Warlord Horde",
     sigil: "H",
     color: "#b13f34",
     summary: "Command the Warlord, loot items, spread mobs, and oppress clearings.",
     tags: ["Militant", "Warlord"],
     tips: [
       "Choose the Warlord's final clearing before the first move. That is where the turn pays off.",
-      "Mobs force opponents to respond. Place them where inaction is painful.",
-      "Oppression rewards empty rule. Battles should end with territory, not just casualties."
+      "Put mobs beside cardboard or in clearings an opponent needs soon.",
+      "Oppression needs clearings with no enemy pieces. Finish the job when you battle."
     ],
     questions: [
-      ["Where does the Warlord finish?", "The end position matters more than the first attack."],
+      ["Where does the Warlord finish?", "Choose the final clearing before planning the first attack."],
       ["What must the mob threaten?", "Aim mobs at cardboard, choke points, or clearings opponents need soon."],
-      ["Which mood matches this route?", "Pick the mood for the turn you can actually execute."]
+      ["Which mood helps this turn?", "Pick for the actions you can take now, not the turn you wish you had."]
     ],
     phases: {
       Birdsong: [
@@ -311,9 +302,9 @@ const factions = [
         "Finish the Warlord's Birdsong steps before starting commands."
       ],
       Daylight: [
-        "Command the Warlord and warriors to move, battle, and pressure key clearings.",
-        "Build or defend strongholds where they extend recruitment and rule.",
-        "Use battles to gain territory, not only to remove pieces."
+        "Use command actions to move and battle with the Warlord's army.",
+        "Build or defend strongholds where you need recruits and rule.",
+        "End battles with clearings you can oppress, not just fewer enemy warriors."
       ],
       Evening: [
         "Incite a mob if you can discard the required card.",
@@ -325,18 +316,17 @@ const factions = [
   {
     id: "keepers",
     name: "Keepers in Iron",
-    type: "Relic Expedition",
     sigil: "K",
     color: "#858a7a",
-    summary: "Build a retinue, recover relics, and guard a disciplined campaign.",
+    summary: "Build the Retinue, recover relics, and keep the expedition moving.",
     tags: ["Militant", "Relics"],
     tips: [
       "Build the route before committing the Retinue. A relic only matters if you can bring it home.",
-      "Relics need routes. Secure movement and escorts before committing to a recovery line.",
-      "Waystations are logistics hubs. Place them for multiple recoveries, not a single score."
+      "Secure the route and escort before committing to a relic.",
+      "Place waystations where they can help recover more than one relic."
     ],
     questions: [
-      ["Can this retinue card resolve?", "Add only what your current map position can support."],
+      ["Can this Retinue card resolve?", "Add only what your warriors and waystations can support."],
       ["Which relic has a route?", "The best relic is the one you can escort, recover, and defend."],
       ["What does this waystation enable?", "A good waystation makes the next two turns easier."]
     ],
@@ -344,46 +334,45 @@ const factions = [
       Birdsong: [
         "Encamp or decamp waystations, then recruit as shown on the faction board.",
         "Plan the clearings needed for the retinue before adding new cards.",
-        "Keep warriors positioned to escort relics and protect waystations."
+        "Keep enough warriors with the relics and waystations you need."
       ],
       Daylight: [
-        "Craft, then add exactly one card to the retinue if required by your board.",
-        "Resolve retinue columns in printed order, including move, battle, and delve actions.",
+        "Craft, then add a card to the Retinue when the faction board calls for it.",
+        "Resolve the Retinue columns in order: move, battle, then delve.",
         "Defend waystations that your next retinue line depends on."
       ],
       Evening: [
-        "Recover relics through waystations, checking rule and matching suits carefully.",
+        "Recover relics through waystations after checking rule and matching suits.",
         "Resolve living off the land, then draw and discard down to five cards.",
-        "Spot any Retinue card the changed board has made risky."
+        "Find any Retinue card that may be hard to complete next turn."
       ]
     }
   },
   {
     id: "diaspora",
     name: "Lilypad Diaspora",
-    type: "Homeland Settlers",
     sigil: "P",
     color: "#4e9871",
-    summary: "Integrate carefully, train warriors, and avoid tipping peace into reprisals.",
+    summary: "Settle clearings, train warriors, and manage reprisals.",
     tags: ["Social", "Stability"],
     tips: [
       "Settle where you can score without giving the table an easy reason to push you out.",
-      "Stability matters. Do not spread into clearings you cannot protect from retaliation.",
-      "Escalation is a resource. Make opponents pay for disturbing your settled spaces."
+      "Do not settle a clearing you cannot protect from the next attack.",
+      "Make opponents pay when they disturb a settled clearing."
     ],
     questions: [
-      ["What looks harmless?", "A quieter board presence can survive longer than an obviously threatening one."],
-      ["Where is stability real?", "Choose clearings that can remain safe after the next opponent acts."],
-      ["Who benefits from attacking me?", "If the answer is unclear, your position may be politically safer."]
+      ["Where can I settle safely?", "Choose a clearing that can survive the next opponent's turn."],
+      ["What must I defend?", "Protect the clearing that holds your scoring together."],
+      ["Who gains by attacking me?", "If nobody gains much, the clearing is less likely to be disturbed."]
     ],
     phases: {
       Birdsong: [
-        "Review your integration and safety plan before adding pressure.",
-        "Train or position warriors where they support defense and future scoring.",
+        "Look over settled clearings before adding another one.",
+        "Train or move warriors where they defend the clearings you score from.",
         "Notice which clearings could turn into flashpoints after one attack."
       ],
       Daylight: [
-        "Take faction actions toward presence, protection, and scoring.",
+        "Take faction actions to settle, protect, and score.",
         "Develop where the pieces can survive a full round.",
         "Do not invite retaliation unless you mean to escalate."
       ],
@@ -397,72 +386,70 @@ const factions = [
   {
     id: "council",
     name: "Twilight Council",
-    type: "Political Assembly",
     sigil: "T",
     color: "#6e679b",
-    summary: "Host assemblies, build political connections, and redirect conflict into debate.",
+    summary: "Hold assemblies, build support, and steer conflict through debate.",
     tags: ["Social", "Incentives"],
     tips: [
       "Give opponents a good reason to solve someone else's problem before yours.",
-      "Table talk is part of your tempo, but your board state has to back it up.",
-      "Push conflict toward the leader and away from your fragile political engine."
+      "A promise works only when your pieces give the other player a reason to believe it.",
+      "Point conflict toward the leader and away from your assemblies."
     ],
     questions: [
-      ["Whose incentives can I bend?", "Find the player who can profit by solving your problem for you."],
+      ["Who can solve this for me?", "Find the player who gains something by dealing with the same threat."],
       ["Where should conflict move?", "Redirect aggression toward the table leader or a more urgent threat."],
-      ["What choice am I making costly?", "Your pressure is working when opponents avoid the line they wanted."]
+      ["What choice am I making costly?", "Give opponents a concrete reason to choose another target."]
     ],
     phases: {
       Birdsong: [
         "Review assemblies, connections, and the clearings where conflict is about to spike.",
-        "Prepare the political position you want to exploit this turn.",
+        "Decide which assembly or relationship matters most this turn.",
         "See whether someone else's threat can be redirected instead of fought."
       ],
       Daylight: [
-        "Take faction actions that develop assemblies and political leverage.",
-        "Craft or maneuver where it supports your next debate or scoring opportunity.",
-        "Use table talk carefully: promises are also board resources."
+        "Use faction actions to build assemblies and support.",
+        "Craft or move where it helps the next debate or score.",
+        "Promise only what you can still afford to do."
       ],
       Evening: [
         "Resolve scoring and draw effects from your faction board.",
         "Discard down to hand limit.",
-        "Mark which player is most likely to break the political balance before your next turn."
+        "Notice who has the easiest way to disrupt an assembly before your next turn."
       ]
     }
   },
   {
     id: "knaves",
     name: "Knaves of the Deepwood",
-    type: "Roving Ransomers",
     sigil: "N",
     color: "#69533e",
     summary: "Raid from the treeline, take hostages, and turn chaos into ransom.",
     tags: ["Solo", "Raiding"],
     tips: [
       "Pick the escape before the raid. A hostage is no good if the counterattack wipes you out.",
-      "Mobility is protection. End where the next raid is possible and the counterattack is inefficient.",
+      "End where you can raid again and the target cannot answer cheaply.",
       "Take a hostage only when it changes what that opponent can afford to do next."
     ],
     questions: [
-      ["Who cannot answer cleanly?", "Choose targets whose warriors, cards, or actions are already stretched."],
+      ["Who cannot answer cheaply?", "Choose someone whose warriors, cards, or actions are already stretched."],
       ["Where do I escape?", "A raid is only good if the aftermath does not trap your best pieces."],
-      ["What does ransom change?", "Pressure should become points, tempo, or a forced detour."]
+      ["What does the ransom change?", "A useful hostage costs the opponent points, actions, or a detour."]
     ],
     phases: {
       Birdsong: [
-        "Trace a raid lane from a forest, edge, or safe staging point.",
+        "Trace a raid route from a forest, edge, or safe starting point.",
         "Prepare the captain or band that best fits the target this turn.",
         "Pick the opponent who can least afford a hostage or detour."
       ],
       Daylight: [
         "Take raids, moves, battles, and other actions in the order on your faction board.",
-        "Take hostages or pressure targets where the ransom threat matters immediately.",
-        "Do not leave your best pieces where one counterattack erases the turn."
+        "Take a hostage when the ransom changes the opponent's next turn.",
+        "Do not leave your best pieces open to one cheap counterattack."
       ],
       Evening: [
         "Resolve ransom, scoring, and draw effects from your faction board.",
         "Discard down to hand limit.",
-        "Choose a safe staging point for the next raid."
+        "Choose a safe place to start the next raid."
       ]
     }
   }
@@ -485,7 +472,7 @@ const mapNotes = {
 
 const deckNotes = {
   standard: "The base deck has the Favor cards, so suit control can swing the whole map.",
-  exiles: "Exiles & Partisans trades the Favor cards for smaller, sharper crafted powers.",
+  exiles: "Exiles & Partisans replaces the Favor cards with more tactical crafted powers.",
   squires: "Squires & Disciples adds a different set of crafted powers."
 };
 
@@ -498,11 +485,11 @@ const factionSetup = {
   eyrie: [
     "Place a roost and starting warriors in the corner opposite the keep if possible.",
     "Choose a leader and set the viziers in the decree.",
-    "Keep the decree visible; every added card is a future obligation."
+    "Keep the Decree visible. Every added card is another action you must complete."
   ],
   alliance: [
-    "Prepare supporters, sympathy, bases, and officers near your board.",
-    "Start with sympathy and supporters as your faction board instructs.",
+    "Set supporters, sympathy, bases, and officers beside your board.",
+    "Place the starting sympathy and supporters listed on the faction board.",
     "Keep supporters separate from your hand so outrage and spreading are easy to track."
   ],
   vagabond: [
@@ -511,157 +498,66 @@ const factionSetup = {
     "Place the pawn in a forest and keep relationship markers visible."
   ],
   cult: [
-    "Place gardens and warriors as your faction board instructs.",
+    "Place the starting gardens and warriors listed on the faction board.",
     "Set up the lost souls and outcast area near the discard pile.",
     "Keep acolytes separate from supply so conspiracies are easy to count."
   ],
   riverfolk: [
-    "Place starting warriors along the river as your board instructs.",
+    "Place the starting warriors along the river as listed on the faction board.",
     "Set service prices before the first player can buy.",
     "Keep payments, funds, and committed warriors visually separate."
   ],
   duchy: [
-    "Place the Burrow, starting tunnel, warriors, and buildings as instructed.",
-    "Set crown ministers aside by rank so swaying is easy to scan.",
+    "Place the Burrow, starting tunnel, warriors, and buildings listed on the faction board.",
+    "Arrange crown ministers by rank so the choices are easy to compare.",
     "Keep market and citadel tracks clear before the first build."
   ],
   corvid: [
     "Place starting warriors and prepare plot tokens face down.",
     "Keep each plot type easy to identify for yourself but hidden from opponents.",
-    "Remember exposure matters as soon as plots are on the board."
+    "Keep the plot reference close once facedown tokens are on the map."
   ],
   hundreds: [
-    "Place the Warlord, warriors, strongholds, and mobs as instructed.",
+    "Place the Warlord, warriors, strongholds, and mobs listed on the faction board.",
     "Set up the hoard and mood cards where everyone can see them.",
-    "Keep items near the hoard; they shape future mood choices."
+    "Keep items near the hoard because they limit future mood choices."
   ],
   keepers: [
-    "Place waystations, warriors, relics, and starting cards as instructed.",
+    "Place the waystations, warriors, relics, and cards listed on the faction board.",
     "Prepare the retinue area before adding cards.",
-    "Keep relic values and suits easy to inspect before delving."
+    "Arrange relics so their values and suits are easy to see before delving."
   ],
   diaspora: [
-    "Set up from the Homeland faction card.",
+    "Place the starting pieces listed on the Homeland setup card.",
     "Keep the faction tracks where everyone can read them.",
-    "Use the printed materials for the exact pieces and clearings."
+    "Put the remaining pieces beside the faction board."
   ],
   council: [
-    "Set up from the Homeland faction card.",
+    "Place the starting pieces listed on the Homeland setup card.",
     "Put the assembly pieces and political markers where everyone can see them.",
-    "Use the printed materials for the exact pieces and clearings."
+    "Put the remaining pieces beside the faction board."
   ],
   knaves: [
-    "Set up from the Homeland faction card.",
+    "Place the starting pieces listed on the Homeland setup card.",
     "Keep hostages, ransom pieces, and raiding pieces easy to reach.",
-    "Use the printed materials for the exact pieces and clearings."
+    "Put the remaining pieces beside the faction board."
   ]
 };
 
 const openingProfiles = {
-  marquise: {
-    setupOrder: 1,
-    setupLetter: "A",
-    rank: 9,
-    setup: "early",
-    label: "natural opener",
-    note: "starts cleanly because wood, recruiting, and rule matter immediately."
-  },
-  eyrie: {
-    setupOrder: 2,
-    setupLetter: "B",
-    rank: 8,
-    setup: "early",
-    label: "natural opener",
-    note: "likes an early decree before the map becomes too tangled."
-  },
-  duchy: {
-    setupOrder: 7,
-    setupLetter: "G",
-    rank: 7,
-    setup: "early",
-    label: "strong opener",
-    note: "benefits from digging and building its minister engine before pressure arrives."
-  },
-  hundreds: {
-    setupOrder: 9,
-    setupLetter: "I",
-    rank: 7,
-    setup: "early",
-    label: "strong opener",
-    note: "wants tempo before opponents can screen the Warlord."
-  },
-  keepers: {
-    setupOrder: 10,
-    setupLetter: "J",
-    rank: 6,
-    setup: "middle",
-    label: "capable opener",
-    note: "can start, but prefers clear relic routes and enough room to stage."
-  },
-  corvid: {
-    setupOrder: 8,
-    setupLetter: "H",
-    rank: 5,
-    setup: "middle",
-    label: "capable opener",
-    note: "can plant pressure early, though plots are stronger once targets commit."
-  },
-  cult: {
-    setupOrder: 6,
-    setupLetter: "F",
-    rank: 4,
-    setup: "middle",
-    label: "quiet opener",
-    note: "can start, but the first outcast and discard context are usually thin."
-  },
-  alliance: {
-    setupOrder: 3,
-    setupLetter: "C",
-    rank: 4,
-    setup: "middle",
-    label: "quiet opener",
-    note: "can start, but sympathy works best after other factions reveal priorities."
-  },
-  riverfolk: {
-    setupOrder: 5,
-    setupLetter: "E",
-    rank: 3,
-    setup: "late",
-    label: "dependent opener",
-    note: "can start, but usually wants buyers and table needs to exist first."
-  },
-  diaspora: {
-    setupOrder: 11,
-    setupLetter: "K",
-    rank: 3,
-    setup: "late",
-    label: "dependent opener",
-    note: "can start, but its table position is easier to read after board anchors appear."
-  },
-  council: {
-    setupOrder: 12,
-    setupLetter: "L",
-    rank: 3,
-    setup: "late",
-    label: "dependent opener",
-    note: "can start, but political incentives are clearer once the table has shape."
-  },
-  vagabond: {
-    setupOrder: 4,
-    setupLetter: "D",
-    rank: 2,
-    setup: "late",
-    label: "late opener",
-    note: "can technically start, but benefits from seeing early map pressure and item access."
-  },
-  knaves: {
-    setupOrder: 13,
-    setupLetter: "M",
-    rank: 2,
-    setup: "late",
-    label: "late opener",
-    note: "can technically start, but raiding targets are better once opponents expose plans."
-  }
+  marquise: { setupOrder: 1, setupLetter: "A" },
+  eyrie: { setupOrder: 2, setupLetter: "B" },
+  alliance: { setupOrder: 3, setupLetter: "C" },
+  vagabond: { setupOrder: 4, setupLetter: "D" },
+  riverfolk: { setupOrder: 5, setupLetter: "E" },
+  cult: { setupOrder: 6, setupLetter: "F" },
+  duchy: { setupOrder: 7, setupLetter: "G" },
+  corvid: { setupOrder: 8, setupLetter: "H" },
+  hundreds: { setupOrder: 9, setupLetter: "I" },
+  keepers: { setupOrder: 10, setupLetter: "J" },
+  diaspora: { setupOrder: 11, setupLetter: "K" },
+  council: { setupOrder: 12, setupLetter: "L" },
+  knaves: { setupOrder: 13, setupLetter: "M" }
 };
 
 window.ROOT_DATA = {
