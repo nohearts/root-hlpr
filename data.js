@@ -475,18 +475,18 @@ const phaseColors = {
 };
 
 const mapNotes = {
-  autumn: "Printed suits and open paths; there is nothing extra to randomize.",
+  autumn: "Autumn uses its printed suits, and every path starts open.",
   winter: "Randomize the clearing suits before any faction pieces go down.",
   lake: "Put out the ferry. Anyone who moves with it draws a card.",
   mountain: "Block the printed paths and set up the tower. Paths can open during play.",
-  gorge: "Use the Gorge setup printed with the map for its paths and landmarks.",
-  marsh: "Use the Marsh setup printed with the map for its terrain and landmarks."
+  gorge: "Set up the Gorge paths and landmarks as shown on the map.",
+  marsh: "Set up the Marsh terrain and landmarks as shown on the map."
 };
 
 const deckNotes = {
   standard: "The base deck has the Favor cards, so suit control can swing the whole map.",
   exiles: "Exiles & Partisans trades the Favor cards for smaller, sharper crafted powers.",
-  squires: "Squires & Disciples brings its own crafted powers; use the wording on the cards."
+  squires: "Squires & Disciples adds a different set of crafted powers."
 };
 
 const factionSetup = {
